@@ -1,37 +1,45 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { APIKit, ApiResponse } from './shared/http';
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+interface GetAccountResponseDTO {
+  email: string;
+  name: string;
+  platform: string;
+}
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+  const [account, setAccount] = useState<GetAccountResponseDTO | null>(null);
+  useEffect(() => {
+    async function fetchInfo() {
+      const resp = await APIKit.get<ApiResponse<GetAccountResponseDTO>>(
+        '/user/info',
+      );
+      setAccount(resp.data.data);
+    }
+
+    fetchInfo();
+  }, []);
 
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
+      <AppContent account={account} />
     </SafeAreaProvider>
   );
 }
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
+function AppContent({ account }: { account: GetAccountResponseDTO | null }) {
   return (
     <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
+      {account ? (
+        <>
+          <Text>Email: {account.email}</Text>
+          <Text>Name: {account.name}</Text>
+          <Text>Platform: {account.platform}</Text>
+        </>
+      ) : (
+        <Text>Loading...</Text>
+      )}
     </View>
   );
 }
@@ -39,6 +47,8 @@ function AppContent() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
