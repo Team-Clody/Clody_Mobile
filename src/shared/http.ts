@@ -47,8 +47,10 @@ export const APIConstants = {
   applicationJSON: 'application/json',
   auth: 'Authorization',
   timeZone: 'Time-Zone',
+  // TODO: 현지화 대응 필요 (DeviceManager?)
   seoul: 'Asia/Seoul',
   OS: 'OS',
+  // TODO: OS 대응 필요 (DeviceManager?)
   iOS: 'iOS',
 
   get accessToken(): string {
