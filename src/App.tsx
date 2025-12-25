@@ -1,22 +1,15 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { APIKit, ApiResponse } from './shared/http';
-
-interface GetAccountResponseDTO {
-  email: string;
-  name: string;
-  platform: string;
-}
+import { MyPageAPI } from './api/myPageAPI';
+import { GetAccountResponseDTO } from './api/dto/getAccountResponseDTO';
 
 function App() {
   const [account, setAccount] = useState<GetAccountResponseDTO | null>(null);
   useEffect(() => {
     async function fetchInfo() {
-      const resp = await APIKit.get<ApiResponse<GetAccountResponseDTO>>(
-        '/user/info',
-      );
-      setAccount(resp.data.data);
+      const data = await MyPageAPI.fetchInfo();
+      setAccount(data);
     }
 
     fetchInfo();
