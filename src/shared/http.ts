@@ -7,6 +7,23 @@ export interface ApiResponse<T> {
   data: T;
 }
 
+export interface ApiErrorResponse {
+  status: number;
+  message: string;
+  data?: any;
+}
+
+export class ApiError extends Error {
+  constructor(
+    public status: number,
+    public message: string,
+    public data?: any,
+  ) {
+    super(message);
+    this.name = 'ApiError';
+  }
+}
+
 export enum HeaderType {
   SOCIAL_TOKEN = 'SOCIAL_TOKEN',
   ACCESS_TOKEN = 'ACCESS_TOKEN',
@@ -133,10 +150,37 @@ APIKit.interceptors.response.use(
     return response;
   },
   error => {
-    console.log('🔥 에러 발생');
-    console.log('URL:', error.config?.url);
-    console.log('Status:', error.response?.status);
-    console.log('Headers:', error.config?.headers);
-    console.log('Response data:', error.response?.data);
+    const status = error.response?.status || 500;
+    const message =
+      error.response?.data?.message || '알 수 없는 오류가 발생했습니다';
+    const data = error.response?.data;
+
+    const apiError = new ApiError(status, message, data);
+    handleApiError(apiError);
+
+    return Promise.reject(apiError);
   },
 );
+
+const handleApiError = (error: ApiError) => {
+  switch (error.status) {
+    case 400:
+      console.error('❌ 잘못된 요청:', error.message);
+      break;
+    case 401:
+      // TODO: refresh token 로직 필요
+      console.error('🔒 토큰 만료:', error.message);
+      break;
+    case 403:
+      console.error('🚫 권한 없음:', error.message);
+      break;
+    case 404:
+      console.error('🔍 리소스를 찾을 수 없음:', error.message);
+      break;
+    case 500:
+      console.error('💥 서버 오류:', error.message);
+      break;
+    default:
+      console.error('⚠️ API 오류:', error.message);
+  }
+};
