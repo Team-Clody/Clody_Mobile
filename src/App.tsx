@@ -3,9 +3,15 @@ import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { MyPageAPI } from './api/myPageAPI';
 import { GetAccountResponseDTO } from './api/dto/getAccountResponseDTO';
+import RNBootSplash from 'react-native-bootsplash';
 
 function App() {
   const [account, setAccount] = useState<GetAccountResponseDTO | null>(null);
+
+  useEffect(() => {
+    RNBootSplash.hide({ fade: true });
+  }, []);
+
   useEffect(() => {
     async function fetchInfo() {
       const data = await MyPageAPI.fetchInfo();
@@ -21,6 +27,7 @@ function App() {
     </SafeAreaProvider>
   );
 }
+
 function AppContent({ account }: { account: GetAccountResponseDTO | null }) {
   return (
     <View style={styles.container}>
