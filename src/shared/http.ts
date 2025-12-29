@@ -25,85 +25,82 @@ export class ApiError extends Error {
 }
 
 export enum HeaderType {
-  SOCIAL_TOKEN = 'SOCIAL_TOKEN',
+  AUTH_CODE = 'AUTH_CODE',
   ACCESS_TOKEN = 'ACCESS_TOKEN',
   REFRESH_TOKEN = 'REFRESH_TOKEN',
-  SIGN_UP = 'SIGN_UP',
-  WITH_TOKEN = 'WITH_TOKEN',
+  POST_DIARY = 'POST_DIARY',
+  TIME_ZONE = 'TIME_ZONE',
 }
 
 // UserManager 임시 구현
 class UserManager {
-  accessToken: string | null =
+  accessTokenValue: string =
     'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NjU1NTU5OTIsImV4cCI6MTc2Njc2NTU5MiwidHlwZSI6ImFjY2VzcyIsInVzZXJJZCI6Nzh9.m8emxbK_Ccnb6zgjRnNkzoPsHObjiMN_92bAjHL6QBuBGuTMRC5GhGMKYIj8IULsWAQZmtbZp0-k-DlSmQvySw';
-  refreshToken: string | null = null;
-  socialToken: string | null = null;
+  refreshTokenValue: string = '';
 }
 
 export const userManager = new UserManager();
+
+// LocalizationConstant 임시 구현
+class LocalizationConstant {
+  static timeZoneCode: string = 'Asia/Seoul';
+  static acceptLanguage: string = 'ko-KR';
+}
+
+export { LocalizationConstant };
 
 export const APIConstants = {
   contentType: 'Content-Type',
   applicationJSON: 'application/json',
   auth: 'Authorization',
+  access: 'accessToken',
+  refresh: 'refreshToken',
+  Bearer: 'Bearer ',
   timeZone: 'Time-Zone',
-  // TODO: 현지화 대응 필요 (DeviceManager?)
-  seoul: 'Asia/Seoul',
-  OS: 'OS',
-  // TODO: OS 대응 필요 (DeviceManager?)
-  iOS: 'iOS',
-
-  get accessToken(): string {
-    return 'Bearer ' + (userManager.accessToken ?? '');
-  },
-
-  get refreshToken(): string {
-    return 'Bearer ' + (userManager.refreshToken ?? '');
-  },
-
-  get appleAccessToken(): string {
-    return userManager.socialToken ?? '';
-  },
+  acceptLanguage: 'Accept-Language',
 };
 
 export const getHeaders = (type: HeaderType): Record<string, string> => {
-  const { contentType, applicationJSON, auth, timeZone, seoul, OS, iOS } =
-    APIConstants;
+  const {
+    contentType,
+    applicationJSON,
+    auth,
+    Bearer,
+    timeZone,
+    acceptLanguage,
+  } = APIConstants;
 
   switch (type) {
-    case HeaderType.SOCIAL_TOKEN:
+    case HeaderType.AUTH_CODE:
       return {
         [contentType]: applicationJSON,
-        [auth]: APIConstants.appleAccessToken,
-      };
-
-    case HeaderType.WITH_TOKEN:
-      return {
-        [contentType]: applicationJSON,
-        [OS]: iOS,
-        [auth]: APIConstants.accessToken,
-        [timeZone]: seoul,
+        [auth]: Bearer + userManager.accessTokenValue,
       };
 
     case HeaderType.ACCESS_TOKEN:
       return {
         [contentType]: applicationJSON,
-        [auth]: APIConstants.accessToken,
-        [timeZone]: seoul,
+        [auth]: Bearer + userManager.accessTokenValue,
       };
 
     case HeaderType.REFRESH_TOKEN:
       return {
-        [contentType]: applicationJSON,
-        [auth]: APIConstants.refreshToken,
+        [auth]: Bearer + userManager.refreshTokenValue,
       };
 
-    case HeaderType.SIGN_UP:
+    case HeaderType.POST_DIARY:
       return {
         [contentType]: applicationJSON,
-        [auth]: APIConstants.appleAccessToken,
-        [OS]: iOS,
-        [timeZone]: seoul,
+        [auth]: Bearer + userManager.accessTokenValue,
+        [timeZone]: LocalizationConstant.timeZoneCode,
+        [acceptLanguage]: LocalizationConstant.acceptLanguage,
+      };
+
+    case HeaderType.TIME_ZONE:
+      return {
+        [contentType]: applicationJSON,
+        [auth]: Bearer + userManager.accessTokenValue,
+        [timeZone]: LocalizationConstant.timeZoneCode,
       };
 
     default:
