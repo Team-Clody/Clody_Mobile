@@ -23,8 +23,11 @@
     "react-native-bootsplash": "^6.3.11",
     "react-native-dotenv": "^3.4.11",
     "react-native-gesture-handler": "^2.30.0",
+    "react-native-pager-view": "^8.0.0",
     "react-native-safe-area-context": "^5.5.2",
     "react-native-screens": "^4.19.0",
+    "react-native-svg": "^15.15.1",
+    "react-native-svg-transformer": "^1.5.2",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
