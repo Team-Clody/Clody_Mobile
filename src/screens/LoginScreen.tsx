@@ -2,10 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import PagerView from 'react-native-pager-view';
 
-import KakaoIcon from '../../assets/ic_signin_btn_kakao.svg';
-import AppleIcon from '../../assets/ic_signin_btn_apple.svg';
-import GoogleIcon from '../../assets/ic_signin_btn_google.svg';
-
 const PAGES = [
   {
     chip: 'AI 친구 로디',
@@ -26,18 +22,22 @@ const PAGES = [
 
 const SignInButton = ({
   backgroundColor,
-  Icon,
+  icon,
   textColor,
   text,
 }: {
   backgroundColor: string;
-  Icon: React.FC<{ width?: number; height?: number }>;
+  icon: any;
   textColor: string;
   text: string;
 }) => {
   return (
     <View style={[styles.signinButton, { backgroundColor }]}>
-      <Icon width={20} height={20} />
+      <Image
+        style={styles.signinButtonIcon}
+        source={icon}
+        resizeMode="contain"
+      />
       <Text style={[styles.signinButtonText, { color: textColor }]}>
         {text}
       </Text>
@@ -50,6 +50,7 @@ const LoginScreen = () => {
 
   return (
     <View style={styles.container}>
+      {/* 상단 콘텐츠 영역 */}
       <View style={styles.pagerWrapper}>
         <PagerView
           initialPage={0}
@@ -82,24 +83,25 @@ const LoginScreen = () => {
         </View>
       </View>
 
+      {/* 하단 로그인 버튼 영역 */}
       <SignInButton
         backgroundColor="#FAE100"
         textColor="#212124"
-        Icon={KakaoIcon}
+        icon={require('../../assets/ic_signin_btn_kakao.png')}
         text="카카오로 로그인"
       />
 
       <SignInButton
         backgroundColor="#111111"
         textColor="#FFFFFF"
-        Icon={AppleIcon}
+        icon={require('../../assets/ic_signin_btn_apple.png')}
         text="Apple로 로그인"
       />
 
       <SignInButton
         backgroundColor="#F8F9FC"
         textColor="#1B1C20"
-        Icon={GoogleIcon}
+        icon={require('../../assets/ic_signin_btn_google.png')}
         text="구글로 로그인"
       />
     </View>
@@ -117,7 +119,6 @@ const styles = StyleSheet.create({
 
   pagerWrapper: {
     flex: 1,
-    justifyContent: 'center',
   },
 
   page: {
@@ -177,6 +178,11 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     paddingVertical: 14,
     marginVertical: 7,
+  },
+
+  signinButtonIcon: {
+    width: 16,
+    height: 16,
   },
 
   signinButtonText: {
