@@ -32,7 +32,7 @@ const SignInButton = ({
   text: string;
 }) => {
   return (
-    <View style={[styles.signinButton, { backgroundColor }]}>
+    <View style={[styles.signinButton, { backgroundColor: backgroundColor }]}>
       <Image
         style={styles.signinButtonIcon}
         source={icon}
@@ -52,7 +52,10 @@ const LoginScreen = () => {
     <View style={styles.container}>
       {/* 상단 콘텐츠 영역 */}
       <View style={styles.pagerWrapper}>
+        <View style={{ flex: 11 }} />
+
         <PagerView
+          style={styles.pagerView}
           initialPage={0}
           onPageSelected={e => setCurrentPage(e.nativeEvent.position)}
         >
@@ -81,6 +84,8 @@ const LoginScreen = () => {
             />
           ))}
         </View>
+
+        <View style={{ flex: 17 }} />
       </View>
 
       {/* 하단 로그인 버튼 영역 */}
@@ -121,8 +126,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
+  pagerView: {
+    flex: 34,
+    justifyContent: 'center',
+  },
+
   page: {
     alignItems: 'center',
+    justifyContent: 'center',
   },
 
   chip: {
@@ -155,7 +166,7 @@ const styles = StyleSheet.create({
   indicatorWrapper: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginVertical: 24,
+    marginVertical: 20,
   },
 
   dot: {
