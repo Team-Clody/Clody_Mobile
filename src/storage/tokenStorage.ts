@@ -22,6 +22,8 @@ class TokenStorage {
         AsyncStorage.setItem(TOKEN_KEYS.REFRESH_TOKEN, refreshToken),
       ]);
       console.log('[TokenStorage] 토큰이 성공적으로 저장되었습니다.');
+      console.log('[TokenStorage] 저장된 accessToken:', accessToken);
+      console.log('[TokenStorage] 저장된 refreshToken:', refreshToken);
     } catch (error) {
       console.error('[TokenStorage] 토큰 저장에 실패했습니다.:', error);
       throw new Error('토큰 저장에 실패했습니다.');
