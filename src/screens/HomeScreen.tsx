@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { GetAccountResponseDTO } from '../api/dto/getAccountResponseDTO';
+import { GetAccountResponseDTO } from '../api/dto/response/getAccountResponseDTO';
 import { MyPageAPI } from '../api/myPageAPI';
 
 export const HomeScreen = () => {
