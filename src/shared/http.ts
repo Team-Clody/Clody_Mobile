@@ -27,6 +27,7 @@ export class ApiError extends Error {
 
 export enum HeaderType {
   AUTH_CODE = 'AUTH_CODE',
+  PLATFORM_TOKEN = 'PLATFORM_TOKEN',
   ACCESS_TOKEN = 'ACCESS_TOKEN',
   REFRESH_TOKEN = 'REFRESH_TOKEN',
   POST_DIARY = 'POST_DIARY',
@@ -54,6 +55,7 @@ export const APIConstants = {
 
 export const getHeaders = async (
   type: HeaderType,
+  platformToken?: string,
 ): Promise<Record<string, string>> => {
   const {
     contentType,
@@ -72,6 +74,12 @@ export const getHeaders = async (
         [auth]: Bearer + accessToken,
       };
     }
+
+    case HeaderType.PLATFORM_TOKEN:
+      return {
+        [contentType]: applicationJSON,
+        [auth]: Bearer + (platformToken || ''),
+      };
 
     case HeaderType.ACCESS_TOKEN: {
       const accessToken = await userManager.getAccessToken();
@@ -126,8 +134,9 @@ export const createAPIRequest = async <T>(
   headerType: HeaderType,
   data?: any,
   config?: AxiosRequestConfig,
+  platformToken?: string,
 ) => {
-  const headers = await getHeaders(headerType);
+  const headers = await getHeaders(headerType, platformToken);
 
   return APIKit.request<ApiResponse<T>>({
     method,
