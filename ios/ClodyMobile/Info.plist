@@ -22,6 +22,17 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>$(KAKAO_APP_SCHEME)</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -51,5 +62,18 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+    <key>KAKAO_APP_KEY</key>
+    <string>$(KAKAO_NATIVE_APP_KEY)</string>
+    <key>KAKAO_APP_SCHEME</key>
+    <string>$(KAKAO_APP_SCHEME)</string>
+    <key>LSApplicationQueriesSchemes</key>
+      <array>
+          <!-- 카카오톡으로 로그인 -->
+          <string>kakaokompassauth</string>
+          <!-- 카카오톡 공유 -->
+          <string>kakaolink</string>
+          <!-- 카카오톡 채널 -->
+          <string>kakaoplus</string>
+      </array>
 </dict>
 </plist>
