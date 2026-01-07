@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { BASE_URL } from '@env';
-import { userManager } from '../storage/userManager';
+import { tokenStorage } from '../storage/tokenStorage';
 
 export interface ApiResponse<T> {
   status: number;
@@ -68,7 +68,10 @@ export const getHeaders = async (
 
   switch (type) {
     case HeaderType.AUTH_CODE: {
-      const accessToken = await userManager.getAccessToken();
+      const accessToken = await tokenStorage.getAccessToken();
+      if (!accessToken) {
+        throw new Error('accessToken이 없습니다.');
+      }
       return {
         [contentType]: applicationJSON,
         [auth]: Bearer + accessToken,
@@ -82,7 +85,10 @@ export const getHeaders = async (
       };
 
     case HeaderType.ACCESS_TOKEN: {
-      const accessToken = await userManager.getAccessToken();
+      const accessToken = await tokenStorage.getAccessToken();
+      if (!accessToken) {
+        throw new Error('accessToken이 없습니다.');
+      }
       return {
         [contentType]: applicationJSON,
         [auth]: Bearer + accessToken,
@@ -90,14 +96,20 @@ export const getHeaders = async (
     }
 
     case HeaderType.REFRESH_TOKEN: {
-      const refreshToken = await userManager.getRefreshToken();
+      const refreshToken = await tokenStorage.getRefreshToken();
+      if (!refreshToken) {
+        throw new Error('refreshToken이 없습니다.');
+      }
       return {
         [auth]: Bearer + refreshToken,
       };
     }
 
     case HeaderType.POST_DIARY: {
-      const accessToken = await userManager.getAccessToken();
+      const accessToken = await tokenStorage.getAccessToken();
+      if (!accessToken) {
+        throw new Error('accessToken이 없습니다.');
+      }
       return {
         [contentType]: applicationJSON,
         [auth]: Bearer + accessToken,
@@ -107,7 +119,10 @@ export const getHeaders = async (
     }
 
     case HeaderType.TIME_ZONE: {
-      const accessToken = await userManager.getAccessToken();
+      const accessToken = await tokenStorage.getAccessToken();
+      if (!accessToken) {
+        throw new Error('accessToken이 없습니다.');
+      }
       return {
         [contentType]: applicationJSON,
         [auth]: Bearer + accessToken,
