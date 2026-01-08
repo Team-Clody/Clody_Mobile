@@ -1,11 +1,13 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 import { Typo } from '../../shared/components';
+import { Icon } from '../../shared/components/Icon';
 
 const HeaderSection = () => {
   return (
     <View style={styles.section}>
-      <MyPageCell />
-      <MyPageCell />
+      <MyPageCell title="test" onPress={() => console.log('test')} />
+      <View style={{ height: 1, backgroundColor: '#F2F3F6' }} />
+      <MyPageCell title="test" onPress={() => console.log('test')} />
     </View>
   );
 };
@@ -13,10 +15,10 @@ const HeaderSection = () => {
 const BodySection = () => {
   return (
     <View style={styles.section}>
-      <MyPageCell />
-      <MyPageCell />
-      <MyPageCell />
-      <MyPageCell />
+      <MyPageCell title="test" onPress={() => console.log('test')} />
+      <MyPageCell title="test" onPress={() => console.log('test')} />
+      <MyPageCell title="test" onPress={() => console.log('test')} />
+      <MyPageCell title="test" onPress={() => console.log('test')} />
     </View>
   );
 };
@@ -24,19 +26,25 @@ const BodySection = () => {
 const FooterSection = () => {
   return (
     <View style={styles.section}>
-      <MyPageCell />
-      <MyPageCell />
-      <MyPageCell />
+      <MyPageCell title="test" onPress={() => console.log('test')} />
+      <MyPageCell title="test" onPress={() => console.log('test')} />
+      <MyPageCell title="test" onPress={() => console.log('test')} />
     </View>
   );
 };
 
-const MyPageCell = () => {
+const MyPageCell = ({
+  title,
+  onPress,
+}: {
+  title: string;
+  onPress?: () => void;
+}) => {
   return (
-    <Pressable>
+    <Pressable onPress={onPress}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <Typo.Body variant="body9">MyPage Cell</Typo.Body>
-        <Typo.Body variant="body1">""</Typo.Body>
+        <Typo.Body variant="body9">{title}</Typo.Body>
+        <Icon.IcNext width={28} height={28} />
       </View>
     </Pressable>
   );
