@@ -6,6 +6,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { kakaoLogin } from '../auth/kakaoAuth';
 import { handleLogin } from '../auth/handleLogin';
 import { Routes, StackNavParamList } from '../navigation/route';
+import { appleLogin } from '../auth/appleAuth';
 
 const PAGES = [
   {
@@ -72,7 +73,12 @@ const LoginScreen = () => {
     }
   };
 
-  const onPressAppleLogin = () => {};
+  const onPressAppleLogin = async () => {
+    const success = await handleLogin('apple', appleLogin);
+    if (success) {
+      navigation.navigate(Routes.HOME);
+    }
+  };
 
   const onPressGoogleLogin = () => {};
 
