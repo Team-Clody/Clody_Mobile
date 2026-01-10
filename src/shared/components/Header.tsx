@@ -42,11 +42,7 @@ export const Header = ({
       >
         {prefix === true ? (
           <Pressable onPress={onPressBack}>
-            <Icon.IcNext
-              width={28}
-              height={28}
-              style={{ transform: [{ rotate: '180deg' }] }}
-            />
+            <Icon.IcBack width={28} height={28} />
           </Pressable>
         ) : (
           prefix
