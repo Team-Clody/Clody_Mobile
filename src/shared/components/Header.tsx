@@ -1,0 +1,71 @@
+import { Pressable, View, ViewStyle } from 'react-native';
+import { Icon } from './Icon';
+import { Typo } from './Typo';
+
+export interface HeaderProps {
+  prefix?: React.ReactNode | boolean;
+  title?: string;
+  suffix?: React.ReactNode;
+  style?: ViewStyle;
+  onPressBack?: () => void;
+}
+
+export const Header = ({
+  prefix,
+  title,
+  suffix,
+  style,
+  onPressBack,
+}: HeaderProps) => {
+  return (
+    <View
+      style={[
+        {
+          position: 'absolute',
+          width: '100%',
+          paddingHorizontal: 16,
+          height: 32,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          backgroundColor: '#FFF',
+        },
+        style,
+      ]}
+    >
+      <View
+        style={{
+          flex: 0.2,
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+        }}
+      >
+        {prefix === true ? (
+          <Pressable onPress={onPressBack}>
+            <Icon.IcNext
+              width={28}
+              height={28}
+              style={{ transform: [{ rotate: '180deg' }] }}
+            />
+          </Pressable>
+        ) : (
+          prefix
+        )}
+      </View>
+
+      <View style={{ flex: 0.6 }}>
+        {title && (
+          <Typo.Display variant="display4" style={{ textAlign: 'center' }}>
+            {title}
+          </Typo.Display>
+        )}
+      </View>
+
+      <View
+        style={{ flex: 0.2, flexDirection: 'row', justifyContent: 'flex-end' }}
+      >
+        {suffix}
+      </View>
+    </View>
+  );
+};

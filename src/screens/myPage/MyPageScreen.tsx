@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, View } from 'react-native';
-import { Typo } from '../../shared/components';
+import { SectionPage, Typo } from '../../shared/components';
 import { Icon } from '../../shared/components/Icon';
 
 const HeaderSection = () => {
@@ -106,14 +106,16 @@ const MyPageCell = ({
 
 export const MyPageScreen = () => {
   return (
-    <View style={styles.container}>
-      <Typo.Head variant="head1" style={{ marginBottom: 6 }}>
-        MyPage
-      </Typo.Head>
-      <HeaderSection />
-      <BodySection />
-      <FooterSection />
-    </View>
+    <SectionPage>
+      <View style={styles.container}>
+        <Typo.Head variant="head1" style={{ marginBottom: 6 }}>
+          MyPage
+        </Typo.Head>
+        <HeaderSection />
+        <BodySection />
+        <FooterSection />
+      </View>
+    </SectionPage>
   );
 };
 
