@@ -2,6 +2,16 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { SectionPage, Typo } from '../../shared/components';
 import { Icon } from '../../shared/components/Icon';
 
+export const ProfileAccountScreen = () => {
+  return (
+    <SectionPage header={{ title: '프로필 및 계정관리', prefix: true }}>
+      <HeaderSection />
+      <View style={{ height: 12, backgroundColor: '#F2F3F6' }} />
+      <FooterSection />
+    </SectionPage>
+  );
+};
+
 const HeaderSection = () => {
   return (
     <View style={styles.section}>
@@ -58,16 +68,6 @@ const FooterSection = () => {
         </Typo.Body>
       </Pressable>
     </View>
-  );
-};
-
-export const ProfileAccountScreen = () => {
-  return (
-    <SectionPage header={{ title: '프로필 및 계정관리', prefix: true }}>
-      <HeaderSection />
-      <View style={{ height: 12, backgroundColor: '#F2F3F6' }} />
-      <FooterSection />
-    </SectionPage>
   );
 };
 

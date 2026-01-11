@@ -2,6 +2,14 @@ import { StyleSheet, View } from 'react-native';
 import { SectionPage, Typo } from '../../shared/components';
 import { Icon } from '../../shared/components/Icon';
 
+export const EditNicknameScreen = () => {
+  return (
+    <SectionPage header={{ title: '클로디 팀', prefix: true }}>
+      <HeaderSection />
+    </SectionPage>
+  );
+};
+
 const HeaderSection = () => {
   return (
     <View style={styles.section}>
@@ -28,14 +36,6 @@ const HeaderSection = () => {
         }
       />
     </View>
-  );
-};
-
-export const EditNicknameScreen = () => {
-  return (
-    <SectionPage header={{ title: '클로디 팀', prefix: true }}>
-      <HeaderSection />
-    </SectionPage>
   );
 };
 

@@ -1,11 +1,48 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 import { SectionPage, Typo } from '../../shared/components';
 import { Icon } from '../../shared/components/Icon';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import {
+  MyPageStackParamList,
+  MyPageRoutes,
+} from '../../navigation/MyPageNavigationStack';
 
-const HeaderSection = () => {
+type MyPageScreenNavigationProp = StackNavigationProp<MyPageStackParamList>;
+
+export const MyPageScreen = () => {
+  const navigation = useNavigation<MyPageScreenNavigationProp>();
+
+  const navigateToProfileAccount = () => {
+    navigation.navigate(MyPageRoutes.PROFILE_ACCOUNT);
+  };
+
+  const navigateToTeamInfo = () => {
+    navigation.navigate(MyPageRoutes.TEAM_INFO);
+  };
+
+  return (
+    <SectionPage>
+      <View style={styles.container}>
+        <Typo.Head variant="head1" style={{ marginBottom: 6 }}>
+          MyPage
+        </Typo.Head>
+        <HeaderSection navigateToProfileAccount={navigateToProfileAccount} />
+        <BodySection navigateToTeamInfo={navigateToTeamInfo} />
+        <FooterSection />
+      </View>
+    </SectionPage>
+  );
+};
+
+const HeaderSection = ({
+  navigateToProfileAccount,
+}: {
+  navigateToProfileAccount: () => void;
+}) => {
   return (
     <View style={[styles.section, { gap: 12 }]}>
-      <Pressable onPress={() => console.log('Profile')}>
+      <Pressable onPress={navigateToProfileAccount}>
         <View
           style={{
             flexDirection: 'row',
@@ -40,7 +77,11 @@ const HeaderSection = () => {
   );
 };
 
-const BodySection = () => {
+const BodySection = ({
+  navigateToTeamInfo,
+}: {
+  navigateToTeamInfo: () => void;
+}) => {
   return (
     <View style={styles.section}>
       <MyPageCell title="Notification" onPress={() => console.log('test')} />
@@ -50,7 +91,7 @@ const BodySection = () => {
         onPress={() => console.log('test')}
       />
       <MyPageCell title="FAQ" onPress={() => console.log('test')} />
-      <MyPageCell title="Team Clody" onPress={() => console.log('test')} />
+      <MyPageCell title="Team Clody" onPress={navigateToTeamInfo} />
     </View>
   );
 };
@@ -101,21 +142,6 @@ const MyPageCell = ({
         <Icon.IcNext width={28} height={28} />
       </View>
     </Pressable>
-  );
-};
-
-export const MyPageScreen = () => {
-  return (
-    <SectionPage>
-      <View style={styles.container}>
-        <Typo.Head variant="head1" style={{ marginBottom: 6 }}>
-          MyPage
-        </Typo.Head>
-        <HeaderSection />
-        <BodySection />
-        <FooterSection />
-      </View>
-    </SectionPage>
   );
 };
 
