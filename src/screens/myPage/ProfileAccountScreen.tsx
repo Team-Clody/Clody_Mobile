@@ -1,18 +1,35 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 import { SectionPage, Typo } from '../../shared/components';
 import { Icon } from '../../shared/components/Icon';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import {
+  MyPageStackParamList,
+  MyPageRoutes,
+} from '../../navigation/MyPageNavigationStack';
+
+type MyPageScreenNavigationProp = StackNavigationProp<MyPageStackParamList>;
 
 export const ProfileAccountScreen = () => {
+  const navigation = useNavigation<MyPageScreenNavigationProp>();
+  const navigateToEditNickname = () => {
+    navigation.navigate(MyPageRoutes.EDIT_NICKNAME);
+  };
+
   return (
     <SectionPage header={{ title: '프로필 및 계정관리', prefix: true }}>
-      <HeaderSection />
+      <HeaderSection navigateToEditNickname={navigateToEditNickname} />
       <View style={{ height: 12, backgroundColor: '#F2F3F6' }} />
       <FooterSection />
     </SectionPage>
   );
 };
 
-const HeaderSection = () => {
+const HeaderSection = ({
+  navigateToEditNickname,
+}: {
+  navigateToEditNickname: () => void;
+}) => {
   return (
     <View style={styles.section}>
       <ProfileAcountCell
@@ -25,6 +42,7 @@ const HeaderSection = () => {
             <Icon.IcNext width={28} height={28} />
           </View>
         }
+        onPress={navigateToEditNickname}
       />
       <ProfileAcountCell
         title="이메일"
@@ -74,12 +92,15 @@ const FooterSection = () => {
 const ProfileAcountCell = ({
   title,
   suffix,
+  onPress,
 }: {
   title: string;
   suffix?: React.ReactNode;
+  onPress?: () => void;
 }) => {
   return (
-    <View
+    <Pressable
+      onPress={onPress}
       style={{
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -91,7 +112,7 @@ const ProfileAcountCell = ({
         {title}
       </Typo.Body>
       {suffix}
-    </View>
+    </Pressable>
   );
 };
 

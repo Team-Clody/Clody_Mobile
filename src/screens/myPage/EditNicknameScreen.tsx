@@ -1,11 +1,26 @@
 import { StyleSheet, View } from 'react-native';
 import { SectionPage, Typo } from '../../shared/components';
 import { Icon } from '../../shared/components/Icon';
+import { Button } from '../../shared/components/Button';
 
 export const EditNicknameScreen = () => {
   return (
-    <SectionPage header={{ title: '클로디 팀', prefix: true }}>
-      <HeaderSection />
+    <SectionPage
+      header={{ title: 'Edit Nickname', prefix: true }}
+      contentsStyle={{ paddingHorizontal: 14 }}
+    >
+      <View style={{ flex: 1 }}>
+        <HeaderSection />
+      </View>
+      <View>
+        <Button
+          title="저장"
+          onPress={() => {
+            console.log('Save button pressed');
+          }}
+          isDisabled
+        />
+      </View>
     </SectionPage>
   );
 };
@@ -14,22 +29,11 @@ const HeaderSection = () => {
   return (
     <View style={styles.section}>
       <EditNicknameCell
-        title="인스타그램"
+        title="닉네임"
         suffix={
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
             <Typo.Body variant="body9" color="#4A4C54">
               @clody_official_
-            </Typo.Body>
-            <Icon.IcNext width={28} height={28} />
-          </View>
-        }
-      />
-      <EditNicknameCell
-        title="후원하기"
-        suffix={
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
-            <Typo.Body variant="body9" color="#4A4C54">
-              커피 사주기
             </Typo.Body>
             <Icon.IcNext width={28} height={28} />
           </View>

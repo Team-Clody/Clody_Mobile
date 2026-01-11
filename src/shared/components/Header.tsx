@@ -1,4 +1,5 @@
 import { Pressable, View, ViewStyle } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Icon } from './Icon';
 import { Typo } from './Typo';
 
@@ -17,6 +18,16 @@ export const Header = ({
   style,
   onPressBack,
 }: HeaderProps) => {
+  const navigation = useNavigation();
+
+  const handleBack = () => {
+    if (onPressBack) {
+      onPressBack();
+    } else {
+      navigation.goBack();
+    }
+  };
+
   return (
     <View
       style={[
@@ -41,7 +52,7 @@ export const Header = ({
         }}
       >
         {prefix === true ? (
-          <Pressable onPress={onPressBack}>
+          <Pressable onPress={handleBack}>
             <Icon.IcBack width={28} height={28} />
           </Pressable>
         ) : (
