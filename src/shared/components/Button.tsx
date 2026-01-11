@@ -13,13 +13,13 @@ export const Button = ({ title, onPress, isDisabled }: ButtonProps) => {
       <View
         style={{
           height: 48,
-          backgroundColor: '#E3E6ED',
+          backgroundColor: isDisabled ? '#E3E6ED' : '#293038',
           borderRadius: 6,
           justifyContent: 'center',
           alignItems: 'center',
         }}
       >
-        <Typo.Body variant="body1" color="#ABAFBB">
+        <Typo.Body variant="body1" color={isDisabled ? '#ABAFBB' : '#FFFFFF'}>
           {title}
         </Typo.Body>
       </View>
