@@ -32,6 +32,14 @@
 				<string>$(KAKAO_APP_SCHEME)</string>
 			</array>
 		</dict>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+              <string>com.googleusercontent.apps.430648671385-ict6l1k2gj4vrmjh30s4s19hd78smokh</string>
+            </array>
+          </dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
