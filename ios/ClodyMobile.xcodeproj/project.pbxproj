@@ -14,7 +14,6 @@
 		62819542813C458A85FCED48 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D62B286B9E540BBA3241E3F /* Colors.xcassets */; };
 		658164F425A249C688208897 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C592098706E14B0ABCE1A6EA /* Pretendard-Regular.otf */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
-		7F1653AD043C76955FB49FF6 /* libPods-ClodyMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54BB5F78143E93E79DA5FC1C /* libPods-ClodyMobile.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		888B12507A115F2438E35051 /* libPods-ClodyMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB6CE841A4F3663D45F5F386 /* libPods-ClodyMobile.a */; };
 		B52FA7602F0EA76A00B9B93C /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B52FA75F2F0EA76A00B9B93C /* Config.xcconfig */; };
@@ -27,12 +26,12 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ClodyMobile/Info.plist; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = ClodyMobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ClodyMobile/AppDelegate.swift; sourceTree = "<group>"; };
-		7C430A0F4D3B78F053D478B5 /* Pods-ClodyMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClodyMobile.debug.xcconfig"; path = "Target Support Files/Pods-ClodyMobile/Pods-ClodyMobile.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ClodyMobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9044FA8FC331209DB45A042E /* Pods-ClodyMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClodyMobile.release.xcconfig"; path = "Target Support Files/Pods-ClodyMobile/Pods-ClodyMobile.release.xcconfig"; sourceTree = "<group>"; };
 		9D62B286B9E540BBA3241E3F /* Colors.xcassets */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = folder.assetcatalog; name = Colors.xcassets; path = ClodyMobile/Colors.xcassets; sourceTree = "<group>"; };
 		AC53777B627BD6077B6FDDD7 /* Pods-ClodyMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClodyMobile.debug.xcconfig"; path = "Target Support Files/Pods-ClodyMobile/Pods-ClodyMobile.debug.xcconfig"; sourceTree = "<group>"; };
 		B52FA75F2F0EA76A00B9B93C /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		B52FA7612F0F9B2500B9B93C /* ClodyMobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ClodyMobile.entitlements; path = ClodyMobile/ClodyMobile.entitlements; sourceTree = "<group>"; };
 		C37285262B46414E9D8337D4 /* BootSplash.storyboard */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = BootSplash.storyboard; path = ClodyMobile/BootSplash.storyboard; sourceTree = "<group>"; };
 		C5435298DF1A4B57931FA1FD /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-SemiBold.otf"; path = "../assets/fonts/Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		C592098706E14B0ABCE1A6EA /* Pretendard-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Regular.otf"; path = "../assets/fonts/Pretendard-Regular.otf"; sourceTree = "<group>"; };
@@ -56,6 +55,7 @@
 		13B07FAE1A68108700A75B9A /* ClodyMobile */ = {
 			isa = PBXGroup;
 			children = (
+				B52FA7612F0F9B2500B9B93C /* ClodyMobile.entitlements */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				761780EC2CA45674006654EE /* AppDelegate.swift */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
@@ -294,7 +294,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ClodyMobile/ClodyMobile.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GKV299JR6D;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ClodyMobile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -324,7 +326,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ClodyMobile/ClodyMobile.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GKV299JR6D;
 				INFOPLIST_FILE = ClodyMobile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
