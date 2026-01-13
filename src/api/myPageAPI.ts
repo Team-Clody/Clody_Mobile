@@ -1,5 +1,5 @@
 import { createAPIRequest, HeaderType } from '../shared/http';
-import { GetAccountResponseDTO } from './dto/getAccountResponseDTO';
+import { GetAccountResponseDTO } from './dto/response/getAccountResponseDTO';
 
 export const MyPageAPI = {
   fetchInfo: async (headerType: HeaderType = HeaderType.ACCESS_TOKEN) => {

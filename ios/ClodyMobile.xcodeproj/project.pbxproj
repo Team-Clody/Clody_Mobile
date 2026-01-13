@@ -14,8 +14,9 @@
 		62819542813C458A85FCED48 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D62B286B9E540BBA3241E3F /* Colors.xcassets */; };
 		658164F425A249C688208897 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C592098706E14B0ABCE1A6EA /* Pretendard-Regular.otf */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
-		7F1653AD043C76955FB49FF6 /* libPods-ClodyMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54BB5F78143E93E79DA5FC1C /* libPods-ClodyMobile.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		888B12507A115F2438E35051 /* libPods-ClodyMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB6CE841A4F3663D45F5F386 /* libPods-ClodyMobile.a */; };
+		B52FA7602F0EA76A00B9B93C /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B52FA75F2F0EA76A00B9B93C /* Config.xcconfig */; };
 		C324EA9FD8844BA58998F408 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C37285262B46414E9D8337D4 /* BootSplash.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -24,15 +25,17 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ClodyMobile/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ClodyMobile/Info.plist; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = ClodyMobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		54BB5F78143E93E79DA5FC1C /* libPods-ClodyMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ClodyMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ClodyMobile/AppDelegate.swift; sourceTree = "<group>"; };
-		7C430A0F4D3B78F053D478B5 /* Pods-ClodyMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClodyMobile.debug.xcconfig"; path = "Target Support Files/Pods-ClodyMobile/Pods-ClodyMobile.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ClodyMobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		9D62B286B9E540BBA3241E3F /* Colors.xcassets */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = folder.assetcatalog; name = Colors.xcassets; path = ClodyMobile/Colors.xcassets; sourceTree = "<group>"; };
-		AFE30CB916A82D3D30B51FDF /* Pods-ClodyMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClodyMobile.release.xcconfig"; path = "Target Support Files/Pods-ClodyMobile/Pods-ClodyMobile.release.xcconfig"; sourceTree = "<group>"; };
-		C37285262B46414E9D8337D4 /* BootSplash.storyboard */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = BootSplash.storyboard; path = ClodyMobile/BootSplash.storyboard; sourceTree = "<group>"; };
+		9044FA8FC331209DB45A042E /* Pods-ClodyMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClodyMobile.release.xcconfig"; path = "Target Support Files/Pods-ClodyMobile/Pods-ClodyMobile.release.xcconfig"; sourceTree = "<group>"; };
+		9D62B286B9E540BBA3241E3F /* Colors.xcassets */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = folder.assetcatalog; name = Colors.xcassets; path = ClodyMobile/Colors.xcassets; sourceTree = "<group>"; };
+		AC53777B627BD6077B6FDDD7 /* Pods-ClodyMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClodyMobile.debug.xcconfig"; path = "Target Support Files/Pods-ClodyMobile/Pods-ClodyMobile.debug.xcconfig"; sourceTree = "<group>"; };
+		B52FA75F2F0EA76A00B9B93C /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		B52FA7612F0F9B2500B9B93C /* ClodyMobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ClodyMobile.entitlements; path = ClodyMobile/ClodyMobile.entitlements; sourceTree = "<group>"; };
+		C37285262B46414E9D8337D4 /* BootSplash.storyboard */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = BootSplash.storyboard; path = ClodyMobile/BootSplash.storyboard; sourceTree = "<group>"; };
 		C5435298DF1A4B57931FA1FD /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-SemiBold.otf"; path = "../assets/fonts/Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		C592098706E14B0ABCE1A6EA /* Pretendard-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Regular.otf"; path = "../assets/fonts/Pretendard-Regular.otf"; sourceTree = "<group>"; };
+		EB6CE841A4F3663D45F5F386 /* libPods-ClodyMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ClodyMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F0C0863818C94F9A82E12653 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Medium.otf"; path = "../assets/fonts/Pretendard-Medium.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -42,7 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7F1653AD043C76955FB49FF6 /* libPods-ClodyMobile.a in Frameworks */,
+				888B12507A115F2438E35051 /* libPods-ClodyMobile.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,6 +55,7 @@
 		13B07FAE1A68108700A75B9A /* ClodyMobile */ = {
 			isa = PBXGroup;
 			children = (
+				B52FA7612F0F9B2500B9B93C /* ClodyMobile.entitlements */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				761780EC2CA45674006654EE /* AppDelegate.swift */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
@@ -59,6 +63,7 @@
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
 				C37285262B46414E9D8337D4 /* BootSplash.storyboard */,
 				9D62B286B9E540BBA3241E3F /* Colors.xcassets */,
+				B52FA75F2F0EA76A00B9B93C /* Config.xcconfig */,
 			);
 			name = ClodyMobile;
 			sourceTree = "<group>";
@@ -67,7 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				54BB5F78143E93E79DA5FC1C /* libPods-ClodyMobile.a */,
+				EB6CE841A4F3663D45F5F386 /* libPods-ClodyMobile.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -105,8 +110,8 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				7C430A0F4D3B78F053D478B5 /* Pods-ClodyMobile.debug.xcconfig */,
-				AFE30CB916A82D3D30B51FDF /* Pods-ClodyMobile.release.xcconfig */,
+				AC53777B627BD6077B6FDDD7 /* Pods-ClodyMobile.debug.xcconfig */,
+				9044FA8FC331209DB45A042E /* Pods-ClodyMobile.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -129,13 +134,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ClodyMobile" */;
 			buildPhases = (
-				3E350B68C79FF98E611C480D /* [CP] Check Pods Manifest.lock */,
+				6F64FF1EF8533FCD8B9794EA /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				6831F1C2738B97E99AF8F58F /* [CP] Embed Pods Frameworks */,
-				C0389DC78A09570D09FEF0F3 /* [CP] Copy Pods Resources */,
+				EAE78D42201109C5A1B86C20 /* [CP] Embed Pods Frameworks */,
+				EC33908CE4814BA801BEB5C3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -186,6 +191,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				2C73EB48486BD052F8A27126 /* PrivacyInfo.xcprivacy in Resources */,
 				C324EA9FD8844BA58998F408 /* BootSplash.storyboard in Resources */,
+				B52FA7602F0EA76A00B9B93C /* Config.xcconfig in Resources */,
 				62819542813C458A85FCED48 /* Colors.xcassets in Resources */,
 				658164F425A249C688208897 /* Pretendard-Regular.otf in Resources */,
 				3100ACA323BB4743A14DD90D /* Pretendard-Medium.otf in Resources */,
@@ -212,7 +218,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		3E350B68C79FF98E611C480D /* [CP] Check Pods Manifest.lock */ = {
+		6F64FF1EF8533FCD8B9794EA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -234,7 +240,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6831F1C2738B97E99AF8F58F /* [CP] Embed Pods Frameworks */ = {
+		EAE78D42201109C5A1B86C20 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -251,7 +257,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ClodyMobile/Pods-ClodyMobile-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C0389DC78A09570D09FEF0F3 /* [CP] Copy Pods Resources */ = {
+		EC33908CE4814BA801BEB5C3 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -284,11 +290,13 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7C430A0F4D3B78F053D478B5 /* Pods-ClodyMobile.debug.xcconfig */;
+			baseConfigurationReference = AC53777B627BD6077B6FDDD7 /* Pods-ClodyMobile.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ClodyMobile/ClodyMobile.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GKV299JR6D;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ClodyMobile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -297,13 +305,15 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				NEW_SETTING = "";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.clody.corp;
 				PRODUCT_NAME = ClodyMobile;
+				SWIFT_OBJC_BRIDGING_HEADER = "ClodyMobile/ClodyMobile-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -312,11 +322,13 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AFE30CB916A82D3D30B51FDF /* Pods-ClodyMobile.release.xcconfig */;
+			baseConfigurationReference = 9044FA8FC331209DB45A042E /* Pods-ClodyMobile.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ClodyMobile/ClodyMobile.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GKV299JR6D;
 				INFOPLIST_FILE = ClodyMobile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -324,13 +336,15 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				NEW_SETTING = "";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.clody.corp;
 				PRODUCT_NAME = ClodyMobile;
+				SWIFT_OBJC_BRIDGING_HEADER = "ClodyMobile/ClodyMobile-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -338,6 +352,7 @@
 		};
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B52FA75F2F0EA76A00B9B93C /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -414,6 +429,7 @@
 		};
 		83CBBA211A601CBA00E9B192 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B52FA75F2F0EA76A00B9B93C /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;

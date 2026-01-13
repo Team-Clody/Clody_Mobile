@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { BASE_URL } from '@env';
+import { tokenStorage } from '../storage/tokenStorage';
 
 export interface ApiResponse<T> {
   status: number;
@@ -26,20 +27,12 @@ export class ApiError extends Error {
 
 export enum HeaderType {
   AUTH_CODE = 'AUTH_CODE',
+  PLATFORM_TOKEN = 'PLATFORM_TOKEN',
   ACCESS_TOKEN = 'ACCESS_TOKEN',
   REFRESH_TOKEN = 'REFRESH_TOKEN',
   POST_DIARY = 'POST_DIARY',
   TIME_ZONE = 'TIME_ZONE',
 }
-
-// UserManager 임시 구현
-class UserManager {
-  accessTokenValue: string =
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NjU1NTU5OTIsImV4cCI6MTc2Njc2NTU5MiwidHlwZSI6ImFjY2VzcyIsInVzZXJJZCI6Nzh9.m8emxbK_Ccnb6zgjRnNkzoPsHObjiMN_92bAjHL6QBuBGuTMRC5GhGMKYIj8IULsWAQZmtbZp0-k-DlSmQvySw';
-  refreshTokenValue: string = '';
-}
-
-export const userManager = new UserManager();
 
 // LocalizationConstant 임시 구현
 class LocalizationConstant {
@@ -60,7 +53,10 @@ export const APIConstants = {
   acceptLanguage: 'Accept-Language',
 };
 
-export const getHeaders = (type: HeaderType): Record<string, string> => {
+export const getHeaders = async (
+  type: HeaderType,
+  platformToken?: string,
+): Promise<Record<string, string>> => {
   const {
     contentType,
     applicationJSON,
@@ -71,37 +67,68 @@ export const getHeaders = (type: HeaderType): Record<string, string> => {
   } = APIConstants;
 
   switch (type) {
-    case HeaderType.AUTH_CODE:
+    case HeaderType.AUTH_CODE: {
+      const accessToken = await tokenStorage.getAccessToken();
+      if (!accessToken) {
+        throw new Error('accessToken이 없습니다.');
+      }
       return {
         [contentType]: applicationJSON,
-        [auth]: Bearer + userManager.accessTokenValue,
+        [auth]: Bearer + accessToken,
       };
+    }
 
-    case HeaderType.ACCESS_TOKEN:
+    case HeaderType.PLATFORM_TOKEN:
       return {
         [contentType]: applicationJSON,
-        [auth]: Bearer + userManager.accessTokenValue,
+        [auth]: Bearer + (platformToken || ''),
       };
 
-    case HeaderType.REFRESH_TOKEN:
-      return {
-        [auth]: Bearer + userManager.refreshTokenValue,
-      };
-
-    case HeaderType.POST_DIARY:
+    case HeaderType.ACCESS_TOKEN: {
+      const accessToken = await tokenStorage.getAccessToken();
+      if (!accessToken) {
+        throw new Error('accessToken이 없습니다.');
+      }
       return {
         [contentType]: applicationJSON,
-        [auth]: Bearer + userManager.accessTokenValue,
+        [auth]: Bearer + accessToken,
+      };
+    }
+
+    case HeaderType.REFRESH_TOKEN: {
+      const refreshToken = await tokenStorage.getRefreshToken();
+      if (!refreshToken) {
+        throw new Error('refreshToken이 없습니다.');
+      }
+      return {
+        [auth]: Bearer + refreshToken,
+      };
+    }
+
+    case HeaderType.POST_DIARY: {
+      const accessToken = await tokenStorage.getAccessToken();
+      if (!accessToken) {
+        throw new Error('accessToken이 없습니다.');
+      }
+      return {
+        [contentType]: applicationJSON,
+        [auth]: Bearer + accessToken,
         [timeZone]: LocalizationConstant.timeZoneCode,
         [acceptLanguage]: LocalizationConstant.acceptLanguage,
       };
+    }
 
-    case HeaderType.TIME_ZONE:
+    case HeaderType.TIME_ZONE: {
+      const accessToken = await tokenStorage.getAccessToken();
+      if (!accessToken) {
+        throw new Error('accessToken이 없습니다.');
+      }
       return {
         [contentType]: applicationJSON,
-        [auth]: Bearer + userManager.accessTokenValue,
+        [auth]: Bearer + accessToken,
         [timeZone]: LocalizationConstant.timeZoneCode,
       };
+    }
 
     default:
       return {
@@ -116,14 +143,15 @@ export const APIKit = axios.create({
   timeoutErrorMessage: 'timeout',
 });
 
-export const createAPIRequest = <T>(
+export const createAPIRequest = async <T>(
   method: 'get' | 'post' | 'put' | 'delete' | 'patch',
   url: string,
   headerType: HeaderType,
   data?: any,
   config?: AxiosRequestConfig,
+  platformToken?: string,
 ) => {
-  const headers = getHeaders(headerType);
+  const headers = await getHeaders(headerType, platformToken);
 
   return APIKit.request<ApiResponse<T>>({
     method,

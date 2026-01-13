@@ -1,4 +1,4 @@
-package com.clodymobile
+package com.clody.corp
 
 import android.app.Application
 import com.facebook.react.PackageList

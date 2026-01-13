@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import PagerView from 'react-native-pager-view';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { kakaoLogin } from '../auth/kakaoAuth';
+import { handleLogin } from '../auth/handleLogin';
+import { Routes, StackNavParamList } from '../navigation/route';
+import { appleLogin } from '../auth/appleAuth';
 
 const PAGES = [
   {
@@ -25,14 +31,20 @@ const SignInButton = ({
   icon,
   textColor,
   text,
+  onPress,
 }: {
   backgroundColor: string;
   icon: any;
   textColor: string;
   text: string;
+  onPress?: () => void;
 }) => {
   return (
-    <View style={[styles.signinButton, { backgroundColor: backgroundColor }]}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={onPress}
+      style={[styles.signinButton, { backgroundColor }]}
+    >
       <Image
         style={styles.signinButtonIcon}
         source={icon}
@@ -41,12 +53,34 @@ const SignInButton = ({
       <Text style={[styles.signinButtonText, { color: textColor }]}>
         {text}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
+type LoginScreenNavigationProp = StackNavigationProp<
+  StackNavParamList,
+  Routes.LOGIN
+>;
+
 const LoginScreen = () => {
   const [currentPage, setCurrentPage] = useState(0);
+  const navigation = useNavigation<LoginScreenNavigationProp>();
+
+  const onPressKakaoLogin = async () => {
+    const success = await handleLogin('kakao', kakaoLogin);
+    if (success) {
+      navigation.navigate(Routes.HOME);
+    }
+  };
+
+  const onPressAppleLogin = async () => {
+    const success = await handleLogin('apple', appleLogin);
+    if (success) {
+      navigation.navigate(Routes.HOME);
+    }
+  };
+
+  const onPressGoogleLogin = () => {};
 
   return (
     <View style={styles.container}>
@@ -94,6 +128,7 @@ const LoginScreen = () => {
         textColor="#212124"
         icon={require('../../assets/ic_signin_btn_kakao.png')}
         text="카카오로 로그인"
+        onPress={onPressKakaoLogin}
       />
 
       <SignInButton
@@ -101,6 +136,7 @@ const LoginScreen = () => {
         textColor="#FFFFFF"
         icon={require('../../assets/ic_signin_btn_apple.png')}
         text="Apple로 로그인"
+        onPress={onPressAppleLogin}
       />
 
       <SignInButton
@@ -108,6 +144,7 @@ const LoginScreen = () => {
         textColor="#1B1C20"
         icon={require('../../assets/ic_signin_btn_google.png')}
         text="구글로 로그인"
+        onPress={onPressGoogleLogin}
       />
     </View>
   );

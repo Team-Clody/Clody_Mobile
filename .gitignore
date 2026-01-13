@@ -77,3 +77,6 @@ yarn-error.log
 # Environment variables
 .env
 .env.*
+
+# iOS Configuration files
+ios/Config.xcconfig

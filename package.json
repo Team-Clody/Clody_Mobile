@@ -10,7 +10,9 @@
     "test": "jest"
   },
   "dependencies": {
+    "@invertase/react-native-apple-authentication": "^2.5.0",
     "@react-native-async-storage/async-storage": "^2.2.0",
+    "@react-native-seoul/kakao-login": "^5.4.2",
     "@react-native/new-app-screen": "0.82.1",
     "@react-navigation/native": "^7.1.26",
     "@react-navigation/stack": "^7.6.13",
