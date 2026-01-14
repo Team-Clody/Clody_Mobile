@@ -1,0 +1,23 @@
+{
+  "login": {
+    "pager": {
+      "page1": {
+        "chip": "Your Friend Lody",
+        "title": "Replies filled with\ncompliments and\nencouragement."
+      },
+      "page2": {
+        "chip": "Lucky Clover",
+        "title": "The more you confide in\nLody, the luckier your\nclover becomes"
+      },
+      "page3": {
+        "chip": "Gratitude Journal",
+        "title": "You can only journal\nfor today and yesterday"
+      }
+    },
+    "buttons": {
+      "kakao": "Sign up with Kakao",
+      "apple": "Sign up with Apple",
+      "google": "Sign up with Google"
+    }
+  }
+}
