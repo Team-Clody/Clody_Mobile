@@ -20,11 +20,11 @@ export function RootNavigator({
       <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
         <NavigationContainer>
           <Stack.Navigator initialRouteName={initialRoute}>
-            {/* <Stack.Screen
+            <Stack.Screen
               name={Routes.LOGIN}
               component={LoginScreen}
               options={{ headerShown: false }}
-            /> */}
+            />
             <Stack.Screen
               name={Routes.MAIN_TAB}
               component={BottomTabNavigator}
