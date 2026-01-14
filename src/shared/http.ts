@@ -27,6 +27,7 @@ export class ApiError extends Error {
 
 export enum HeaderType {
   AUTH_CODE = 'AUTH_CODE',
+  NON_AUTH = 'NON_AUTH',
   PLATFORM_TOKEN = 'PLATFORM_TOKEN',
   ACCESS_TOKEN = 'ACCESS_TOKEN',
   REFRESH_TOKEN = 'REFRESH_TOKEN',
@@ -75,6 +76,12 @@ export const getHeaders = async (
       return {
         [contentType]: applicationJSON,
         [auth]: Bearer + accessToken,
+      };
+    }
+
+    case HeaderType.NON_AUTH: {
+      return {
+        [contentType]: applicationJSON,
       };
     }
 
