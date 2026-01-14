@@ -11,24 +11,7 @@ import { googleLogin, configureGoogleSignIn } from '../auth/googleAuth';
 import { Typo } from '../shared/components/Typo';
 import { palette } from '../shared/theme/palette';
 import { useDevice } from '../shared/contexts/DeviceContext';
-
-const PAGES = [
-  {
-    chip: 'AI 친구 로디',
-    title: '감사일기에 칭찬과 응원의\n답장을 작성해요',
-    image: require('../../assets/img_signin_pager_1.png'),
-  },
-  {
-    chip: '행운의 클로버',
-    title: '하루에 기록한 감사가\n쌓일수록 클로버가 진해져요',
-    image: require('../../assets/img_signin_pager_2.png'),
-  },
-  {
-    chip: '감사일기',
-    title: '오늘과 전날 일기만\n작성할 수 있어요',
-    image: require('../../assets/img_signin_pager_3.png'),
-  },
-];
+import { useTranslation } from '../shared/hooks/useTranslation';
 
 const SignInButton = ({
   backgroundColor,
@@ -70,12 +53,33 @@ const LoginScreen = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const navigation = useNavigation<LoginScreenNavigationProp>();
   const { availableLoginButtons } = useDevice();
+  const { t } = useTranslation();
 
   useEffect(() => {
     configureGoogleSignIn();
   }, []);
 
-  // 사용 가능한 로그인 버튼만 렌더링
+  const PAGES = useMemo(
+    () => [
+      {
+        chip: t('login.pager.page1.chip'),
+        title: t('login.pager.page1.title'),
+        image: require('../../assets/img_signin_pager_1.png'),
+      },
+      {
+        chip: t('login.pager.page2.chip'),
+        title: t('login.pager.page2.title'),
+        image: require('../../assets/img_signin_pager_2.png'),
+      },
+      {
+        chip: t('login.pager.page3.chip'),
+        title: t('login.pager.page3.title'),
+        image: require('../../assets/img_signin_pager_3.png'),
+      },
+    ],
+    [t],
+  );
+
   const loginButtons = useMemo(() => {
     const buttons = [];
 
@@ -86,7 +90,7 @@ const LoginScreen = () => {
           backgroundColor={palette.kakaoYellow}
           textColor="gray900"
           icon={require('../../assets/ic_signin_btn_kakao.png')}
-          text="카카오로 로그인"
+          text={t('login.buttons.kakao')}
           onPress={async () => {
             const success = await handleLogin('kakao', kakaoLogin);
             if (success) {
@@ -104,7 +108,7 @@ const LoginScreen = () => {
           backgroundColor={palette.appleBlack}
           textColor="gray0"
           icon={require('../../assets/ic_signin_btn_apple.png')}
-          text="Apple로 로그인"
+          text={t('login.buttons.apple')}
           onPress={async () => {
             const success = await handleLogin('apple', appleLogin);
             if (success) {
@@ -122,7 +126,7 @@ const LoginScreen = () => {
           backgroundColor={palette.gray30}
           textColor="gray1000"
           icon={require('../../assets/ic_signin_btn_google.png')}
-          text="구글로 로그인"
+          text={t('login.buttons.google')}
           onPress={async () => {
             const success = await handleLogin('google', googleLogin);
             if (success) {
@@ -134,7 +138,7 @@ const LoginScreen = () => {
     }
 
     return buttons;
-  }, [availableLoginButtons, navigation]);
+  }, [availableLoginButtons, navigation, t]);
 
   return (
     <View style={styles.container}>
