@@ -25,4 +25,7 @@ export const palette = {
   highlight400: '#FFEECB',
 
   red500: '#F04452',
+
+  kakaoYellow: '#FAE100',
+  appleBlack: '#111111',
 };

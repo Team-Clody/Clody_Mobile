@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import PagerView from 'react-native-pager-view';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -8,6 +8,8 @@ import { handleLogin } from '../auth/handleLogin';
 import { Routes, StackNavParamList } from '../navigation/route';
 import { appleLogin } from '../auth/appleAuth';
 import { googleLogin, configureGoogleSignIn } from '../auth/googleAuth';
+import { Typo } from '../shared/components/Typo';
+import { palette } from '../shared/theme/palette';
 
 const PAGES = [
   {
@@ -47,13 +49,13 @@ const SignInButton = ({
       style={[styles.signinButton, { backgroundColor }]}
     >
       <Image
-        style={styles.signinButtonIcon}
+        style={{ width: 16, height: 16 }}
         source={icon}
         resizeMode="contain"
       />
-      <Text style={[styles.signinButtonText, { color: textColor }]}>
+      <Typo.Body variant="body2" color={textColor} style={{ marginLeft: 8 }}>
         {text}
-      </Text>
+      </Typo.Body>
     </TouchableOpacity>
   );
 };
@@ -106,10 +108,19 @@ const LoginScreen = () => {
           {PAGES.map((page, index) => (
             <View key={index} style={styles.page}>
               <View style={styles.chip}>
-                <Text style={styles.chipText}>{page.chip}</Text>
+                <Typo.Body variant="body10" color="gray600">
+                  {page.chip}
+                </Typo.Body>
               </View>
 
-              <Text style={styles.titleText}>{page.title}</Text>
+              <Typo.Display
+                variant="display2"
+                color="gray1000"
+                center
+                style={styles.titleText}
+              >
+                {page.title}
+              </Typo.Display>
 
               <Image
                 source={page.image}
@@ -134,24 +145,24 @@ const LoginScreen = () => {
 
       {/* 하단 로그인 버튼 영역 */}
       <SignInButton
-        backgroundColor="#FAE100"
-        textColor="#212124"
+        backgroundColor={palette.kakaoYellow}
+        textColor="gray900"
         icon={require('../../assets/ic_signin_btn_kakao.png')}
         text="카카오로 로그인"
         onPress={onPressKakaoLogin}
       />
 
       <SignInButton
-        backgroundColor="#111111"
-        textColor="#FFFFFF"
+        backgroundColor={palette.appleBlack}
+        textColor="gray0"
         icon={require('../../assets/ic_signin_btn_apple.png')}
         text="Apple로 로그인"
         onPress={onPressAppleLogin}
       />
 
       <SignInButton
-        backgroundColor="#F8F9FC"
-        textColor="#1B1C20"
+        backgroundColor={palette.gray30}
+        textColor="gray1000"
         icon={require('../../assets/ic_signin_btn_google.png')}
         text="구글로 로그인"
         onPress={onPressGoogleLogin}
@@ -166,7 +177,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 14,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: palette.gray0,
   },
 
   pagerWrapper: {
@@ -184,25 +195,15 @@ const styles = StyleSheet.create({
   },
 
   chip: {
-    backgroundColor: '#F2F3F6',
+    backgroundColor: palette.gray50,
     borderRadius: 4,
     paddingHorizontal: 10,
     paddingVertical: 4,
   },
 
-  chipText: {
-    fontSize: 14,
-    color: '#4A4C54',
-  },
-
   titleText: {
     marginTop: 16,
     marginBottom: 20,
-    fontSize: 20,
-    fontWeight: '700',
-    textAlign: 'center',
-    lineHeight: 26,
-    color: '#1B1C20',
   },
 
   image: {
@@ -217,7 +218,7 @@ const styles = StyleSheet.create({
   },
 
   dot: {
-    backgroundColor: '#D1D5DD',
+    backgroundColor: palette.gray200,
     width: 6,
     height: 6,
     borderRadius: 3,
@@ -225,7 +226,7 @@ const styles = StyleSheet.create({
   },
 
   activeDot: {
-    backgroundColor: '#212124',
+    backgroundColor: palette.gray900,
   },
 
   signinButton: {
@@ -236,17 +237,5 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     paddingVertical: 14,
     marginVertical: 7,
-  },
-
-  signinButtonIcon: {
-    width: 16,
-    height: 16,
-  },
-
-  signinButtonText: {
-    fontSize: 15,
-    fontWeight: '600',
-    lineHeight: 22.5,
-    marginLeft: 8,
   },
 });
