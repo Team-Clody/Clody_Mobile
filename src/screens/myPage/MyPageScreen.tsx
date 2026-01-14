@@ -7,11 +7,18 @@ import {
   MyPageStackParamList,
   MyPageRoutes,
 } from '../../navigation/MyPageNavigationStack';
+import { useEffect } from 'react';
+import { useMypage } from '../../hooks/myPage/useMypage';
 
 type MyPageScreenNavigationProp = StackNavigationProp<MyPageStackParamList>;
 
 export const MyPageScreen = () => {
   const navigation = useNavigation<MyPageScreenNavigationProp>();
+  const { userInfo, fetchUserInfo } = useMypage();
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
 
   const navigateToProfileAccount = () => {
     navigation.navigate(MyPageRoutes.PROFILE_ACCOUNT);
@@ -27,7 +34,10 @@ export const MyPageScreen = () => {
         <Typo.Head variant="head1" style={{ marginBottom: 6 }}>
           MyPage
         </Typo.Head>
-        <HeaderSection navigateToProfileAccount={navigateToProfileAccount} />
+        <HeaderSection
+          navigateToProfileAccount={navigateToProfileAccount}
+          name={userInfo?.name}
+        />
         <BodySection navigateToTeamInfo={navigateToTeamInfo} />
         <FooterSection />
       </View>
@@ -37,8 +47,10 @@ export const MyPageScreen = () => {
 
 const HeaderSection = ({
   navigateToProfileAccount,
+  name,
 }: {
   navigateToProfileAccount: () => void;
+  name?: string;
 }) => {
   return (
     <View style={[styles.section, { gap: 12 }]}>
@@ -52,7 +64,7 @@ const HeaderSection = ({
         >
           <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
             <Icon.IcProfile width={42} height={42} />
-            <Typo.Body variant="body1">Lody</Typo.Body>
+            <Typo.Body variant="body1">{name}</Typo.Body>
           </View>
           <Icon.IcNext width={28} height={28} />
         </View>

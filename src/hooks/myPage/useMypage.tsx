@@ -1,4 +1,4 @@
-import { MyPageAPI } from '../../api/myPageApi';
+import { MyPageAPI } from '../../api/myPageAPI';
 import { useUserStore } from '../../store/useUserStore';
 
 export const useMypage = () => {
