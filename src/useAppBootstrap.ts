@@ -18,14 +18,18 @@ export function useAppBootstrap() {
 
   async function bootstrap() {
     try {
-      await checkAppVersion();
-      await checkInspection();
-      const autoLoginSuccess = await checkAutoLogin();
+      // 로그인 로직 임시 주석 처리
+      // await checkAppVersion();
+      // await checkInspection();
+      // const autoLoginSuccess = await checkAutoLogin();
+      // setInitialRoute(autoLoginSuccess ? Routes.HOME : Routes.LOGIN);
 
-      setInitialRoute(autoLoginSuccess ? Routes.HOME : Routes.LOGIN);
+      // 임시: 바로 메인탭으로 이동
+      setInitialRoute(Routes.MAIN_TAB);
     } catch (e) {
       console.log(e);
-      setInitialRoute(Routes.LOGIN);
+      // setInitialRoute(Routes.LOGIN);
+      setInitialRoute(Routes.MAIN_TAB);
     } finally {
       RNBootSplash.hide({ fade: true });
     }
