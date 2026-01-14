@@ -4,6 +4,8 @@ import IcProfile from '../../../assets/icons/ic_profile.svg';
 import IcBack from '../../../assets/icons/ic_back.svg';
 import IcInputDelete from '../../../assets/icons/ic_input_delete.svg';
 import IcDelete from '../../../assets/icons/ic_delete.svg';
+import IcDotBlack from '../../../assets/icons/ic_dot_black.svg';
+import IcDotGray from '../../../assets/icons/ic_dot_gray.svg';
 
 export const Icon = {
   IcNext,
@@ -12,4 +14,6 @@ export const Icon = {
   IcBack,
   IcInputDelete,
   IcDelete,
+  IcDotBlack,
+  IcDotGray,
 };
