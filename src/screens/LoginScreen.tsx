@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import PagerView from 'react-native-pager-view';
 import { useNavigation } from '@react-navigation/native';
@@ -10,6 +10,7 @@ import { appleLogin } from '../auth/appleAuth';
 import { googleLogin, configureGoogleSignIn } from '../auth/googleAuth';
 import { Typo } from '../shared/components/Typo';
 import { palette } from '../shared/theme/palette';
+import { useDevice } from '../shared/contexts/DeviceContext';
 
 const PAGES = [
   {
@@ -68,31 +69,72 @@ type LoginScreenNavigationProp = StackNavigationProp<
 const LoginScreen = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const navigation = useNavigation<LoginScreenNavigationProp>();
+  const { availableLoginButtons } = useDevice();
 
   useEffect(() => {
     configureGoogleSignIn();
   }, []);
 
-  const onPressKakaoLogin = async () => {
-    const success = await handleLogin('kakao', kakaoLogin);
-    if (success) {
-      navigation.navigate(Routes.HOME);
-    }
-  };
+  // 사용 가능한 로그인 버튼만 렌더링
+  const loginButtons = useMemo(() => {
+    const buttons = [];
 
-  const onPressAppleLogin = async () => {
-    const success = await handleLogin('apple', appleLogin);
-    if (success) {
-      navigation.navigate(Routes.HOME);
+    if (availableLoginButtons.includes('kakao')) {
+      buttons.push(
+        <SignInButton
+          key="kakao"
+          backgroundColor={palette.kakaoYellow}
+          textColor="gray900"
+          icon={require('../../assets/ic_signin_btn_kakao.png')}
+          text="카카오로 로그인"
+          onPress={async () => {
+            const success = await handleLogin('kakao', kakaoLogin);
+            if (success) {
+              navigation.navigate(Routes.HOME);
+            }
+          }}
+        />,
+      );
     }
-  };
 
-  const onPressGoogleLogin = async () => {
-    const success = await handleLogin('google', googleLogin);
-    if (success) {
-      navigation.navigate(Routes.HOME);
+    if (availableLoginButtons.includes('apple')) {
+      buttons.push(
+        <SignInButton
+          key="apple"
+          backgroundColor={palette.appleBlack}
+          textColor="gray0"
+          icon={require('../../assets/ic_signin_btn_apple.png')}
+          text="Apple로 로그인"
+          onPress={async () => {
+            const success = await handleLogin('apple', appleLogin);
+            if (success) {
+              navigation.navigate(Routes.HOME);
+            }
+          }}
+        />,
+      );
     }
-  };
+
+    if (availableLoginButtons.includes('google')) {
+      buttons.push(
+        <SignInButton
+          key="google"
+          backgroundColor={palette.gray30}
+          textColor="gray1000"
+          icon={require('../../assets/ic_signin_btn_google.png')}
+          text="구글로 로그인"
+          onPress={async () => {
+            const success = await handleLogin('google', googleLogin);
+            if (success) {
+              navigation.navigate(Routes.HOME);
+            }
+          }}
+        />,
+      );
+    }
+
+    return buttons;
+  }, [availableLoginButtons, navigation]);
 
   return (
     <View style={styles.container}>
@@ -144,29 +186,7 @@ const LoginScreen = () => {
       </View>
 
       {/* 하단 로그인 버튼 영역 */}
-      <SignInButton
-        backgroundColor={palette.kakaoYellow}
-        textColor="gray900"
-        icon={require('../../assets/ic_signin_btn_kakao.png')}
-        text="카카오로 로그인"
-        onPress={onPressKakaoLogin}
-      />
-
-      <SignInButton
-        backgroundColor={palette.appleBlack}
-        textColor="gray0"
-        icon={require('../../assets/ic_signin_btn_apple.png')}
-        text="Apple로 로그인"
-        onPress={onPressAppleLogin}
-      />
-
-      <SignInButton
-        backgroundColor={palette.gray30}
-        textColor="gray1000"
-        icon={require('../../assets/ic_signin_btn_google.png')}
-        text="구글로 로그인"
-        onPress={onPressGoogleLogin}
-      />
+      {loginButtons}
     </View>
   );
 };
