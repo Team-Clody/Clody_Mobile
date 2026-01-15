@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import PagerView from 'react-native-pager-view';
 import { useNavigation } from '@react-navigation/native';
@@ -7,6 +7,7 @@ import { kakaoLogin } from '../auth/kakaoAuth';
 import { handleLogin } from '../auth/handleLogin';
 import { Routes, StackNavParamList } from '../navigation/route';
 import { appleLogin } from '../auth/appleAuth';
+import { googleLogin, configureGoogleSignIn } from '../auth/googleAuth';
 
 const PAGES = [
   {
@@ -59,12 +60,16 @@ const SignInButton = ({
 
 type LoginScreenNavigationProp = StackNavigationProp<
   StackNavParamList,
-  Routes.LOGIN
+  typeof Routes.LOGIN
 >;
 
 const LoginScreen = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const navigation = useNavigation<LoginScreenNavigationProp>();
+
+  useEffect(() => {
+    configureGoogleSignIn();
+  }, []);
 
   const onPressKakaoLogin = async () => {
     const success = await handleLogin('kakao', kakaoLogin);
@@ -80,7 +85,12 @@ const LoginScreen = () => {
     }
   };
 
-  const onPressGoogleLogin = () => {};
+  const onPressGoogleLogin = async () => {
+    const success = await handleLogin('google', googleLogin);
+    if (success) {
+      navigation.navigate(Routes.HOME);
+    }
+  };
 
   return (
     <View style={styles.container}>
