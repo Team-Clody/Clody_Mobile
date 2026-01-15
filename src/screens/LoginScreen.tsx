@@ -64,17 +64,17 @@ const LoginScreen = () => {
       {
         chip: t('login.pager.page1.chip'),
         title: t('login.pager.page1.title'),
-        image: require('../../assets/img_signin_pager_1.png'),
+        image: require('../../assets/images/img_signin_pager_1.png'),
       },
       {
         chip: t('login.pager.page2.chip'),
         title: t('login.pager.page2.title'),
-        image: require('../../assets/img_signin_pager_2.png'),
+        image: require('../../assets/images/img_signin_pager_2.png'),
       },
       {
         chip: t('login.pager.page3.chip'),
         title: t('login.pager.page3.title'),
-        image: require('../../assets/img_signin_pager_3.png'),
+        image: require('../../assets/images/img_signin_pager_3.png'),
       },
     ],
     [t],
@@ -89,7 +89,7 @@ const LoginScreen = () => {
           key="kakao"
           backgroundColor={palette.kakaoYellow}
           textColor="gray900"
-          icon={require('../../assets/ic_signin_btn_kakao.png')}
+          icon={require('../../assets/images/ic_signin_btn_kakao.png')}
           text={t('login.buttons.kakao')}
           onPress={async () => {
             const success = await handleLogin('kakao', kakaoLogin);
@@ -107,7 +107,7 @@ const LoginScreen = () => {
           key="apple"
           backgroundColor={palette.appleBlack}
           textColor="gray0"
-          icon={require('../../assets/ic_signin_btn_apple.png')}
+          icon={require('../../assets/images/ic_signin_btn_apple.png')}
           text={t('login.buttons.apple')}
           onPress={async () => {
             const success = await handleLogin('apple', appleLogin);
@@ -125,7 +125,7 @@ const LoginScreen = () => {
           key="google"
           backgroundColor={palette.gray30}
           textColor="gray1000"
-          icon={require('../../assets/ic_signin_btn_google.png')}
+          icon={require('../../assets/images/ic_signin_btn_google.png')}
           text={t('login.buttons.google')}
           onPress={async () => {
             const success = await handleLogin('google', googleLogin);
