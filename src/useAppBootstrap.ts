@@ -18,13 +18,10 @@ export function useAppBootstrap() {
 
   async function bootstrap() {
     try {
-      // 로그인 로직 임시 주석 처리
-      // await checkAppVersion();
-      // await checkInspection();
-      // const autoLoginSuccess = await checkAutoLogin();
-      // setInitialRoute(autoLoginSuccess ? Routes.HOME : Routes.LOGIN);
-
-      setInitialRoute(Routes.LOGIN);
+      await checkAppVersion();
+      await checkInspection();
+      const autoLoginSuccess = await checkAutoLogin();
+      setInitialRoute(autoLoginSuccess ? Routes.MAIN_TAB : Routes.LOGIN);
     } catch (e) {
       console.log(e);
       setInitialRoute(Routes.LOGIN);
