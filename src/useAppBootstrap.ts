@@ -22,7 +22,7 @@ export function useAppBootstrap() {
       await checkInspection();
       const autoLoginSuccess = await checkAutoLogin();
 
-      setInitialRoute(autoLoginSuccess ? Routes.HOME : Routes.LOGIN);
+      setInitialRoute(Routes.LOGIN);
     } catch (e) {
       console.log(e);
       setInitialRoute(Routes.LOGIN);
