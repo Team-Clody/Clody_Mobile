@@ -34,8 +34,8 @@ export const Header = ({
         {
           position: 'absolute',
           width: '100%',
-          paddingHorizontal: 16,
-          paddingTop: 2,
+          paddingHorizontal: 12,
+          paddingTop: 16,
           height: 32,
           flexDirection: 'row',
           justifyContent: 'space-between',
