@@ -39,7 +39,7 @@ export const MyPageAPI = {
   ) => {
     const resp = await createAPIRequest<PatchNicknameResponseDTO>(
       'patch',
-      '/alarm',
+      '/user/nickname',
       headerType,
       { data: requestDTO },
     );
