@@ -176,4 +176,4 @@ export const typography = {
     fontWeight: '400',
     fontFamily: commonTheme.typography.fontFamily.regular,
   },
-};
+} as const;

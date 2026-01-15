@@ -60,7 +60,7 @@ const SignInButton = ({
 
 type LoginScreenNavigationProp = StackNavigationProp<
   StackNavParamList,
-  Routes.LOGIN
+  typeof Routes.LOGIN
 >;
 
 const LoginScreen = () => {
@@ -74,14 +74,14 @@ const LoginScreen = () => {
   const onPressKakaoLogin = async () => {
     const success = await handleLogin('kakao', kakaoLogin);
     if (success) {
-      navigation.navigate(Routes.HOME);
+      navigation.navigate(Routes.MAIN_TAB);
     }
   };
 
   const onPressAppleLogin = async () => {
     const success = await handleLogin('apple', appleLogin);
     if (success) {
-      navigation.navigate(Routes.HOME);
+      navigation.navigate(Routes.MAIN_TAB);
     }
   };
 
