@@ -74,21 +74,21 @@ const LoginScreen = () => {
   const onPressKakaoLogin = async () => {
     const success = await handleLogin('kakao', kakaoLogin);
     if (success) {
-      navigation.navigate(Routes.MAIN_TAB);
+      navigation.navigate(Routes.ONBOARDING_NICKNAME);
     }
   };
 
   const onPressAppleLogin = async () => {
     const success = await handleLogin('apple', appleLogin);
     if (success) {
-      navigation.navigate(Routes.MAIN_TAB);
+      navigation.navigate(Routes.ONBOARDING_NICKNAME);
     }
   };
 
   const onPressGoogleLogin = async () => {
     const success = await handleLogin('google', googleLogin);
     if (success) {
-      navigation.navigate(Routes.HOME);
+      navigation.navigate(Routes.ONBOARDING_NICKNAME);
     }
   };
 

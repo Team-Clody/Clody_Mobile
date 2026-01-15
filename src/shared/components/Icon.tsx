@@ -3,6 +3,7 @@ import IcClover from '../../../assets/icons/ic_clover.svg';
 import IcProfile from '../../../assets/icons/ic_profile.svg';
 import IcBack from '../../../assets/icons/ic_back.svg';
 import IcInputDelete from '../../../assets/icons/ic_input_delete.svg';
+import IcDelete from '../../../assets/icons/ic_delete.svg';
 import IcHomeOn from '../../../assets/icons/ic_home_on.svg';
 import IcHomeOff from '../../../assets/icons/ic_home_off.svg';
 import IcCalendarOn from '../../../assets/icons/ic_calendar_on.svg';
@@ -16,6 +17,7 @@ export const Icon = {
   IcProfile,
   IcBack,
   IcInputDelete,
+  IcDelete,
   IcHomeOn,
   IcHomeOff,
   IcCalendarOn,

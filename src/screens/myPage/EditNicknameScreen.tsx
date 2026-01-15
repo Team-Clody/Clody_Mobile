@@ -1,6 +1,5 @@
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
-import { SectionPage, Typo } from '../../shared/components';
-import { Button } from '../../shared/components/Button';
+import { BottomActionButton, SectionPage, Typo } from '../../shared/components';
 import { useState } from 'react';
 import { Icon } from '../../shared/components/Icon';
 
@@ -15,15 +14,13 @@ export const EditNicknameScreen = () => {
       <View style={{ flex: 1 }}>
         <HeaderSection nickname={nickname} setNickname={setNickname} />
       </View>
-      <View>
-        <Button
-          title="저장"
-          onPress={() => {
-            console.log('Save button pressed');
-          }}
-          isDisabled={nickname.length === 0}
-        />
-      </View>
+      <BottomActionButton
+        title="저장"
+        onPress={() => {
+          console.log('Save button pressed');
+        }}
+        isDisabled={nickname.length === 0}
+      />
     </SectionPage>
   );
 };

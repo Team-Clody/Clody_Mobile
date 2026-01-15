@@ -7,6 +7,8 @@ import LoginScreen from '../screens/LoginScreen';
 import BottomTabNavigator from './BottomTabNavigator';
 import { Routes, StackNavParamList } from './route';
 import { StyleSheet } from 'react-native';
+import { NicknameScreen } from '../screens/onboarding/NicknameScreen';
+import { BirthdayScreen } from '../screens/onboarding/BirthdayScreen';
 
 const Stack = createStackNavigator<StackNavParamList>();
 
@@ -28,6 +30,16 @@ export function RootNavigator({
             <Stack.Screen
               name={Routes.MAIN_TAB}
               component={BottomTabNavigator}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name={Routes.ONBOARDING_NICKNAME}
+              component={NicknameScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name={Routes.ONBOARDING_BIRTHDAY}
+              component={BirthdayScreen}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>
