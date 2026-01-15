@@ -114,8 +114,6 @@ const LoginScreen = () => {
     <View style={styles.container}>
       {/* 상단 콘텐츠 영역 */}
       <View style={styles.pagerWrapper}>
-        <View style={{ flex: 11 }} />
-
         <PagerView
           style={styles.pagerView}
           initialPage={0}
@@ -155,8 +153,6 @@ const LoginScreen = () => {
             />
           ))}
         </View>
-
-        <View style={{ flex: 17 }} />
       </View>
 
       {/* 하단 로그인 버튼 영역 */}
@@ -179,13 +175,13 @@ const styles = StyleSheet.create({
   },
 
   pagerView: {
-    flex: 34,
-    justifyContent: 'center',
+    marginTop: 100,
+    height: 400,
   },
 
   page: {
+    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
   },
 
   chip: {
@@ -206,9 +202,9 @@ const styles = StyleSheet.create({
   },
 
   indicatorWrapper: {
+    marginTop: -50,
     flexDirection: 'row',
     justifyContent: 'center',
-    marginVertical: 20,
   },
 
   dot: {
