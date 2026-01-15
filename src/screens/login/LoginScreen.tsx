@@ -1,48 +1,18 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import PagerView from 'react-native-pager-view';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { kakaoLogin } from '../auth/kakaoAuth';
-import { handleLogin } from '../auth/handleLogin';
-import { Routes, StackNavParamList } from '../navigation/route';
-import { appleLogin } from '../auth/appleAuth';
-import { googleLogin, configureGoogleSignIn } from '../auth/googleAuth';
-import { Typo } from '../shared/components/Typo';
-import { palette } from '../shared/theme/palette';
-import { useDevice } from '../shared/contexts/DeviceContext';
-import { useTranslation } from '../shared/hooks/useTranslation';
-
-const SignInButton = ({
-  backgroundColor,
-  icon,
-  textColor,
-  text,
-  onPress,
-}: {
-  backgroundColor: string;
-  icon: any;
-  textColor: string;
-  text: string;
-  onPress?: () => void;
-}) => {
-  return (
-    <TouchableOpacity
-      activeOpacity={0.8}
-      onPress={onPress}
-      style={[styles.signinButton, { backgroundColor }]}
-    >
-      <Image
-        style={{ width: 16, height: 16 }}
-        source={icon}
-        resizeMode="contain"
-      />
-      <Typo.Body variant="body2" color={textColor} style={{ marginLeft: 8 }}>
-        {text}
-      </Typo.Body>
-    </TouchableOpacity>
-  );
-};
+import { kakaoLogin } from '../../auth/kakaoAuth';
+import { handleLogin } from '../../auth/handleLogin';
+import { Routes, StackNavParamList } from '../../navigation/route';
+import { appleLogin } from '../../auth/appleAuth';
+import { googleLogin, configureGoogleSignIn } from '../../auth/googleAuth';
+import { Typo } from '../../shared/components/Typo';
+import { palette } from '../../shared/theme/palette';
+import { useDevice } from '../../shared/contexts/DeviceContext';
+import { useTranslation } from '../../shared/hooks/useTranslation';
+import { LoginButton } from './LoginButton';
 
 type LoginScreenNavigationProp = StackNavigationProp<
   StackNavParamList,
@@ -64,17 +34,17 @@ const LoginScreen = () => {
       {
         chip: t('login.pager.page1.chip'),
         title: t('login.pager.page1.title'),
-        image: require('../../assets/images/img_signin_pager_1.png'),
+        image: require('../../../assets/images/img_signin_pager_1.png'),
       },
       {
         chip: t('login.pager.page2.chip'),
         title: t('login.pager.page2.title'),
-        image: require('../../assets/images/img_signin_pager_2.png'),
+        image: require('../../../assets/images/img_signin_pager_2.png'),
       },
       {
         chip: t('login.pager.page3.chip'),
         title: t('login.pager.page3.title'),
-        image: require('../../assets/images/img_signin_pager_3.png'),
+        image: require('../../../assets/images/img_signin_pager_3.png'),
       },
     ],
     [t],
@@ -85,11 +55,11 @@ const LoginScreen = () => {
 
     if (availableLoginButtons.includes('kakao')) {
       buttons.push(
-        <SignInButton
+        <LoginButton
           key="kakao"
           backgroundColor={palette.kakaoYellow}
           textColor="gray900"
-          icon={require('../../assets/images/ic_signin_btn_kakao.png')}
+          icon={require('../../../assets/images/ic_signin_btn_kakao.png')}
           text={t('login.buttons.kakao')}
           onPress={async () => {
             const success = await handleLogin('kakao', kakaoLogin);
@@ -103,11 +73,11 @@ const LoginScreen = () => {
 
     if (availableLoginButtons.includes('apple')) {
       buttons.push(
-        <SignInButton
+        <LoginButton
           key="apple"
           backgroundColor={palette.appleBlack}
           textColor="gray0"
-          icon={require('../../assets/images/ic_signin_btn_apple.png')}
+          icon={require('../../../assets/images/ic_signin_btn_apple.png')}
           text={t('login.buttons.apple')}
           onPress={async () => {
             const success = await handleLogin('apple', appleLogin);
@@ -121,11 +91,11 @@ const LoginScreen = () => {
 
     if (availableLoginButtons.includes('google')) {
       buttons.push(
-        <SignInButton
+        <LoginButton
           key="google"
           backgroundColor={palette.gray30}
           textColor="gray1000"
-          icon={require('../../assets/images/ic_signin_btn_google.png')}
+          icon={require('../../../assets/images/ic_signin_btn_google.png')}
           text={t('login.buttons.google')}
           onPress={async () => {
             const success = await handleLogin('google', googleLogin);
@@ -190,7 +160,7 @@ const LoginScreen = () => {
       </View>
 
       {/* 하단 로그인 버튼 영역 */}
-      {loginButtons}
+      <View style={styles.buttonContainer}>{loginButtons}</View>
     </View>
   );
 };
@@ -253,13 +223,7 @@ const styles = StyleSheet.create({
     backgroundColor: palette.gray900,
   },
 
-  signinButton: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    borderRadius: 6,
-    paddingVertical: 14,
-    marginVertical: 7,
+  buttonContainer: {
+    paddingBottom: 30,
   },
 });

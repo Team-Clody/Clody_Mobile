@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
-import LoginScreen from '../screens/LoginScreen';
+import LoginScreen from '../screens/login/LoginScreen';
 import BottomTabNavigator from './BottomTabNavigator';
 import { Routes, StackNavParamList } from './route';
 import { StyleSheet } from 'react-native';
