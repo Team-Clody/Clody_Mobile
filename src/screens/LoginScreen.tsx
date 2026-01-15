@@ -88,7 +88,7 @@ const LoginScreen = () => {
   const onPressGoogleLogin = async () => {
     const success = await handleLogin('google', googleLogin);
     if (success) {
-      navigation.navigate(Routes.HOME);
+      navigation.navigate(Routes.ONBOARDING_NICKNAME);
     }
   };
 
