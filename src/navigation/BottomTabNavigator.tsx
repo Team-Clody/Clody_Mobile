@@ -1,12 +1,14 @@
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SvgProps } from 'react-native-svg';
 
 import { BottomTabParamList, Routes } from './route';
 import HomeScreen from '../screens/HomeScreen';
 import CalendarScreen from '../screens/CalendarScreen';
 import { MyPageScreen } from '../screens/myPage/MyPageScreen';
+import { Icon } from '../shared/components/Icon';
 import { palette } from '../shared/theme/palette';
 import { typography } from '../shared/theme/typography';
 
@@ -19,13 +21,15 @@ const TabIcon = ({
   label,
 }: {
   focused: boolean;
-  onIcon: any;
-  offIcon: any;
+  onIcon: React.ComponentType<SvgProps>;
+  offIcon: React.ComponentType<SvgProps>;
   label: string;
 }) => {
+  const ActiveIcon = focused ? onIcon : offIcon;
+
   return (
     <View style={styles.iconContainer}>
-      <Image source={focused ? onIcon : offIcon} style={styles.icon} />
+      <ActiveIcon width={24} height={24} />
       <Text style={styles.label}>{label}</Text>
     </View>
   );
@@ -58,8 +62,8 @@ export const BottomTabNavigator = () => {
           tabBarIcon: ({ focused }) => (
             <TabIcon
               focused={focused}
-              onIcon={require('../../assets/ic_home_on.png')}
-              offIcon={require('../../assets/ic_home_off.png')}
+              onIcon={Icon.IcHomeOn}
+              offIcon={Icon.IcHomeOff}
               label="홈"
             />
           ),
@@ -73,8 +77,8 @@ export const BottomTabNavigator = () => {
           tabBarIcon: ({ focused }) => (
             <TabIcon
               focused={focused}
-              onIcon={require('../../assets/ic_calendar_on.png')}
-              offIcon={require('../../assets/ic_calendar_off.png')}
+              onIcon={Icon.IcCalendarOn}
+              offIcon={Icon.IcCalendarOff}
               label="캘린더"
             />
           ),
@@ -88,8 +92,8 @@ export const BottomTabNavigator = () => {
           tabBarIcon: ({ focused }) => (
             <TabIcon
               focused={focused}
-              onIcon={require('../../assets/ic_my_on.png')}
-              offIcon={require('../../assets/ic_my_off.png')}
+              onIcon={Icon.IcMyOn}
+              offIcon={Icon.IcMyOff}
               label="마이페이지"
             />
           ),
@@ -112,12 +116,6 @@ const styles = StyleSheet.create({
     minWidth: 56,
   },
 
-  icon: {
-    width: 24,
-    height: 24,
-    resizeMode: 'contain',
-  },
-
   label: {
     marginTop: 4,
     marginBottom: 14,
@@ -127,4 +125,3 @@ const styles = StyleSheet.create({
 });
 
 export default BottomTabNavigator;
-
