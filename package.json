@@ -28,6 +28,7 @@
     "react-native-config": "^1.6.1",
     "react-native-dotenv": "^3.4.11",
     "react-native-gesture-handler": "^2.30.0",
+    "react-native-localize": "^3.6.1",
     "react-native-pager-view": "^8.0.0",
     "react-native-safe-area-context": "^5.5.2",
     "react-native-screens": "^4.19.0",
