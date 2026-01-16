@@ -6,6 +6,7 @@ import {
 } from '../utils/loginButtons';
 import { getDeviceLocale, getLanguageCode } from '../utils/locale';
 import { getPlatform } from '../utils/platform';
+import { getDeviceTimeZone } from '../utils/timezone';
 import { Platform } from 'react-native';
 
 /**
@@ -24,6 +25,8 @@ export interface DeviceContextValue {
   availableLoginButtons: LoginButtonType[];
   /** 한국어 로케일인지 여부 */
   isKorean: boolean;
+  /** 기기 타임존 (예: 'Asia/Seoul', 'America/New_York') */
+  timeZone: string;
 }
 
 const DeviceContext = createContext<DeviceContextValue | undefined>(undefined);
@@ -47,6 +50,7 @@ export const DeviceProvider: React.FC<DeviceProviderProps> = ({ children }) => {
     const languageCode = getLanguageCode();
     const availableLoginButtons = getAvailableLoginButtons();
     const isKorean = region === 'domestic';
+    const timeZone = getDeviceTimeZone();
 
     return {
       region,
@@ -55,6 +59,7 @@ export const DeviceProvider: React.FC<DeviceProviderProps> = ({ children }) => {
       languageCode,
       availableLoginButtons,
       isKorean,
+      timeZone,
     };
   }, []);
 

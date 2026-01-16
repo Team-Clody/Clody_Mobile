@@ -1,20 +1,6 @@
 import * as RNLocalize from 'react-native-localize';
 
 /**
- * 기기의 언어가 한국어인지 확인
- * @returns 한국어면 true, 그 외면 false
- */
-export const isKoreanLocale = (): boolean => {
-  const locales = RNLocalize.getLocales();
-  if (locales.length === 0) {
-    return false;
-  }
-
-  const languageCode = locales[0].languageCode.toLowerCase();
-  return languageCode === 'ko';
-};
-
-/**
  * 기기의 현재 로케일 정보 반환
  * @returns 로케일 정보 (예: 'ko-KR', 'en-US')
  */
@@ -39,6 +25,20 @@ export const getLanguageCode = (): string => {
   }
 
   return locales[0].languageCode.toLowerCase();
+};
+
+/**
+ * 기기의 언어가 한국어인지 확인
+ * @returns 한국어면 true, 그 외면 false
+ */
+export const isKoreanLocale = (): boolean => {
+  const locales = RNLocalize.getLocales();
+  if (locales.length === 0) {
+    return false;
+  }
+
+  const languageCode = locales[0].languageCode.toLowerCase();
+  return languageCode === 'ko';
 };
 
 /**
