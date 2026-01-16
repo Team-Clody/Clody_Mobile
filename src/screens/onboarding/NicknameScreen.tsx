@@ -8,12 +8,21 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { SectionPage, Typo } from '../../shared/components';
 import { Button } from '../../shared/components/Button';
 import { Icon } from '../../shared/components/Icon';
 import { palette } from '../../shared/theme/palette';
+import { Routes, StackNavParamList } from '../../navigation/route';
+
+type NicknameScreenNavigationProp = StackNavigationProp<
+  StackNavParamList,
+  typeof Routes.ONBOARDING_NICKNAME
+>;
 
 export const NicknameScreen = () => {
+  const navigation = useNavigation<NicknameScreenNavigationProp>();
   const [nickname, setNickname] = useState('');
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const isEmpty = nickname.length === 0;
@@ -110,7 +119,7 @@ export const NicknameScreen = () => {
           <Button
             title="다음"
             onPress={() => {
-              console.log('Next button pressed');
+              navigation.navigate(Routes.ONBOARDING_BIRTHDAY);
             }}
             isDisabled={isDisabled}
             containerStyle={isKeyboardVisible ? styles.buttonKeyboardVisible : undefined}
@@ -123,21 +132,19 @@ export const NicknameScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 12,
-    flex: 2,
+    flex: 1,
     justifyContent: 'space-between',
   },
   textBlock: {
-    paddingTop: 14,
+    paddingTop: 2,
     paddingHorizontal: 14,
   },
   title: {
-    marginBottom: 4,
     color: '#1B1D1F',
   },
   inputBlock: {
-    marginTop: 24,
-    paddingHorizontal: 12,
+    marginTop: 40,
+    paddingHorizontal: 14,
   },
   textInputContainer: {
     paddingHorizontal: 14,

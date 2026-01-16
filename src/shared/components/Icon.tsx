@@ -4,6 +4,8 @@ import IcProfile from '../../../assets/icons/ic_profile.svg';
 import IcBack from '../../../assets/icons/ic_back.svg';
 import IcInputDelete from '../../../assets/icons/ic_input_delete.svg';
 import IcDelete from '../../../assets/icons/ic_delete.svg';
+import IcDotBlack from '../../../assets/icons/ic_dot_black.svg';
+import IcDotGray from '../../../assets/icons/ic_dot_gray.svg';
 import IcHomeOn from '../../../assets/icons/ic_home_on.svg';
 import IcHomeOff from '../../../assets/icons/ic_home_off.svg';
 import IcCalendarOn from '../../../assets/icons/ic_calendar_on.svg';
@@ -18,6 +20,8 @@ export const Icon = {
   IcBack,
   IcInputDelete,
   IcDelete,
+  IcDotBlack,
+  IcDotGray,
   IcHomeOn,
   IcHomeOff,
   IcCalendarOn,
