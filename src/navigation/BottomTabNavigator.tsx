@@ -52,6 +52,7 @@ export const BottomTabNavigator = () => {
         ],
         tabBarItemStyle: {
           paddingTop: 14,
+          paddingBottom: 14,
         },
       }}
     >
