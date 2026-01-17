@@ -19,7 +19,13 @@ export const ProfileAccountScreen = () => {
   };
 
   return (
-    <SectionPage header={{ title: '프로필 및 계정관리', prefix: true }}>
+    <SectionPage
+      header={{
+        title: '프로필 및 계정관리',
+        prefix: true,
+        style: { paddingTop: 12 },
+      }}
+    >
       <HeaderSection
         navigateToEditNickname={navigateToEditNickname}
         nickname={myPageInfo?.name || ''}

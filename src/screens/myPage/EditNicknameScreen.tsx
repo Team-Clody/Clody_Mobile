@@ -32,8 +32,12 @@ export const EditNicknameScreen = () => {
 
   return (
     <SectionPage
-      header={{ title: 'Edit Nickname', prefix: true }}
-      contentsStyle={{ paddingHorizontal: 14 }}
+      header={{
+        title: 'Edit Nickname',
+        prefix: true,
+        style: { paddingTop: 12 },
+      }}
+      contentsStyle={{ paddingHorizontal: 14, paddingBottom: 24 }}
     >
       <View style={{ flex: 1 }}>
         <HeaderSection nickname={nickname} setNickname={setNickname} />
