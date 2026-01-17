@@ -6,6 +6,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from './Button';
 import { Typo } from './Typo';
@@ -15,6 +16,7 @@ const ITEM_HEIGHT = 44;
 const VISIBLE_ROWS = 5;
 const PADDING_ITEMS = Math.floor(VISIBLE_ROWS / 2);
 const BUTTON_BOTTOM_PADDING = 14;
+const GRADIENT_HEIGHT = ITEM_HEIGHT * PADDING_ITEMS;
 
 type Meridiem = '오전' | '오후';
 
@@ -46,11 +48,13 @@ const WheelColumn = <T extends string | number>({
   value,
   onChange,
   width,
+  formatItem,
 }: {
   items: T[];
   value: T;
   onChange: (value: T) => void;
   width: number;
+  formatItem?: (item: T) => string;
 }) => {
   const data = useMemo(() => toPaddedItems(items), [items]);
   const listRef = useRef<FlatList<T | null>>(null);
@@ -96,10 +100,10 @@ const WheelColumn = <T extends string | number>({
             <View style={styles.item}>
               {item === null ? null : (
                 <Typo.Body
-                  variant="body2"
+                  variant="body7"
                   color={isSelected ? 'gray1000' : 'gray400'}
                 >
-                  {item}
+                  {formatItem ? formatItem(item) : item}
                 </Typo.Body>
               )}
             </View>
@@ -140,11 +144,33 @@ export const TimePickerBottomSheet = ({
               },
             ]}
           >
-            <Typo.Head variant="head2" style={styles.title}>
+            <Typo.Display variant="display4" style={styles.display4}>
               알림 시간을 선택해주세요
-            </Typo.Head>
+            </Typo.Display>
             <View style={styles.wheelRow}>
               <View style={styles.selectionOverlay} pointerEvents="none" />
+              <View style={styles.topFade} pointerEvents="none">
+                <Svg width="100%" height="100%">
+                  <Defs>
+                    <LinearGradient id="topGradient" x1="0" y1="0" x2="0" y2="1">
+                      <Stop offset="0.15" stopColor="#FFFFFF" stopOpacity="1" />
+                      <Stop offset="1" stopColor="#FFFFFF" stopOpacity="0" />
+                    </LinearGradient>
+                  </Defs>
+                  <Rect width="100%" height="100%" fill="url(#topGradient)" />
+                </Svg>
+              </View>
+              <View style={styles.bottomFade} pointerEvents="none">
+                <Svg width="100%" height="100%">
+                  <Defs>
+                    <LinearGradient id="bottomGradient" x1="0" y1="0" x2="0" y2="1">
+                      <Stop offset="0" stopColor="#FFFFFF" stopOpacity="0" />
+                      <Stop offset="0.85" stopColor="#FFFFFF" stopOpacity="1" />
+                    </LinearGradient>
+                  </Defs>
+                  <Rect width="100%" height="100%" fill="url(#bottomGradient)" />
+                </Svg>
+              </View>
               <WheelColumn
                 items={meridiemOptions}
                 value={meridiem}
@@ -162,6 +188,7 @@ export const TimePickerBottomSheet = ({
                 value={minute}
                 onChange={setMinute}
                 width={80}
+                formatItem={item => String(item).padStart(2, '0')}
               />
             </View>
             <View style={styles.buttonRow}>
@@ -189,7 +216,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 16,
   },
-  title: {
+  display4: {
     color: palette.gray1000,
   },
   wheelRow: {
@@ -217,6 +244,22 @@ const styles = StyleSheet.create({
     height: ITEM_HEIGHT,
     borderRadius: 8,
     backgroundColor: palette.gray50,
+  },
+  topFade: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: GRADIENT_HEIGHT,
+    zIndex: 1,
+  },
+  bottomFade: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: GRADIENT_HEIGHT,
+    zIndex: 1,
   },
   buttonRow: {
     marginTop: 20,
