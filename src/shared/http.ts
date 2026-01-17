@@ -85,11 +85,12 @@ export const getHeaders = async (
       };
     }
 
-    case HeaderType.PLATFORM_TOKEN:
+    case HeaderType.PLATFORM_TOKEN: {
       return {
         [contentType]: applicationJSON,
         [auth]: Bearer + (platformToken || ''),
       };
+    }
 
     case HeaderType.ACCESS_TOKEN: {
       const accessToken = await tokenStorage.getAccessToken();
@@ -176,13 +177,17 @@ APIKit.interceptors.request.use(config => {
   if (!config.headers.get('Content-Type')) {
     config.headers.set('Content-Type', 'application/json');
   }
+
+  const authHeader = config.headers.get('Authorization');
+  console.log(`[HTTP] ${config.method?.toUpperCase()} ${config.url}`);
+  console.log(`[HTTP] Authorization: ${authHeader || 'None'}`);
+
+
   return config;
 });
 
 APIKit.interceptors.response.use(
-  response => {
-    return response;
-  },
+  response => response,
   error => {
     const status = error.response?.status || 500;
     const message =
@@ -191,7 +196,6 @@ APIKit.interceptors.response.use(
 
     const apiError = new ApiError(status, message, data);
     handleApiError(apiError);
-
     return Promise.reject(apiError);
   },
 );
