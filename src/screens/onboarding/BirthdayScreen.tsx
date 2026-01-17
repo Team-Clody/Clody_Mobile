@@ -11,6 +11,9 @@ import {
 import { BottomActionButton, SectionPage, Typo } from '../../shared/components';
 import { Icon } from '../../shared/components/Icon';
 import { palette } from '../../shared/theme/palette';
+import { Routes, StackNavParamList } from '../../navigation/route';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 const validateBirthday = (value: string): boolean => {
   // 숫자가 아닌 값 체크
@@ -85,6 +88,10 @@ const validateBirthday = (value: string): boolean => {
 export const BirthdayScreen = () => {
   const [birthday, setBirthday] = useState('');
   const inputRef = useRef<TextInput>(null);
+  const navigation =
+    useNavigation<
+      StackNavigationProp<StackNavParamList, Routes.ONBOARDING_BIRTHDAY>
+    >();
   const isEmpty = birthday.length === 0;
   const isValidLength = birthday.length === 7;
   const isValid = isValidLength && validateBirthday(birthday);
@@ -196,7 +203,7 @@ export const BirthdayScreen = () => {
         <BottomActionButton
           title="다음"
           onPress={() => {
-            console.log('Next button pressed');
+            navigation.navigate(Routes.ONBOARDING_REMINDER);
           }}
           isDisabled={isDisabled}
           containerStyle={styles.bottomButton}

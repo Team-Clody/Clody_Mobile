@@ -6,6 +6,7 @@ export const Routes = {
   MAIN_TAB: 'MainTab',
   ONBOARDING_NICKNAME: 'OnboardingNickname',
   ONBOARDING_BIRTHDAY: 'OnboardingBirthday',
+  ONBOARDING_REMINDER: 'OnboardingReminder',
 } as const;
 
 export type StackNavParamList = {
@@ -13,6 +14,7 @@ export type StackNavParamList = {
   [Routes.MAIN_TAB]: undefined;
   [Routes.ONBOARDING_NICKNAME]: undefined;
   [Routes.ONBOARDING_BIRTHDAY]: undefined;
+  [Routes.ONBOARDING_REMINDER]: undefined;
 };
 
 export type BottomTabParamList = {

@@ -7,3 +7,6 @@ export { SectionPage } from './SectionPage';
 export { Header } from './Header';
 export type { HeaderProps } from './Header';
 export { BottomActionButton } from './BottomActionButton';
+export { TimePickerBottomSheet } from './TimePickerBottomSheet';
+export type { TimePickerValue } from './TimePickerBottomSheet';
+export { Icon } from './Icon';
