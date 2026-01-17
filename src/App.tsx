@@ -2,6 +2,7 @@ import React from 'react';
 import { useAppBootstrap } from './useAppBootstrap';
 import { RootNavigator } from './navigation/RootNavigator';
 import { DeviceProvider } from './shared/contexts/DeviceContext';
+import { SignupProvider } from './shared/contexts/SignupContext';
 import './shared/i18n';
 
 function App() {
@@ -13,7 +14,9 @@ function App() {
 
   return (
     <DeviceProvider>
-      <RootNavigator initialRoute={initialRoute} />
+      <SignupProvider>
+        <RootNavigator initialRoute={initialRoute} />
+      </SignupProvider>
     </DeviceProvider>
   );
 }
