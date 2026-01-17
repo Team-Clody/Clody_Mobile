@@ -7,9 +7,9 @@ import { useNavigation } from '@react-navigation/native';
 
 export const EditNicknameScreen = () => {
   const navigation = useNavigation();
-  const [nickname, setNickname] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { patchNickname } = useMypage();
+  const { patchNickname, myPageInfo } = useMypage();
+  const [nickname, setNickname] = useState(myPageInfo?.name || '');
 
   const updateNickname = async (nickname: string) => {
     if (isLoading) return;
@@ -54,6 +54,8 @@ const HeaderSection = ({
   nickname: string;
   setNickname: (nickname: string) => void;
 }) => {
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
     <View
       style={{
@@ -62,12 +64,19 @@ const HeaderSection = ({
         alignItems: 'flex-end',
       }}
     >
-      <View style={styles.textInputContainer}>
+      <View
+        style={[
+          styles.textInputContainer,
+          isFocused && { borderColor: '#1B1C20' },
+        ]}
+      >
         <NicknameInput
           style={styles.textInput}
           maxLength={10}
           nickname={nickname}
           setNickname={setNickname}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
         />
         <Pressable onPress={() => setNickname('')}>
           <Icon.IcInputDelete width={18} height={18} />
@@ -85,11 +94,15 @@ const NicknameInput = ({
   maxLength,
   nickname,
   setNickname,
+  onFocus,
+  onBlur,
 }: {
   style: any;
   maxLength: number;
   nickname: string;
   setNickname: (nickname: string) => void;
+  onFocus: () => void;
+  onBlur: () => void;
 }) => {
   return (
     <TextInput
@@ -101,6 +114,8 @@ const NicknameInput = ({
       style={style}
       maxLength={maxLength}
       returnKeyType="default"
+      onFocus={onFocus}
+      onBlur={onBlur}
     />
   );
 };
