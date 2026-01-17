@@ -26,7 +26,6 @@ export const handleLogin = async (
   platform: 'kakao' | 'apple',
   getPlatformData: () => Promise<KakaoLoginResult | AppleLoginResult>,
 ): Promise<LoginResult> => {
-  // 먼저 플랫폼 데이터를 가져옴 (한 번만 호출)
   let platformData: KakaoLoginResult | AppleLoginResult;
   try {
     platformData = await getPlatformData();
@@ -53,6 +52,8 @@ export const handleLogin = async (
 
     return { type: 'success' };
   } catch (error) {
+    console.error('[HandleLogin] 로그인에 실패하였습니다.', error);
+
     if (error instanceof ApiError && error.status === 404) {
       return {
         type: 'not_found',
@@ -98,6 +99,8 @@ export const handleGoogleLogin = async (
 
     return { type: 'success' };
   } catch (error) {
+    console.error('[HandleLogin] Google 로그인에 실패하였습니다.', error);
+
     if (error instanceof ApiError && error.status === 404) {
       return {
         type: 'not_found',
