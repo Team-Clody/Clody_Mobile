@@ -80,3 +80,7 @@ yarn-error.log
 
 # iOS Configuration files
 ios/Config.xcconfig
+
+# Firebase/Google configuration files
+android/app/google-services.json
+ios/GoogleService-Info.plist
