@@ -22,7 +22,6 @@ const formatTimeLabel = (
   minute: number
 ) => `${meridiem} ${hour}시 ${String(minute).padStart(2, '0')}분`;
 
-// TimePickerValue를 "HH:mm" 형식으로 변환
 const formatTime24h = (value: TimePickerValue): string => {
   let hour24 = value.hour;
   if (value.meridiem === '오후' && value.hour !== 12) {
@@ -57,26 +56,30 @@ export const ReminderScreen = () => {
 
   const handleSignupAndAlarm = async (alarmTime: string | null) => {
     if (!signupData.platform || !signupData.platformToken) {
+      console.log('[Signup] 회원가입 실패: platform 또는 platformToken이 없습니다.');
       return;
     }
 
     setIsLoading(true);
 
-    try {
-      // 1. 회원가입 API 호출
-      const signupResponse = await AuthAPI.postSignup(signupData.platformToken, {
-        platform: signupData.platform,
-        email: signupData.email,
-        name: signupData.name,
-        fcmToken,
-        gender: signupData.gender || undefined,
-        birthDate: signupData.birthDate || undefined,
-      });
+    const signupRequestBody = {
+      platform: signupData.platform,
+      email: signupData.email,
+      name: signupData.name,
+      fcmToken,
+      gender: signupData.gender || undefined,
+      birthDate: signupData.birthDate || undefined,
+    };
 
-      // 토큰 저장
+    console.log('[Signup] 회원가입 요청:');
+    console.log('[Signup] - platformToken:', signupData.platformToken);
+    console.log('[Signup] - body:', JSON.stringify(signupRequestBody, null, 2));
+
+    try {
+      const signupResponse = await AuthAPI.postSignup(signupData.platformToken, signupRequestBody);
+
       await tokenStorage.saveTokens(signupResponse.accessToken, signupResponse.refreshToken);
 
-      // 2. 알림 설정 API 호출
       await AuthAPI.postAlarm({
         isDiaryAlarm: alarmTime !== null,
         isReplyAlarm: false,
@@ -85,13 +88,10 @@ export const ReminderScreen = () => {
         time: alarmTime,
       });
 
-      // 회원가입 데이터 초기화
       resetSignupData();
 
-      // 메인탭으로 이동
       navigation.navigate(Routes.MAIN_TAB);
     } catch (error) {
-      // 에러 처리
     } finally {
       setIsLoading(false);
     }
