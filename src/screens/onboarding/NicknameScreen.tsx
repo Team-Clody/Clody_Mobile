@@ -15,6 +15,7 @@ import { Button } from '../../shared/components/Button';
 import { Icon } from '../../shared/components/Icon';
 import { palette } from '../../shared/theme/palette';
 import { Routes, StackNavParamList } from '../../navigation/route';
+import { useSignup } from '../../shared/contexts/SignupContext';
 
 type NicknameScreenNavigationProp = StackNavigationProp<
   StackNavParamList,
@@ -23,6 +24,7 @@ type NicknameScreenNavigationProp = StackNavigationProp<
 
 export const NicknameScreen = () => {
   const navigation = useNavigation<NicknameScreenNavigationProp>();
+  const { setName } = useSignup();
   const [nickname, setNickname] = useState('');
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const isEmpty = nickname.length === 0;
@@ -119,6 +121,7 @@ export const NicknameScreen = () => {
           <Button
             title="다음"
             onPress={() => {
+              setName(nickname);
               navigation.navigate(Routes.ONBOARDING_BIRTHDAY);
             }}
             isDisabled={isDisabled}
