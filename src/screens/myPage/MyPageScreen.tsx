@@ -14,10 +14,10 @@ type MyPageScreenNavigationProp = StackNavigationProp<MyPageStackParamList>;
 
 export const MyPageScreen = () => {
   const navigation = useNavigation<MyPageScreenNavigationProp>();
-  const { userInfo, fetchUserInfo } = useMypage();
+  const { myPageInfo, fetchMyPageInfo } = useMypage();
 
   useEffect(() => {
-    fetchUserInfo();
+    fetchMyPageInfo();
   }, []);
 
   const navigateToProfileAccount = () => {
@@ -36,7 +36,8 @@ export const MyPageScreen = () => {
         </Typo.Head>
         <HeaderSection
           navigateToProfileAccount={navigateToProfileAccount}
-          name={userInfo?.name}
+          name={myPageInfo?.name}
+          clover={myPageInfo?.cloverCount}
         />
         <BodySection navigateToTeamInfo={navigateToTeamInfo} />
         <FooterSection />
@@ -48,9 +49,11 @@ export const MyPageScreen = () => {
 const HeaderSection = ({
   navigateToProfileAccount,
   name,
+  clover,
 }: {
   navigateToProfileAccount: () => void;
   name?: string;
+  clover?: number;
 }) => {
   return (
     <View style={[styles.section, { gap: 12 }]}>
@@ -81,7 +84,7 @@ const HeaderSection = ({
           <Typo.Body variant="body9">My Clover</Typo.Body>
           <View style={{ flexDirection: 'row', gap: 6, alignItems: 'center' }}>
             <Icon.IcClover width={16} height={16} />
-            <Typo.Body variant="body9">123</Typo.Body>
+            <Typo.Body variant="body9">{clover}</Typo.Body>
           </View>
         </View>
       </Pressable>

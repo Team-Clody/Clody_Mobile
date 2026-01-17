@@ -13,7 +13,7 @@ type MyPageScreenNavigationProp = StackNavigationProp<MyPageStackParamList>;
 
 export const ProfileAccountScreen = () => {
   const navigation = useNavigation<MyPageScreenNavigationProp>();
-  const { userInfo } = useMypage();
+  const { myPageInfo } = useMypage();
   const navigateToEditNickname = () => {
     navigation.navigate(MyPageRoutes.EDIT_NICKNAME);
   };
@@ -22,7 +22,10 @@ export const ProfileAccountScreen = () => {
     <SectionPage header={{ title: '프로필 및 계정관리', prefix: true }}>
       <HeaderSection
         navigateToEditNickname={navigateToEditNickname}
-        nickname={userInfo?.name || '클로디'}
+        nickname={myPageInfo?.name || ''}
+        birthDate={myPageInfo?.birthDate || ''}
+        email={myPageInfo?.email || ''}
+        gender={myPageInfo?.gender || ''}
       />
       <View style={{ height: 12, backgroundColor: '#F2F3F6' }} />
       <FooterSection />
@@ -33,9 +36,15 @@ export const ProfileAccountScreen = () => {
 const HeaderSection = ({
   navigateToEditNickname,
   nickname,
+  birthDate,
+  email,
+  gender,
 }: {
   navigateToEditNickname: () => void;
   nickname: string;
+  birthDate: string;
+  email: string;
+  gender: string;
 }) => {
   return (
     <View style={styles.section}>
@@ -55,7 +64,7 @@ const HeaderSection = ({
         title="이메일"
         suffix={
           <Typo.Body variant="body9" color="#4A4C54">
-            clody@icloud.com
+            {email}
           </Typo.Body>
         }
       />
@@ -63,7 +72,7 @@ const HeaderSection = ({
         title="생년월일"
         suffix={
           <Typo.Body variant="body9" color="#4A4C54">
-            2024.09.07
+            {birthDate}
           </Typo.Body>
         }
       />
@@ -71,7 +80,7 @@ const HeaderSection = ({
         title="성별"
         suffix={
           <Typo.Body variant="body9" color="#4A4C54">
-            남성
+            {gender}
           </Typo.Body>
         }
       />

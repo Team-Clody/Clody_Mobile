@@ -1,22 +1,14 @@
 import { create } from 'zustand';
-
-interface UserInfo {
-  email: string;
-  name: string;
-  platform: string;
-  gender: string;
-  birthDate: string;
-  cloverCount: number;
-}
+import { GetAccountResponseDTO } from '../api/dto/myPage/response/getAccountResponseDTO';
 
 interface UseMyPage {
-  userInfo: UserInfo | null;
-  setUserInfo: (userInfo: UserInfo) => void;
-  clearUserInfo: () => void;
+  myPageInfo: GetAccountResponseDTO | null;
+  setMyPageInfo: (userInfo: GetAccountResponseDTO) => void;
+  clearMyPageInfo: () => void;
 }
 
 export const useMyPageStore = create<UseMyPage>(set => ({
-  userInfo: null,
-  setUserInfo: userInfo => set({ userInfo }),
-  clearUserInfo: () => set({ userInfo: null }),
+  myPageInfo: null,
+  setMyPageInfo: userInfo => set({ myPageInfo: userInfo }),
+  clearMyPageInfo: () => set({ myPageInfo: null }),
 }));
