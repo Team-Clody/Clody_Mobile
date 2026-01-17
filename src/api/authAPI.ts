@@ -3,6 +3,8 @@ import { HeaderType } from '../shared/http';
 import { PostSigninResponseDTO } from './dto/response/postSigninReponseDTO';
 import { PostSigninRequestDTO } from './dto/request/postSigninRequestDTO';
 import { PostGoogleSigninRequestDTO } from './dto/request/postGoogleSigninRequestDTO';
+import { PostSignupRequestDTO } from './dto/request/postSignupRequestDTO';
+import { PostAlarmRequestDTO } from './dto/request/postAlarmRequestDTO';
 
 export const AuthAPI = {
   postSignin: async (
@@ -11,7 +13,7 @@ export const AuthAPI = {
   ) => {
     const resp = await createAPIRequest<PostSigninResponseDTO>(
       'post',
-      '/auth/signin',
+      '/api/v1/auth/signin',
       HeaderType.PLATFORM_TOKEN,
       requestDTO,
       undefined,
@@ -23,10 +25,35 @@ export const AuthAPI = {
   postGoogleSignin: async (requestDTO: PostGoogleSigninRequestDTO) => {
     const resp = await createAPIRequest<PostSigninResponseDTO>(
       'post',
-      '/auth/oauth2/google',
+      '/api/v1/auth/oauth2/google',
       HeaderType.NON_AUTH,
       requestDTO,
     );
     return resp.data.data;
+  },
+
+  postSignup: async (
+    platformToken: string,
+    requestDTO: PostSignupRequestDTO,
+  ) => {
+    const resp = await createAPIRequest<PostSigninResponseDTO>(
+      'post',
+      '/api/v1/auth/signup',
+      HeaderType.PLATFORM_TOKEN,
+      requestDTO,
+      undefined,
+      platformToken,
+    );
+    return resp.data.data;
+  },
+
+  postAlarm: async (requestDTO: PostAlarmRequestDTO) => {
+    const resp = await createAPIRequest<void>(
+      'post',
+      '/api/v1/alarm',
+      HeaderType.ACCESS_TOKEN,
+      requestDTO,
+    );
+    return resp.data;
   },
 };
