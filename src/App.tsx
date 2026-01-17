@@ -1,7 +1,8 @@
 import React from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useAppBootstrap } from './useAppBootstrap';
 import { RootNavigator } from './navigation/RootNavigator';
+import { DeviceProvider } from './shared/contexts/DeviceContext';
+import './shared/i18n';
 
 function App() {
   const { initialRoute } = useAppBootstrap();
@@ -11,9 +12,9 @@ function App() {
   }
 
   return (
-    <SafeAreaProvider>
+    <DeviceProvider>
       <RootNavigator initialRoute={initialRoute} />
-    </SafeAreaProvider>
+    </DeviceProvider>
   );
 }
 

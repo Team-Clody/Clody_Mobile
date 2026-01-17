@@ -5,6 +5,7 @@ import {
   Pressable,
   StyleSheet,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { BottomActionButton, SectionPage, Typo } from '../../shared/components';
@@ -14,6 +15,76 @@ import { Routes, StackNavParamList } from '../../navigation/route';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
+const validateBirthday = (value: string): boolean => {
+  // 숫자가 아닌 값 체크
+  if (!/^[0-9]+$/.test(value)) {
+    return false;
+  }
+
+  // 7자리 숫자가 아닌 경우
+  if (value.length !== 7) {
+    return false;
+  }
+
+  // 주민등록 뒷자리 첫번째 숫자 1~8가 아닌 경우
+  const genderDigit = parseInt(value[6], 10);
+  if (genderDigit < 1 || genderDigit > 8) {
+    return false;
+  }
+
+  // 생년월일 파싱
+  const yearPrefix = value.slice(0, 2);
+  const month = parseInt(value.slice(2, 4), 10);
+  const day = parseInt(value.slice(4, 6), 10);
+
+  // 월이 01 ~ 12 범위를 벗어난 경우
+  if (month < 1 || month > 12) {
+    return false;
+  }
+
+  // 일이 01 ~ 31 범위를 벗어난 경우
+  if (day < 1 || day > 31) {
+    return false;
+  }
+
+  // 연도 계산 (1~2: 1900년대, 3~4: 2000년대, 5~6: 1900년대 외국인, 7~8: 2000년대 외국인)
+  let fullYear: number;
+  if (genderDigit === 1 || genderDigit === 2 || genderDigit === 5 || genderDigit === 6) {
+    fullYear = 1900 + parseInt(yearPrefix, 10);
+  } else {
+    fullYear = 2000 + parseInt(yearPrefix, 10);
+  }
+
+  // 비현실적인 과거 날짜 (1900년 이전)
+  if (fullYear < 1900) {
+    return false;
+  }
+
+  // 달력 기준 존재하지 않는 날짜 체크
+  const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+  // 윤년 체크
+  const isLeapYear = (fullYear % 4 === 0 && fullYear % 100 !== 0) || (fullYear % 400 === 0);
+  if (isLeapYear) {
+    daysInMonth[1] = 29;
+  }
+
+  if (day > daysInMonth[month - 1]) {
+    return false;
+  }
+
+  // 오늘 기준으로 미래 날짜 입력 체크
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const inputDate = new Date(fullYear, month - 1, day);
+  inputDate.setHours(0, 0, 0, 0);
+  if (inputDate > today) {
+    return false;
+  }
+
+  return true;
+};
+
 export const BirthdayScreen = () => {
   const [birthday, setBirthday] = useState('');
   const inputRef = useRef<TextInput>(null);
@@ -22,10 +93,10 @@ export const BirthdayScreen = () => {
       StackNavigationProp<StackNavParamList, Routes.ONBOARDING_BIRTHDAY>
     >();
   const isEmpty = birthday.length === 0;
-  const isAllowedChars = /^[0-9]+$/.test(birthday);
   const isValidLength = birthday.length === 7;
-  const hasError = !isEmpty && (!isAllowedChars || !isValidLength);
-  const isDisabled = isEmpty || hasError;
+  const isValid = isValidLength && validateBirthday(birthday);
+  const hasError = !isEmpty && isValidLength && !isValid;
+  const isDisabled = isEmpty || !isValid;
 
   const handleChangeBirthday = (text: string) => {
     if (text.length > 7) {
@@ -35,8 +106,16 @@ export const BirthdayScreen = () => {
     setBirthday(text);
   };
 
+  const SkipButton = (
+    <Pressable onPress={() => console.log('건너뛰기')}>
+      <Typo.Body variant="body4" color={palette.gray400}>
+        건너뛰기
+      </Typo.Body>
+    </Pressable>
+  );
+
   return (
-    <SectionPage header={{ prefix: true }} contentsStyle={styles.contents}>
+    <SectionPage header={{ prefix: true, suffix: SkipButton }} contentsStyle={styles.contents}>
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -144,15 +223,15 @@ const styles = StyleSheet.create({
   },
   textBlock: {
     paddingTop: 12,
-    paddingHorizontal: 16,
+    paddingHorizontal: 14,
   },
   title: {
     marginBottom: 4,
     color: palette.gray1000,
   },
   inputBlock: {
-    marginTop: 24,
-    paddingHorizontal: 16,
+    marginTop: 40,
+    paddingHorizontal: 14,
   },
   textInputContainer: {
     paddingHorizontal: 14,
@@ -220,9 +299,10 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   bottomButton: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 14,
   },
   bottomButtonInner: {
+    paddingBottom:2,
     borderRadius: 6,
   },
   bottomButtonInnerKeyboard: {

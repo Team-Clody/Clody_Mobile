@@ -21,8 +21,7 @@ export function useAppBootstrap() {
       await checkAppVersion();
       await checkInspection();
       const autoLoginSuccess = await checkAutoLogin();
-
-      setInitialRoute(Routes.LOGIN);
+      setInitialRoute(autoLoginSuccess ? Routes.MAIN_TAB : Routes.LOGIN);
     } catch (e) {
       console.log(e);
       setInitialRoute(Routes.LOGIN);

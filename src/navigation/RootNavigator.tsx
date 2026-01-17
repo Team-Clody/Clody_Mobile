@@ -3,8 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
-import LoginScreen from '../screens/LoginScreen';
-import HomeScreen from '../screens/HomeScreen';
+import LoginScreen from '../screens/login/LoginScreen';
+import BottomTabNavigator from './BottomTabNavigator';
 import { Routes, StackNavParamList } from './route';
 import { StyleSheet } from 'react-native';
 import { NicknameScreen } from '../screens/onboarding/NicknameScreen';
@@ -20,7 +20,7 @@ export function RootNavigator({
 }) {
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
         <NavigationContainer>
           <Stack.Navigator initialRouteName={initialRoute}>
             <Stack.Screen
@@ -28,7 +28,11 @@ export function RootNavigator({
               component={LoginScreen}
               options={{ headerShown: false }}
             />
-            <Stack.Screen name={Routes.HOME} component={HomeScreen} />
+            <Stack.Screen
+              name={Routes.MAIN_TAB}
+              component={BottomTabNavigator}
+              options={{ headerShown: false }}
+            />
             <Stack.Screen
               name={Routes.ONBOARDING_NICKNAME}
               component={NicknameScreen}
