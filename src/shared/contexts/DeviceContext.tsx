@@ -27,6 +27,8 @@ export interface DeviceContextValue {
   isKorean: boolean;
   /** 기기 타임존 (예: 'Asia/Seoul', 'America/New_York') */
   timeZone: string;
+  /** 한국어 사용 언어인지 여부 */
+  isKoreanLanguage: boolean;
 }
 
 const DeviceContext = createContext<DeviceContextValue | undefined>(undefined);
@@ -50,6 +52,8 @@ export const DeviceProvider: React.FC<DeviceProviderProps> = ({ children }) => {
     const languageCode = getLanguageCode();
     const availableLoginButtons = getAvailableLoginButtons();
     const isKorean = region === 'domestic';
+    const isKoreanLanguage = languageCode === 'ko';
+
     const timeZone = getDeviceTimeZone();
 
     return {
@@ -59,6 +63,7 @@ export const DeviceProvider: React.FC<DeviceProviderProps> = ({ children }) => {
       languageCode,
       availableLoginButtons,
       isKorean,
+      isKoreanLanguage,
       timeZone,
     };
   }, []);
