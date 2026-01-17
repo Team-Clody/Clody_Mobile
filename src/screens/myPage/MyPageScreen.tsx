@@ -134,7 +134,7 @@ const BodySection = ({
 };
 
 const FooterSection = () => {
-  const { isKoreanLanguage } = useDevice();
+  const { isKoreanLanguage, appVersion } = useDevice();
 
   const openTermsOfService = () => {
     const url = isKoreanLanguage
@@ -164,7 +164,7 @@ const FooterSection = () => {
         >
           <Typo.Body variant="body9">Version</Typo.Body>
           <Typo.Body variant="body4" color="#A7A9B2">
-            Latest Version
+            {appVersion}
           </Typo.Body>
         </View>
       </Pressable>
