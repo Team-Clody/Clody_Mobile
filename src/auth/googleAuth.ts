@@ -23,19 +23,25 @@ export interface GoogleLoginResult {
  * @throws 구글 로그인 실패 시 에러
  */
 export const googleLogin = async (): Promise<GoogleLoginResult> => {
-  // 구글 로그인 초기화 (이미 호출했다면 중복 호출해도 안전)
-  configureGoogleSignIn();
+  try {
+    // 구글 로그인 초기화 (이미 호출했다면 중복 호출해도 안전)
+    configureGoogleSignIn();
 
-  await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
 
-  const userInfo = await GoogleSignin.signIn();
+    const userInfo = await GoogleSignin.signIn();
 
-  if (!userInfo?.data?.idToken) {
-    throw new Error('구글 idToken을 찾을 수 없습니다.');
+    if (!userInfo?.data?.idToken) {
+      throw new Error('구글 idToken을 찾을 수 없습니다.');
+    }
+
+    console.log('[Auth] Google login success');
+    return {
+      idToken: userInfo.data.idToken,
+      email: userInfo.data.user?.email || '',
+    };
+  } catch (error: any) {
+    console.error('[Auth] Google login error', error);
+    throw error;
   }
-
-  return {
-    idToken: userInfo.data.idToken,
-    email: userInfo.data.user?.email || '',
-  };
 };
