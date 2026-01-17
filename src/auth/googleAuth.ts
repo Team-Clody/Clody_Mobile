@@ -12,34 +12,30 @@ export const configureGoogleSignIn = () => {
   });
 };
 
+export interface GoogleLoginResult {
+  idToken: string;
+  email: string;
+}
+
 /**
- * 구글 로그인을 수행하고 idToken을 반환합니다.
- * @returns 구글 idToken
+ * 구글 로그인을 수행하고 idToken과 email을 반환합니다.
+ * @returns 구글 idToken과 email
  * @throws 구글 로그인 실패 시 에러
  */
-export const googleLogin = async (): Promise<string> => {
-  try {
-    // 구글 로그인 초기화 (이미 호출했다면 중복 호출해도 안전)
-    configureGoogleSignIn();
+export const googleLogin = async (): Promise<GoogleLoginResult> => {
+  // 구글 로그인 초기화 (이미 호출했다면 중복 호출해도 안전)
+  configureGoogleSignIn();
 
-    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+  await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
 
-    const userInfo = await GoogleSignin.signIn();
+  const userInfo = await GoogleSignin.signIn();
 
-    if (!userInfo?.data?.idToken) {
-      throw new Error('구글 idToken을 찾을 수 없습니다.');
-    }
-
-    console.log('[Auth] Google login success', userInfo.data.idToken);
-    return userInfo.data.idToken;
-  } catch (e: any) {
-    // 사용자가 취소한 경우
-    if (e.code === 'SIGN_IN_CANCELLED') {
-      console.log('[Auth] Google login canceled by user');
-      throw new Error('사용자가 구글 로그인을 취소했습니다.');
-    }
-
-    console.error('[Auth] Google login error', e);
-    throw e;
+  if (!userInfo?.data?.idToken) {
+    throw new Error('구글 idToken을 찾을 수 없습니다.');
   }
+
+  return {
+    idToken: userInfo.data.idToken,
+    email: userInfo.data.user?.email || '',
+  };
 };
