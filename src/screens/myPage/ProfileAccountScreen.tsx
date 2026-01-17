@@ -7,18 +7,23 @@ import {
   MyPageStackParamList,
   MyPageRoutes,
 } from '../../navigation/MyPageNavigationStack';
+import { useMypage } from '../../hooks/myPage/useMypage';
 
 type MyPageScreenNavigationProp = StackNavigationProp<MyPageStackParamList>;
 
 export const ProfileAccountScreen = () => {
   const navigation = useNavigation<MyPageScreenNavigationProp>();
+  const { userInfo } = useMypage();
   const navigateToEditNickname = () => {
     navigation.navigate(MyPageRoutes.EDIT_NICKNAME);
   };
 
   return (
     <SectionPage header={{ title: '프로필 및 계정관리', prefix: true }}>
-      <HeaderSection navigateToEditNickname={navigateToEditNickname} />
+      <HeaderSection
+        navigateToEditNickname={navigateToEditNickname}
+        nickname={userInfo?.name || '클로디'}
+      />
       <View style={{ height: 12, backgroundColor: '#F2F3F6' }} />
       <FooterSection />
     </SectionPage>
@@ -27,8 +32,10 @@ export const ProfileAccountScreen = () => {
 
 const HeaderSection = ({
   navigateToEditNickname,
+  nickname,
 }: {
   navigateToEditNickname: () => void;
+  nickname: string;
 }) => {
   return (
     <View style={styles.section}>
@@ -37,7 +44,7 @@ const HeaderSection = ({
         suffix={
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
             <Typo.Body variant="body9" color="#4A4C54">
-              Lody
+              {nickname}
             </Typo.Body>
             <Icon.IcNext width={28} height={28} />
           </View>

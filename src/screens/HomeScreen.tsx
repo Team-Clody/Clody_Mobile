@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { GetAccountResponseDTO } from '../api/dto/response/getAccountResponseDTO';
+
 import { MyPageAPI } from '../api/myPageAPI';
+import { GetAccountResponseDTO } from '../api/dto/myPage/response/getAccountResponseDTO';
 
 export const HomeScreen = () => {
   const [account, setAccount] = useState<GetAccountResponseDTO | null>(null);
 
   useEffect(() => {
     async function fetchInfo() {
-      const data = await MyPageAPI.fetchInfo();
+      const data = await MyPageAPI.getAccount();
       setAccount(data);
     }
 

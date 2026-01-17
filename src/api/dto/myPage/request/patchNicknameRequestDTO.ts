@@ -1,3 +1,3 @@
-export interface PatchNicknameResponseDTO {
+export interface PatchNicknameRequestDTO {
   name: string;
 }

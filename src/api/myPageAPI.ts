@@ -1,8 +1,9 @@
-import { PatchNicknameResponseDTO } from './dto/myPage/response/patchNicknameResponseDTO';
+import { PatchNicknameRequestDTO } from './dto/myPage/request/patchNicknameRequestDTO';
 import { GetAccountResponseDTO } from './dto/myPage/response/getAccountResponseDTO';
 import { GetAlarmResponseDTO } from './dto/myPage/response/getAlarmResponseDTO';
 import { createAPIRequest, HeaderType } from '../shared/http';
 import { PostAlarmSetRequestDTO } from './dto/myPage/request/postAlarmSetRequestDTO';
+import { PatchNicknameResponseDTO } from './dto/myPage/response/patchNicknameResponseDTO';
 
 export const MyPageAPI = {
   getAccount: async (headerType: HeaderType = HeaderType.ACCESS_TOKEN) => {
@@ -34,14 +35,14 @@ export const MyPageAPI = {
     return resp.data.data;
   },
   patchNickname: async (
-    requestDTO: PatchNicknameResponseDTO,
+    requestDTO: PatchNicknameRequestDTO,
     headerType: HeaderType = HeaderType.ACCESS_TOKEN,
   ) => {
     const resp = await createAPIRequest<PatchNicknameResponseDTO>(
       'patch',
       '/user/nickname',
       headerType,
-      { data: requestDTO },
+      requestDTO,
     );
     return resp.data.data;
   },

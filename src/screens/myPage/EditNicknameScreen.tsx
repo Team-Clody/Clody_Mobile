@@ -1,10 +1,34 @@
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, TextInput, View, Alert } from 'react-native';
 import { BottomActionButton, SectionPage, Typo } from '../../shared/components';
 import { useState } from 'react';
 import { Icon } from '../../shared/components/Icon';
+import { useMypage } from '../../hooks/myPage/useMypage';
+import { useNavigation } from '@react-navigation/native';
 
 export const EditNicknameScreen = () => {
+  const navigation = useNavigation();
   const [nickname, setNickname] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const { patchNickname } = useMypage();
+
+  const updateNickname = async (nickname: string) => {
+    if (isLoading) return;
+
+    setIsLoading(true);
+    try {
+      await patchNickname({ name: nickname });
+      Alert.alert('성공', '닉네임이 변경되었습니다.', [
+        {
+          text: '확인',
+          onPress: () => navigation.goBack(),
+        },
+      ]);
+    } catch (error) {
+      Alert.alert('오류', '닉네임 변경에 실패했습니다.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <SectionPage
@@ -16,10 +40,8 @@ export const EditNicknameScreen = () => {
       </View>
       <BottomActionButton
         title="저장"
-        onPress={() => {
-          console.log('Save button pressed');
-        }}
-        isDisabled={nickname.length === 0}
+        onPress={() => updateNickname(nickname)}
+        isDisabled={nickname.length === 0 || isLoading}
       />
     </SectionPage>
   );
