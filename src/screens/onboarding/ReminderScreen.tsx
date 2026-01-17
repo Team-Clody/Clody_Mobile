@@ -4,8 +4,10 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import {
   BottomActionButton,
+  Icon,
   SectionPage,
   TimePickerBottomSheet,
+  TimePickerValue,
   Typo,
 } from '../../shared/components';
 import { palette } from '../../shared/theme/palette';
@@ -20,11 +22,11 @@ const formatTimeLabel = (
 export const ReminderScreen = () => {
   const navigation =
     useNavigation<
-      StackNavigationProp<StackNavParamList, Routes.ONBOARDING_REMINDER>
+      StackNavigationProp<StackNavParamList, typeof Routes.ONBOARDING_REMINDER>
     >();
   const [sheetVisible, setSheetVisible] = useState(false);
-  const [timeValue, setTimeValue] = useState({
-    meridiem: '오후' as const,
+  const [timeValue, setTimeValue] = useState<TimePickerValue>({
+    meridiem: '오후',
     hour: 9,
     minute: 30,
   });
@@ -39,7 +41,7 @@ export const ReminderScreen = () => {
       header={{
         prefix: true,
         suffix: (
-          <Pressable onPress={() => navigation.navigate(Routes.HOME)}>
+          <Pressable onPress={() => navigation.navigate(Routes.MAIN_TAB)}>
             <Typo.Body variant="body2" color="gray400">
               건너뛰기
             </Typo.Body>
@@ -70,16 +72,14 @@ export const ReminderScreen = () => {
               <Typo.Body variant="body2" color="gray1000">
                 {timeLabel}
               </Typo.Body>
-              <Typo.Body variant="body2" color="gray400">
-                ˅
-              </Typo.Body>
+              <Icon.IcDown width={16} height={16} />
             </Pressable>
           </View>
         </View>
 
         <BottomActionButton
           title="다음"
-          onPress={() => navigation.navigate(Routes.HOME)}
+          onPress={() => navigation.navigate(Routes.MAIN_TAB)}
           containerStyle={styles.bottomButton}
           buttonStyle={styles.bottomButtonInner}
           buttonStyleOnKeyboard={styles.bottomButtonInnerKeyboard}
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     color: palette.gray1000,
   },
   inputBlock: {
-    marginTop: 16,
+    marginTop: 40,
     paddingHorizontal: 16,
   },
   timeField: {
