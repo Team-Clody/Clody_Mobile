@@ -17,6 +17,10 @@ interface ModalContextValue {
   hideModal: () => void;
   /** 특정 모달이 표시 중인지 확인 */
   isModalVisible: (modalType: ModalType) => boolean;
+  /** 로그아웃 성공 여부 */
+  isLogoutSuccess: boolean;
+  /** 로그아웃 성공 플래그 설정 */
+  setLogoutSuccess: (success: boolean) => void;
 }
 
 const ModalContext = createContext<ModalContextValue | undefined>(undefined);
@@ -34,9 +38,14 @@ interface ModalProviderProps {
  */
 export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   const [visibleModal, setVisibleModal] = useState<ModalType | null>(null);
+  const [isLogoutSuccess, setIsLogoutSuccess] = useState(false);
 
   const showModal = (modalType: ModalType) => {
     setVisibleModal(modalType);
+    // 모달을 열 때 로그아웃 성공 플래그 초기화
+    if (modalType === 'logout') {
+      setIsLogoutSuccess(false);
+    }
   };
 
   const hideModal = () => {
@@ -47,6 +56,10 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
     return visibleModal === modalType;
   };
 
+  const setLogoutSuccess = (success: boolean) => {
+    setIsLogoutSuccess(success);
+  };
+
   return (
     <ModalContext.Provider
       value={{
@@ -54,6 +67,8 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
         showModal,
         hideModal,
         isModalVisible,
+        isLogoutSuccess,
+        setLogoutSuccess,
       }}
     >
       {children}

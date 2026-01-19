@@ -4,16 +4,24 @@ import { useModal } from '../../contexts/ModalContext';
 import { Typo } from '../typo/Typo';
 import { palette } from '../../theme/palette';
 import { useTranslation } from '../../hooks/useTranslation';
+import { handleLogout } from '../../../auth/handleLogout';
 
 export const LogoutModal = () => {
-  const { visibleModal, hideModal } = useModal();
+  const { visibleModal, hideModal, setLogoutSuccess } = useModal();
   const { t } = useTranslation();
   const isVisible = visibleModal === 'logout';
 
-  const handleConfirm = () => {
-    // TODO: 로그아웃 로직 구현
-    console.log('로그아웃');
-    hideModal();
+  const handleConfirm = async () => {
+    try {
+      const isSuccess = await handleLogout();
+      if (isSuccess) {
+        setLogoutSuccess(true);
+        hideModal();
+      }
+    } catch (error) {
+      console.error('[LogoutModal] 로그아웃 실패:', error);
+      hideModal();
+    }
   };
 
   if (!isVisible) {
