@@ -11,7 +11,7 @@ import { googleLogin, configureGoogleSignIn } from '../../auth/googleAuth';
 import { Typo } from '../../shared/components/Typo';
 import { palette } from '../../shared/theme/palette';
 import { useDevice } from '../../shared/contexts/DeviceContext';
-import { useSignup } from '../../shared/contexts/SignupContext';
+import { signupStorage } from '../../storage/signupStorage';
 import { useTranslation } from '../../shared/hooks/useTranslation';
 import { LoginButton } from './LoginButton';
 
@@ -24,7 +24,6 @@ const LoginScreen = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const navigation = useNavigation<LoginScreenNavigationProp>();
   const { availableLoginButtons } = useDevice();
-  const { setLoginInfo } = useSignup();
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -68,7 +67,7 @@ const LoginScreen = () => {
             if (result.type === 'success') {
               navigation.navigate(Routes.MAIN_TAB);
             } else if (result.type === 'not_found' && result.signupInfo) {
-              setLoginInfo(
+              await signupStorage.setLoginInfo(
                 result.signupInfo.platform,
                 result.signupInfo.email,
                 result.signupInfo.platformToken,
@@ -93,7 +92,7 @@ const LoginScreen = () => {
             if (result.type === 'success') {
               navigation.navigate(Routes.MAIN_TAB);
             } else if (result.type === 'not_found' && result.signupInfo) {
-              setLoginInfo(
+              await signupStorage.setLoginInfo(
                 result.signupInfo.platform,
                 result.signupInfo.email,
                 result.signupInfo.platformToken,
@@ -118,7 +117,7 @@ const LoginScreen = () => {
             if (result.type === 'success') {
               navigation.navigate(Routes.MAIN_TAB);
             } else if (result.type === 'not_found' && result.signupInfo) {
-              setLoginInfo(
+              await signupStorage.setLoginInfo(
                 result.signupInfo.platform,
                 result.signupInfo.email,
                 result.signupInfo.platformToken,
@@ -131,7 +130,7 @@ const LoginScreen = () => {
     }
 
     return buttons;
-  }, [availableLoginButtons, navigation, setLoginInfo, t]);
+  }, [availableLoginButtons, navigation, t]);
 
   return (
     <View style={styles.container}>
