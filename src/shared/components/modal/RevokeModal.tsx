@@ -4,16 +4,24 @@ import { useModal } from '../../contexts/ModalContext';
 import { Typo } from '../typo/Typo';
 import { palette } from '../../theme/palette';
 import { useTranslation } from '../../hooks/useTranslation';
+import { handleRevoke } from '../../../auth/handleRevoke';
 
 export const RevokeModal = () => {
-  const { visibleModal, hideModal } = useModal();
+  const { visibleModal, hideModal, setRevokeSuccess } = useModal();
   const { t } = useTranslation();
   const isVisible = visibleModal === 'revoke';
 
-  const handleConfirm = () => {
-    // TODO: 탈퇴 로직 구현
-    console.log('탈퇴');
-    hideModal();
+  const handleConfirm = async () => {
+    try {
+      const isSuccess = await handleRevoke();
+      if (isSuccess) {
+        setRevokeSuccess(true);
+        hideModal();
+      }
+    } catch (error) {
+      console.error('[RevokeModal] 회원탈퇴 실패:', error);
+      hideModal();
+    }
   };
 
   if (!isVisible) {

@@ -21,6 +21,10 @@ interface ModalContextValue {
   isLogoutSuccess: boolean;
   /** 로그아웃 성공 플래그 설정 */
   setLogoutSuccess: (success: boolean) => void;
+  /** 회원탈퇴 성공 여부 */
+  isRevokeSuccess: boolean;
+  /** 회원탈퇴 성공 플래그 설정 */
+  setRevokeSuccess: (success: boolean) => void;
 }
 
 const ModalContext = createContext<ModalContextValue | undefined>(undefined);
@@ -39,12 +43,15 @@ interface ModalProviderProps {
 export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   const [visibleModal, setVisibleModal] = useState<ModalType | null>(null);
   const [isLogoutSuccess, setIsLogoutSuccess] = useState(false);
+  const [isRevokeSuccess, setIsRevokeSuccess] = useState(false);
 
   const showModal = (modalType: ModalType) => {
     setVisibleModal(modalType);
-    // 모달을 열 때 로그아웃 성공 플래그 초기화
+    // 모달을 열 때 성공 플래그 초기화
     if (modalType === 'logout') {
       setIsLogoutSuccess(false);
+    } else if (modalType === 'revoke') {
+      setIsRevokeSuccess(false);
     }
   };
 
@@ -60,6 +67,10 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
     setIsLogoutSuccess(success);
   };
 
+  const setRevokeSuccess = (success: boolean) => {
+    setIsRevokeSuccess(success);
+  };
+
   return (
     <ModalContext.Provider
       value={{
@@ -69,6 +80,8 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
         isModalVisible,
         isLogoutSuccess,
         setLogoutSuccess,
+        isRevokeSuccess,
+        setRevokeSuccess,
       }}
     >
       {children}
