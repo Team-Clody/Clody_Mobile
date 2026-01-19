@@ -8,7 +8,7 @@ import { handleLogin, handleGoogleLogin } from '../../auth/handleLogin';
 import { Routes, StackNavParamList } from '../../navigation/route';
 import { appleLogin } from '../../auth/appleAuth';
 import { googleLogin, configureGoogleSignIn } from '../../auth/googleAuth';
-import { Typo } from '../../shared/components/Typo';
+import { Typo } from '../../shared/components';
 import { palette } from '../../shared/theme/palette';
 import { useDevice } from '../../shared/contexts/DeviceContext';
 import { signupStorage } from '../../storage/signupStorage';

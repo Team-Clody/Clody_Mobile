@@ -1,6 +1,11 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, {
+  AxiosRequestConfig,
+  AxiosError,
+  InternalAxiosRequestConfig,
+} from 'axios';
 import { BASE_URL } from '@env';
 import { tokenStorage } from '../storage/tokenStorage';
+import { AuthAPI } from '../api/authAPI';
 
 export interface ApiResponse<T> {
   status: number;
@@ -151,6 +156,60 @@ export const APIKit = axios.create({
   timeoutErrorMessage: 'timeout',
 });
 
+/**
+ * 토큰 재발급 관련 상태 관리
+ */
+let isRefreshing = false;
+let refreshPromise: Promise<string> | null = null;
+
+/**
+ * 토큰 재발급을 수행합니다.
+ * 경쟁 상태를 방지하기 위해 이미 재발급이 진행 중이면 기존 Promise를 반환합니다.
+ * @returns 새로운 accessToken
+ * @throws 재발급 실패 시 에러
+ */
+const refreshAccessToken = async (): Promise<string> => {
+  // 이미 재발급이 진행 중이면 기존 Promise 반환
+  if (isRefreshing && refreshPromise) {
+    return refreshPromise;
+  }
+
+  isRefreshing = true;
+  refreshPromise = (async () => {
+    try {
+      console.log('[HTTP] 토큰 재발급 시작');
+      const response = await AuthAPI.reissueToken();
+
+      await tokenStorage.saveTokens(
+        response.accessToken,
+        response.refreshToken,
+      );
+
+      console.log('[HTTP] 토큰 재발급 성공');
+      isRefreshing = false;
+      refreshPromise = null;
+
+      return response.accessToken;
+    } catch (error) {
+      console.error('[HTTP] 토큰 재발급 실패:', error);
+      isRefreshing = false;
+      refreshPromise = null;
+
+      await tokenStorage.clearTokens();
+
+      // TODO: 로그인 화면으로 이동하는 로직 구현
+
+      const apiError = new ApiError(
+        401,
+        '토큰 재발급에 실패했습니다. 다시 로그인해주세요.',
+      );
+      throw apiError;
+    }
+  })();
+
+  return refreshPromise;
+};
+
 export const createAPIRequest = async <T>(
   method: 'get' | 'post' | 'put' | 'delete' | 'patch',
   url: string,
@@ -182,17 +241,43 @@ APIKit.interceptors.request.use(config => {
   console.log(`[HTTP] ${config.method?.toUpperCase()} ${config.url}`);
   console.log(`[HTTP] Authorization: ${authHeader || 'None'}`);
 
-
   return config;
 });
 
 APIKit.interceptors.response.use(
   response => response,
-  error => {
+  async (error: AxiosError<ApiErrorResponse>) => {
+    const originalRequest = error.config as InternalAxiosRequestConfig & {
+      _retry?: boolean;
+    };
+
     const status = error.response?.status || 500;
     const message =
       error.response?.data?.message || '알 수 없는 오류가 발생했습니다';
     const data = error.response?.data;
+
+    if (status === 401 && originalRequest && !originalRequest._retry) {
+      // 재발급 API 자체가 401을 받은 경우 무한 루프 방지
+      if (originalRequest.url?.includes('/api/v1/auth/reissue')) {
+        const apiError = new ApiError(status, message, data);
+        handleApiError(apiError);
+        return Promise.reject(apiError);
+      }
+
+      originalRequest._retry = true;
+
+      try {
+        const newAccessToken = await refreshAccessToken();
+
+        if (originalRequest.headers) {
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        }
+
+        return APIKit(originalRequest);
+      } catch (refreshError) {
+        return Promise.reject(refreshError);
+      }
+    }
 
     const apiError = new ApiError(status, message, data);
     handleApiError(apiError);
@@ -206,7 +291,6 @@ const handleApiError = (error: ApiError) => {
       console.error('❌ 잘못된 요청:', error.message);
       break;
     case 401:
-      // TODO: refresh token 로직 필요
       console.error('🔒 토큰 만료:', error.message);
       break;
     case 403:

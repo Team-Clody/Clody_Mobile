@@ -8,6 +8,7 @@ import {
   MyPageRoutes,
 } from '../../navigation/MyPageNavigationStack';
 import { useMypage } from '../../hooks/myPage/useMypage';
+import { useModal } from '../../shared/contexts/ModalContext';
 
 type MyPageScreenNavigationProp = StackNavigationProp<MyPageStackParamList>;
 
@@ -95,14 +96,16 @@ const HeaderSection = ({
 };
 
 const FooterSection = () => {
+  const { showModal } = useModal();
+
   return (
     <View style={styles.footerSection}>
-      <Pressable onPress={() => console.log('Logout')}>
+      <Pressable onPress={() => showModal('logout')}>
         <Typo.Body variant="body9" color="#4A4C54">
           로그아웃
         </Typo.Body>
       </Pressable>
-      <Pressable onPress={() => console.log('Logout')}>
+      <Pressable onPress={() => showModal('revoke')}>
         <Typo.Body variant="body9" color="#4A4C54">
           탈퇴하기
         </Typo.Body>

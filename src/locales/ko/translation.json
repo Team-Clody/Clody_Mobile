@@ -19,5 +19,19 @@
       "apple": "Apple로 로그인",
       "google": "구글로 로그인"
     }
+  },
+  "modal": {
+    "logout": {
+      "title": "로그아웃 하시겠어요?",
+      "description": "기다릴게요, 다음에 다시 만나요!",
+      "cancel": "아니요",
+      "confirm": "로그아웃"
+    },
+    "revoke": {
+      "title": "서비스를 탈퇴하시겠어요?",
+      "description": "작성하신 일기와 답장 및 클로버가\n모두 삭제되며 복구할 수 없어요.",
+      "cancel": "아니요",
+      "confirm": "탈퇴할게요"
+    }
   }
 }

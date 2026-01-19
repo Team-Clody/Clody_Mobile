@@ -1,7 +1,7 @@
 import { Pressable, View, ViewStyle } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Icon } from './Icon';
-import { Typo } from './Typo';
+import { Typo } from './typo/Typo';
 
 export interface HeaderProps {
   prefix?: React.ReactNode | boolean;
