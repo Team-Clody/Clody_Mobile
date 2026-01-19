@@ -1,4 +1,11 @@
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  TextInput,
+  View,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
 import { BottomActionButton, SectionPage, Typo } from '../../shared/components';
 import { useState } from 'react';
 import { Icon } from '../../shared/components/Icon';
@@ -31,9 +38,11 @@ export const EditNicknameScreen = () => {
       }}
       contentsStyle={{ paddingHorizontal: 14, paddingBottom: 24 }}
     >
-      <View style={{ flex: 1 }}>
-        <HeaderSection nickname={nickname} setNickname={setNickname} />
-      </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={{ flex: 1 }}>
+          <HeaderSection nickname={nickname} setNickname={setNickname} />
+        </View>
+      </TouchableWithoutFeedback>
       <BottomActionButton
         title={t('myPage.editNicknameScreen.save')}
         onPress={() => updateNickname(nickname)}
