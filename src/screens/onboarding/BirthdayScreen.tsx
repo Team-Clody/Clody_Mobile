@@ -13,7 +13,7 @@ import { palette } from '../../shared/theme/palette';
 import { Routes, StackNavParamList } from '../../navigation/route';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useSignup } from '../../shared/contexts/SignupContext';
+import { signupStorage } from '../../storage/signupStorage';
 
 // 주민등록번호 7번째 자리로 출생 연도 계산
 const calculateBirthYear = (yearPrefix: string, genderDigit: number): number => {
@@ -93,7 +93,6 @@ export const BirthdayScreen = () => {
     useNavigation<
       StackNavigationProp<StackNavParamList, typeof Routes.ONBOARDING_BIRTHDAY>
     >();
-  const { setBirthInfo } = useSignup();
   const isEmpty = birthday.length === 0;
   const isValidLength = birthday.length === 7;
   const isValid = isValidLength && validateBirthday(birthday);
@@ -108,14 +107,14 @@ export const BirthdayScreen = () => {
     setBirthday(text);
   };
 
-  const handleSkip = () => {
-    setBirthInfo(null, null);
+  const handleSkip = async () => {
+    await signupStorage.setBirthInfo(null, null);
     navigation.navigate(Routes.ONBOARDING_REMINDER);
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     const { birthDate, gender } = parseBirthInfo(birthday);
-    setBirthInfo(birthDate, gender);
+    await signupStorage.setBirthInfo(birthDate, gender);
     navigation.navigate(Routes.ONBOARDING_REMINDER);
   };
 
