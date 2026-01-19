@@ -3,11 +3,12 @@ import { StyleSheet, Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SvgProps } from 'react-native-svg';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 import { BottomTabParamList, Routes } from './route';
 import HomeScreen from '../screens/HomeScreen';
 import CalendarScreen from '../screens/CalendarScreen';
-import { MyPageScreen } from '../screens/myPage/MyPageScreen';
+import { MyPageNavigationStack, MyPageRoutes } from './MyPageNavigationStack';
 import { Icon } from '../shared/components/Icon';
 import { palette } from '../shared/theme/palette';
 import { typography } from '../shared/theme/typography';
@@ -88,16 +89,32 @@ export const BottomTabNavigator = () => {
 
       <Tab.Screen
         name={Routes.MY_PAGE}
-        component={MyPageScreen}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <TabIcon
-              focused={focused}
-              onIcon={Icon.IcMyOn}
-              offIcon={Icon.IcMyOff}
-              label="마이페이지"
-            />
-          ),
+        component={MyPageNavigationStack}
+        options={({ route }) => {
+          // 현재 MyPage 스택 안에서 포커스된 화면 이름 가져오기
+          const routeName =
+            getFocusedRouteNameFromRoute(route) ?? MyPageRoutes.MY_PAGE;
+
+          const isMyPage = routeName === MyPageRoutes.MY_PAGE;
+
+          return {
+            // MyPage 루트에서는 탭바 보이고, 그 외 스택 화면(ProfileAccount, EditNickname, TeamInfo)에서는 숨김
+            tabBarStyle: [
+              styles.tabBar,
+              {
+                paddingBottom: insets.bottom,
+                display: isMyPage ? 'flex' : 'none',
+              },
+            ],
+            tabBarIcon: ({ focused }) => (
+              <TabIcon
+                focused={focused}
+                onIcon={Icon.IcMyOn}
+                offIcon={Icon.IcMyOff}
+                label="마이페이지"
+              />
+            ),
+          };
         }}
       />
     </Tab.Navigator>
