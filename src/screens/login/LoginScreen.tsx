@@ -4,13 +4,14 @@ import PagerView from 'react-native-pager-view';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { kakaoLogin } from '../../auth/kakaoAuth';
-import { handleLogin } from '../../auth/handleLogin';
+import { handleLogin, handleGoogleLogin } from '../../auth/handleLogin';
 import { Routes, StackNavParamList } from '../../navigation/route';
 import { appleLogin } from '../../auth/appleAuth';
 import { googleLogin, configureGoogleSignIn } from '../../auth/googleAuth';
 import { Typo } from '../../shared/components/Typo';
 import { palette } from '../../shared/theme/palette';
 import { useDevice } from '../../shared/contexts/DeviceContext';
+import { signupStorage } from '../../storage/signupStorage';
 import { useTranslation } from '../../shared/hooks/useTranslation';
 import { LoginButton } from './LoginButton';
 
@@ -62,8 +63,15 @@ const LoginScreen = () => {
           icon={require('../../../assets/images/ic_signin_btn_kakao.png')}
           text={t('login.buttons.kakao')}
           onPress={async () => {
-            const success = await handleLogin('kakao', kakaoLogin);
-            if (success) {
+            const result = await handleLogin('kakao', kakaoLogin);
+            if (result.type === 'success') {
+              navigation.navigate(Routes.MAIN_TAB);
+            } else if (result.type === 'not_found' && result.signupInfo) {
+              await signupStorage.setLoginInfo(
+                result.signupInfo.platform,
+                result.signupInfo.email,
+                result.signupInfo.platformToken,
+              );
               navigation.navigate(Routes.ONBOARDING_NICKNAME);
             }
           }}
@@ -80,8 +88,15 @@ const LoginScreen = () => {
           icon={require('../../../assets/images/ic_signin_btn_apple.png')}
           text={t('login.buttons.apple')}
           onPress={async () => {
-            const success = await handleLogin('apple', appleLogin);
-            if (success) {
+            const result = await handleLogin('apple', appleLogin);
+            if (result.type === 'success') {
+              navigation.navigate(Routes.MAIN_TAB);
+            } else if (result.type === 'not_found' && result.signupInfo) {
+              await signupStorage.setLoginInfo(
+                result.signupInfo.platform,
+                result.signupInfo.email,
+                result.signupInfo.platformToken,
+              );
               navigation.navigate(Routes.ONBOARDING_NICKNAME);
             }
           }}
@@ -98,8 +113,15 @@ const LoginScreen = () => {
           icon={require('../../../assets/images/ic_signin_btn_google.png')}
           text={t('login.buttons.google')}
           onPress={async () => {
-            const success = await handleLogin('google', googleLogin);
-            if (success) {
+            const result = await handleGoogleLogin(googleLogin);
+            if (result.type === 'success') {
+              navigation.navigate(Routes.MAIN_TAB);
+            } else if (result.type === 'not_found' && result.signupInfo) {
+              await signupStorage.setLoginInfo(
+                result.signupInfo.platform,
+                result.signupInfo.email,
+                result.signupInfo.platformToken,
+              );
               navigation.navigate(Routes.ONBOARDING_NICKNAME);
             }
           }}

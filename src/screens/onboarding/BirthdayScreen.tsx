@@ -5,7 +5,6 @@ import {
   Pressable,
   StyleSheet,
   TextInput,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import { BottomActionButton, SectionPage, Typo } from '../../shared/components';
@@ -14,57 +13,46 @@ import { palette } from '../../shared/theme/palette';
 import { Routes, StackNavParamList } from '../../navigation/route';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { signupStorage } from '../../storage/signupStorage';
+
+// 주민등록번호 7번째 자리로 출생 연도 계산
+const calculateBirthYear = (yearPrefix: string, genderDigit: number): number => {
+  // 1~2: 1900년대, 3~4: 2000년대, 5~6: 1900년대 외국인, 7~8: 2000년대 외국인
+  const is1900s = genderDigit === 1 || genderDigit === 2 || genderDigit === 5 || genderDigit === 6;
+  return (is1900s ? 1900 : 2000) + parseInt(yearPrefix, 10);
+};
+
+// 주민등록번호 7번째 자리로 성별 판별 (홀수: male, 짝수: female)
+const getGenderFromDigit = (genderDigit: number): string => {
+  return genderDigit % 2 === 1 ? 'male' : 'female';
+};
 
 const validateBirthday = (value: string): boolean => {
-  // 숫자가 아닌 값 체크
-  if (!/^[0-9]+$/.test(value)) {
+  if (!/^[0-9]{7}$/.test(value)) {
     return false;
   }
 
-  // 7자리 숫자가 아닌 경우
-  if (value.length !== 7) {
-    return false;
-  }
-
-  // 주민등록 뒷자리 첫번째 숫자 1~8가 아닌 경우
   const genderDigit = parseInt(value[6], 10);
   if (genderDigit < 1 || genderDigit > 8) {
     return false;
   }
 
-  // 생년월일 파싱
-  const yearPrefix = value.slice(0, 2);
   const month = parseInt(value.slice(2, 4), 10);
   const day = parseInt(value.slice(4, 6), 10);
 
-  // 월이 01 ~ 12 범위를 벗어난 경우
-  if (month < 1 || month > 12) {
+  if (month < 1 || month > 12 || day < 1 || day > 31) {
     return false;
   }
 
-  // 일이 01 ~ 31 범위를 벗어난 경우
-  if (day < 1 || day > 31) {
-    return false;
-  }
+  const fullYear = calculateBirthYear(value.slice(0, 2), genderDigit);
 
-  // 연도 계산 (1~2: 1900년대, 3~4: 2000년대, 5~6: 1900년대 외국인, 7~8: 2000년대 외국인)
-  let fullYear: number;
-  if (genderDigit === 1 || genderDigit === 2 || genderDigit === 5 || genderDigit === 6) {
-    fullYear = 1900 + parseInt(yearPrefix, 10);
-  } else {
-    fullYear = 2000 + parseInt(yearPrefix, 10);
-  }
-
-  // 비현실적인 과거 날짜 (1900년 이전)
   if (fullYear < 1900) {
     return false;
   }
 
-  // 달력 기준 존재하지 않는 날짜 체크
+  // 윤년 및 월별 일수 체크
   const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-  // 윤년 체크
-  const isLeapYear = (fullYear % 4 === 0 && fullYear % 100 !== 0) || (fullYear % 400 === 0);
+  const isLeapYear = (fullYear % 4 === 0 && fullYear % 100 !== 0) || fullYear % 400 === 0;
   if (isLeapYear) {
     daysInMonth[1] = 29;
   }
@@ -73,16 +61,29 @@ const validateBirthday = (value: string): boolean => {
     return false;
   }
 
-  // 오늘 기준으로 미래 날짜 입력 체크
+  // 미래 날짜 체크
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const inputDate = new Date(fullYear, month - 1, day);
   inputDate.setHours(0, 0, 0, 0);
-  if (inputDate > today) {
-    return false;
-  }
 
-  return true;
+  return inputDate <= today;
+};
+
+// 7자리 입력값에서 생년월일(YYYY-MM-DD)과 성별(male/female)을 파싱
+const parseBirthInfo = (value: string): { birthDate: string; gender: string } => {
+  const yearPrefix = value.slice(0, 2);
+  const month = value.slice(2, 4);
+  const day = value.slice(4, 6);
+  const genderDigit = parseInt(value[6], 10);
+
+  const fullYear = calculateBirthYear(yearPrefix, genderDigit);
+  const gender = getGenderFromDigit(genderDigit);
+
+  return {
+    birthDate: `${fullYear}-${month}-${day}`,
+    gender,
+  };
 };
 
 export const BirthdayScreen = () => {
@@ -90,7 +91,7 @@ export const BirthdayScreen = () => {
   const inputRef = useRef<TextInput>(null);
   const navigation =
     useNavigation<
-      StackNavigationProp<StackNavParamList, Routes.ONBOARDING_BIRTHDAY>
+      StackNavigationProp<StackNavParamList, typeof Routes.ONBOARDING_BIRTHDAY>
     >();
   const isEmpty = birthday.length === 0;
   const isValidLength = birthday.length === 7;
@@ -106,8 +107,19 @@ export const BirthdayScreen = () => {
     setBirthday(text);
   };
 
+  const handleSkip = async () => {
+    await signupStorage.setBirthInfo(null, null);
+    navigation.navigate(Routes.ONBOARDING_REMINDER);
+  };
+
+  const handleNext = async () => {
+    const { birthDate, gender } = parseBirthInfo(birthday);
+    await signupStorage.setBirthInfo(birthDate, gender);
+    navigation.navigate(Routes.ONBOARDING_REMINDER);
+  };
+
   const SkipButton = (
-    <Pressable onPress={() => console.log('건너뛰기')}>
+    <Pressable onPress={handleSkip}>
       <Typo.Body variant="body4" color={palette.gray400}>
         건너뛰기
       </Typo.Body>
@@ -202,9 +214,7 @@ export const BirthdayScreen = () => {
 
         <BottomActionButton
           title="다음"
-          onPress={() => {
-            navigation.navigate(Routes.ONBOARDING_REMINDER);
-          }}
+          onPress={handleNext}
           isDisabled={isDisabled}
           containerStyle={styles.bottomButton}
           buttonStyle={styles.bottomButtonInner}

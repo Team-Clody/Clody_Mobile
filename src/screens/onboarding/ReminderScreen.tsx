@@ -12,6 +12,10 @@ import {
 } from '../../shared/components';
 import { palette } from '../../shared/theme/palette';
 import { Routes, StackNavParamList } from '../../navigation/route';
+import { AuthAPI } from '../../api/authAPI';
+import { AlarmAPI } from '../../api/alarmAPI';
+import { tokenStorage } from '../../storage/tokenStorage';
+import { signupStorage } from '../../storage/signupStorage';
 
 const formatTimeLabel = (
   meridiem: '오전' | '오후',
@@ -19,12 +23,23 @@ const formatTimeLabel = (
   minute: number
 ) => `${meridiem} ${hour}시 ${String(minute).padStart(2, '0')}분`;
 
+const formatTime24h = (value: TimePickerValue): string => {
+  let hour24 = value.hour;
+  if (value.meridiem === '오후' && value.hour !== 12) {
+    hour24 = value.hour + 12;
+  } else if (value.meridiem === '오전' && value.hour === 12) {
+    hour24 = 0;
+  }
+  return `${String(hour24).padStart(2, '0')}:${String(value.minute).padStart(2, '0')}`;
+};
+
 export const ReminderScreen = () => {
   const navigation =
     useNavigation<
       StackNavigationProp<StackNavParamList, typeof Routes.ONBOARDING_REMINDER>
     >();
   const [sheetVisible, setSheetVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [timeValue, setTimeValue] = useState<TimePickerValue>({
     meridiem: '오후',
     hour: 9,
@@ -36,12 +51,69 @@ export const ReminderScreen = () => {
     [timeValue]
   );
 
+  const fcmToken =
+    'fE95HlthQduywPbyucNu6B:APA91bFw7lZzzNI0Mzh3vK9GQfIW0yCm9DVO8r8X8hJIiGdoadOVLjTZb0m1VRNJgOHLlOK5uB1J2KNdJ-LQOdd6yHeWCigWlhCtQmh-jRAKiUJA7HoLpbA';
+
+  const handleSignupAndAlarm = async (alarmTime: string | null) => {
+    const signupData = await signupStorage.getSignupData();
+
+    if (!signupData.platform || !signupData.platformToken) {
+      console.log('[Signup] 회원가입 실패: platform 또는 platformToken이 없습니다.');
+      return;
+    }
+
+    setIsLoading(true);
+
+    const signupRequestBody = {
+      platform: signupData.platform,
+      email: signupData.email,
+      name: signupData.name,
+      fcmToken,
+      gender: signupData.gender || undefined,
+      birthDate: signupData.birthDate || undefined,
+    };
+
+    console.log('[Signup] 회원가입 요청:');
+    console.log('[Signup] - platformToken:', signupData.platformToken);
+    console.log('[Signup] - body:', JSON.stringify(signupRequestBody, null, 2));
+
+    try {
+      const signupResponse = await AuthAPI.postSignup(signupData.platformToken, signupRequestBody);
+
+      await tokenStorage.saveTokens(signupResponse.accessToken, signupResponse.refreshToken);
+
+      await AlarmAPI.postAlarm({
+        isDiaryAlarm: alarmTime !== null,
+        isReplyAlarm: false,
+        isDraftAlarm: false,
+        fcmToken,
+        time: alarmTime,
+      });
+
+      await signupStorage.clear();
+
+      navigation.navigate(Routes.MAIN_TAB);
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSkip = () => {
+    handleSignupAndAlarm(null);
+  };
+
+  const handleNext = () => {
+    const time = formatTime24h(timeValue);
+    handleSignupAndAlarm(time);
+  };
+
   return (
     <SectionPage
       header={{
         prefix: true,
         suffix: (
-          <Pressable onPress={() => navigation.navigate(Routes.MAIN_TAB)}>
+          <Pressable onPress={handleSkip} disabled={isLoading}>
             <Typo.Body variant="body2" color="gray400">
               건너뛰기
             </Typo.Body>
@@ -79,7 +151,8 @@ export const ReminderScreen = () => {
 
         <BottomActionButton
           title="다음"
-          onPress={() => navigation.navigate(Routes.MAIN_TAB)}
+          onPress={handleNext}
+          isDisabled={isLoading}
           containerStyle={styles.bottomButton}
           buttonStyle={styles.bottomButtonInner}
           buttonStyleOnKeyboard={styles.bottomButtonInnerKeyboard}

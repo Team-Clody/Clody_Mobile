@@ -1,11 +1,16 @@
 import appleAuth from '@invertase/react-native-apple-authentication';
 
+export interface AppleLoginResult {
+  identityToken: string;
+  email: string;
+}
+
 /**
- * 애플 로그인을 수행하고 identityToken을 반환합니다.
- * @returns 애플 identityToken
+ * 애플 로그인을 수행하고 identityToken과 이메일을 반환합니다.
+ * @returns 애플 identityToken과 email
  * @throws 애플 로그인 실패 시 에러
  */
-export const appleLogin = async (): Promise<string> => {
+export const appleLogin = async (): Promise<AppleLoginResult> => {
   try {
     const appleAuthRequestResponse = await appleAuth.performRequest({
       requestedOperation: appleAuth.Operation.LOGIN,
@@ -17,14 +22,14 @@ export const appleLogin = async (): Promise<string> => {
     );
 
     if (credentialState === appleAuth.State.AUTHORIZED) {
-      const { identityToken } = appleAuthRequestResponse;
+      const { identityToken, email } = appleAuthRequestResponse;
 
       if (!identityToken) {
         throw new Error('애플 identityToken 찾을 수 없습니다.');
       }
 
-      console.log('[Auth] Apple login success', identityToken);
-      return identityToken;
+      console.log('[Auth] Apple login success', identityToken, email);
+      return { identityToken, email: email || '' };
     }
 
     throw new Error('애플 인증이 승인되지 않았습니다.');

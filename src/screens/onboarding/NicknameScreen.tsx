@@ -15,6 +15,7 @@ import { Button } from '../../shared/components/Button';
 import { Icon } from '../../shared/components/Icon';
 import { palette } from '../../shared/theme/palette';
 import { Routes, StackNavParamList } from '../../navigation/route';
+import { signupStorage } from '../../storage/signupStorage';
 
 type NicknameScreenNavigationProp = StackNavigationProp<
   StackNavParamList,
@@ -118,7 +119,8 @@ export const NicknameScreen = () => {
         <View style={[styles.footer, isKeyboardVisible && styles.footerKeyboardVisible]}>
           <Button
             title="다음"
-            onPress={() => {
+            onPress={async () => {
+              await signupStorage.setName(nickname);
               navigation.navigate(Routes.ONBOARDING_BIRTHDAY);
             }}
             isDisabled={isDisabled}
