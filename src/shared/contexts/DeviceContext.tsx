@@ -8,6 +8,7 @@ import { getDeviceLocale, getLanguageCode } from '../utils/locale';
 import { getPlatform } from '../utils/platform';
 import { getDeviceTimeZone } from '../utils/timezone';
 import { Platform } from 'react-native';
+import { version } from '../../../package.json';
 
 /**
  * 기기 정보 컨텍스트 타입
@@ -27,6 +28,10 @@ export interface DeviceContextValue {
   isKorean: boolean;
   /** 기기 타임존 (예: 'Asia/Seoul', 'America/New_York') */
   timeZone: string;
+  /** 한국어 사용 언어인지 여부 */
+  isKoreanLanguage: boolean;
+  /** 앱 버전 (예: '0.0.1') */
+  appVersion: string;
 }
 
 const DeviceContext = createContext<DeviceContextValue | undefined>(undefined);
@@ -50,7 +55,10 @@ export const DeviceProvider: React.FC<DeviceProviderProps> = ({ children }) => {
     const languageCode = getLanguageCode();
     const availableLoginButtons = getAvailableLoginButtons();
     const isKorean = region === 'domestic';
+    const isKoreanLanguage = languageCode === 'ko';
+
     const timeZone = getDeviceTimeZone();
+    const appVersion = version;
 
     return {
       region,
@@ -59,7 +67,9 @@ export const DeviceProvider: React.FC<DeviceProviderProps> = ({ children }) => {
       languageCode,
       availableLoginButtons,
       isKorean,
+      isKoreanLanguage,
       timeZone,
+      appVersion,
     };
   }, []);
 

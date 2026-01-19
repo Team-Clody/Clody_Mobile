@@ -1,25 +1,51 @@
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, TextInput, View, Alert } from 'react-native';
 import { BottomActionButton, SectionPage, Typo } from '../../shared/components';
 import { useState } from 'react';
 import { Icon } from '../../shared/components/Icon';
+import { useMypage } from '../../hooks/myPage/useMypage';
+import { useNavigation } from '@react-navigation/native';
 
 export const EditNicknameScreen = () => {
-  const [nickname, setNickname] = useState('');
+  const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(false);
+  const { patchNickname, myPageInfo } = useMypage();
+  const [nickname, setNickname] = useState(myPageInfo?.name || '');
+
+  const updateNickname = async (nickname: string) => {
+    if (isLoading) return;
+
+    setIsLoading(true);
+    try {
+      await patchNickname({ name: nickname });
+      Alert.alert('성공', '닉네임이 변경되었습니다.', [
+        {
+          text: '확인',
+          onPress: () => navigation.goBack(),
+        },
+      ]);
+    } catch (error) {
+      Alert.alert('오류', '닉네임 변경에 실패했습니다.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <SectionPage
-      header={{ title: 'Edit Nickname', prefix: true }}
-      contentsStyle={{ paddingHorizontal: 14 }}
+      header={{
+        title: 'Edit Nickname',
+        prefix: true,
+        style: { paddingTop: 12 },
+      }}
+      contentsStyle={{ paddingHorizontal: 14, paddingBottom: 24 }}
     >
       <View style={{ flex: 1 }}>
         <HeaderSection nickname={nickname} setNickname={setNickname} />
       </View>
       <BottomActionButton
         title="저장"
-        onPress={() => {
-          console.log('Save button pressed');
-        }}
-        isDisabled={nickname.length === 0}
+        onPress={() => updateNickname(nickname)}
+        isDisabled={nickname.length === 0 || isLoading}
       />
     </SectionPage>
   );
@@ -32,6 +58,8 @@ const HeaderSection = ({
   nickname: string;
   setNickname: (nickname: string) => void;
 }) => {
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
     <View
       style={{
@@ -40,12 +68,19 @@ const HeaderSection = ({
         alignItems: 'flex-end',
       }}
     >
-      <View style={styles.textInputContainer}>
+      <View
+        style={[
+          styles.textInputContainer,
+          isFocused && { borderColor: '#1B1C20' },
+        ]}
+      >
         <NicknameInput
           style={styles.textInput}
           maxLength={10}
           nickname={nickname}
           setNickname={setNickname}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
         />
         <Pressable onPress={() => setNickname('')}>
           <Icon.IcInputDelete width={18} height={18} />
@@ -63,11 +98,15 @@ const NicknameInput = ({
   maxLength,
   nickname,
   setNickname,
+  onFocus,
+  onBlur,
 }: {
   style: any;
   maxLength: number;
   nickname: string;
   setNickname: (nickname: string) => void;
+  onFocus: () => void;
+  onBlur: () => void;
 }) => {
   return (
     <TextInput
@@ -79,6 +118,8 @@ const NicknameInput = ({
       style={style}
       maxLength={maxLength}
       returnKeyType="default"
+      onFocus={onFocus}
+      onBlur={onBlur}
     />
   );
 };

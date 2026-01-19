@@ -7,18 +7,32 @@ import {
   MyPageStackParamList,
   MyPageRoutes,
 } from '../../navigation/MyPageNavigationStack';
+import { useMypage } from '../../hooks/myPage/useMypage';
 
 type MyPageScreenNavigationProp = StackNavigationProp<MyPageStackParamList>;
 
 export const ProfileAccountScreen = () => {
   const navigation = useNavigation<MyPageScreenNavigationProp>();
+  const { myPageInfo } = useMypage();
   const navigateToEditNickname = () => {
     navigation.navigate(MyPageRoutes.EDIT_NICKNAME);
   };
 
   return (
-    <SectionPage header={{ title: '프로필 및 계정관리', prefix: true }}>
-      <HeaderSection navigateToEditNickname={navigateToEditNickname} />
+    <SectionPage
+      header={{
+        title: '프로필 및 계정관리',
+        prefix: true,
+        style: { paddingTop: 12 },
+      }}
+    >
+      <HeaderSection
+        navigateToEditNickname={navigateToEditNickname}
+        nickname={myPageInfo?.name || ''}
+        birthDate={myPageInfo?.birthDate || ''}
+        email={myPageInfo?.email || ''}
+        gender={myPageInfo?.gender || ''}
+      />
       <View style={{ height: 12, backgroundColor: '#F2F3F6' }} />
       <FooterSection />
     </SectionPage>
@@ -27,8 +41,16 @@ export const ProfileAccountScreen = () => {
 
 const HeaderSection = ({
   navigateToEditNickname,
+  nickname,
+  birthDate,
+  email,
+  gender,
 }: {
   navigateToEditNickname: () => void;
+  nickname: string;
+  birthDate: string;
+  email: string;
+  gender: string;
 }) => {
   return (
     <View style={styles.section}>
@@ -37,7 +59,7 @@ const HeaderSection = ({
         suffix={
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
             <Typo.Body variant="body9" color="#4A4C54">
-              Lody
+              {nickname}
             </Typo.Body>
             <Icon.IcNext width={28} height={28} />
           </View>
@@ -48,7 +70,7 @@ const HeaderSection = ({
         title="이메일"
         suffix={
           <Typo.Body variant="body9" color="#4A4C54">
-            clody@icloud.com
+            {email}
           </Typo.Body>
         }
       />
@@ -56,7 +78,7 @@ const HeaderSection = ({
         title="생년월일"
         suffix={
           <Typo.Body variant="body9" color="#4A4C54">
-            2024.09.07
+            {birthDate}
           </Typo.Body>
         }
       />
@@ -64,7 +86,7 @@ const HeaderSection = ({
         title="성별"
         suffix={
           <Typo.Body variant="body9" color="#4A4C54">
-            남성
+            {gender}
           </Typo.Body>
         }
       />

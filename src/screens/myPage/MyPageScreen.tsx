@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View, Linking } from 'react-native';
 import { SectionPage, Typo } from '../../shared/components';
 import { Icon } from '../../shared/components/Icon';
 import { useNavigation } from '@react-navigation/native';
@@ -7,11 +7,19 @@ import {
   MyPageStackParamList,
   MyPageRoutes,
 } from '../../navigation/MyPageNavigationStack';
+import { useEffect } from 'react';
+import { useMypage } from '../../hooks/myPage/useMypage';
+import { useDevice } from '../../shared/contexts/DeviceContext';
 
 type MyPageScreenNavigationProp = StackNavigationProp<MyPageStackParamList>;
 
 export const MyPageScreen = () => {
   const navigation = useNavigation<MyPageScreenNavigationProp>();
+  const { myPageInfo, fetchMyPageInfo } = useMypage();
+
+  useEffect(() => {
+    fetchMyPageInfo();
+  }, []);
 
   const navigateToProfileAccount = () => {
     navigation.navigate(MyPageRoutes.PROFILE_ACCOUNT);
@@ -27,7 +35,11 @@ export const MyPageScreen = () => {
         <Typo.Head variant="head1" style={{ marginBottom: 6 }}>
           MyPage
         </Typo.Head>
-        <HeaderSection navigateToProfileAccount={navigateToProfileAccount} />
+        <HeaderSection
+          navigateToProfileAccount={navigateToProfileAccount}
+          name={myPageInfo?.name}
+          clover={myPageInfo?.cloverCount}
+        />
         <BodySection navigateToTeamInfo={navigateToTeamInfo} />
         <FooterSection />
       </View>
@@ -37,8 +49,12 @@ export const MyPageScreen = () => {
 
 const HeaderSection = ({
   navigateToProfileAccount,
+  name,
+  clover,
 }: {
   navigateToProfileAccount: () => void;
+  name?: string;
+  clover?: number;
 }) => {
   return (
     <View style={[styles.section, { gap: 12 }]}>
@@ -52,7 +68,7 @@ const HeaderSection = ({
         >
           <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
             <Icon.IcProfile width={42} height={42} />
-            <Typo.Body variant="body1">Lody</Typo.Body>
+            <Typo.Body variant="body1">{name}</Typo.Body>
           </View>
           <Icon.IcNext width={28} height={28} />
         </View>
@@ -69,7 +85,7 @@ const HeaderSection = ({
           <Typo.Body variant="body9">My Clover</Typo.Body>
           <View style={{ flexDirection: 'row', gap: 6, alignItems: 'center' }}>
             <Icon.IcClover width={16} height={16} />
-            <Typo.Body variant="body9">123</Typo.Body>
+            <Typo.Body variant="body9">{clover}</Typo.Body>
           </View>
         </View>
       </Pressable>
@@ -82,28 +98,62 @@ const BodySection = ({
 }: {
   navigateToTeamInfo: () => void;
 }) => {
+  const { isKoreanLanguage } = useDevice();
+
+  const openNotices = () => {
+    const url = isKoreanLanguage
+      ? 'https://www.notion.so/1c7e3fedb3f48029b36cf9d76c5fb6d6?pvs=21'
+      : 'https://tropical-buckthorn-d17.notion.site/Notice-22ae3fedb3f480feb229e7dcc7a23887?source=copy_link';
+    Linking.openURL(url);
+  };
+
+  const openSupportFeedback = () => {
+    const url = isKoreanLanguage
+      ? 'https://docs.google.com/forms/d/e/1FAIpQLSeCS3Z9ctFyqHZH7qkryOEQYQdhvNCMPT6QJ3J2GQw86WId4Q/viewform'
+      : 'https://docs.google.com/forms/d/e/1FAIpQLSe1LJg6tYaWBY2ji3O1smCH1ux5ItbVyGVUQko-Mg609Xt9eg/viewform';
+    Linking.openURL(url);
+  };
+
+  const openFAQ = async () => {
+    console.log(isKoreanLanguage);
+    const url = isKoreanLanguage
+      ? 'https://www.notion.so/FAQ-2c6e3fedb3f4801fb61ed12303b708ac?source=copy_link'
+      : 'https://www.notion.so/2c6e3fedb3f480f1b758f7e520eb1d2a?source=copy_link';
+    await Linking.openURL(url);
+  };
+
   return (
     <View style={styles.section}>
       <MyPageCell title="Notification" onPress={() => console.log('test')} />
-      <MyPageCell title="Notices" onPress={() => console.log('test')} />
-      <MyPageCell
-        title="Support/Feedback"
-        onPress={() => console.log('test')}
-      />
-      <MyPageCell title="FAQ" onPress={() => console.log('test')} />
+      <MyPageCell title="Notices" onPress={openNotices} />
+      <MyPageCell title="Support/Feedback" onPress={openSupportFeedback} />
+      <MyPageCell title="FAQ" onPress={openFAQ} />
       <MyPageCell title="Team Clody" onPress={navigateToTeamInfo} />
     </View>
   );
 };
 
 const FooterSection = () => {
+  const { isKoreanLanguage, appVersion } = useDevice();
+
+  const openTermsOfService = () => {
+    const url = isKoreanLanguage
+      ? 'https://www.notion.so/1c7e3fedb3f4802c8db1f3056c03973f?pvs=21'
+      : 'https://tropical-buckthorn-d17.notion.site/Clody-Terms-of-Use-22ae3fedb3f48092ace1fba817df8605?source=copy_link';
+    Linking.openURL(url);
+  };
+
+  const openPrivacyPolicy = () => {
+    const url = isKoreanLanguage
+      ? 'https://www.notion.so/1c7e3fedb3f48024a334c8116255b378?pvs=21'
+      : 'https://tropical-buckthorn-d17.notion.site/Clody-Privacy-Policy-22ae3fedb3f4808ab8dcc8ba60ad6cd6?source=copy_link';
+    Linking.openURL(url);
+  };
+
   return (
     <View style={styles.section}>
-      <MyPageCell
-        title="Terms of Service"
-        onPress={() => console.log('test')}
-      />
-      <MyPageCell title="Privacy Policy" onPress={() => console.log('test')} />
+      <MyPageCell title="Terms of Service" onPress={openTermsOfService} />
+      <MyPageCell title="Privacy Policy" onPress={openPrivacyPolicy} />
       <Pressable onPress={() => console.log('test')}>
         <View
           style={{
@@ -114,7 +164,7 @@ const FooterSection = () => {
         >
           <Typo.Body variant="body9">Version</Typo.Body>
           <Typo.Body variant="body4" color="#A7A9B2">
-            Latest Version
+            {appVersion}
           </Typo.Body>
         </View>
       </Pressable>

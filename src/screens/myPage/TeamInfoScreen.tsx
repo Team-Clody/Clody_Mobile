@@ -1,6 +1,7 @@
-import { StyleSheet, View } from 'react-native';
+import { Linking, Pressable, StyleSheet, View } from 'react-native';
 import { SectionPage, Typo } from '../../shared/components';
 import { Icon } from '../../shared/components/Icon';
+import { useDevice } from '../../shared/contexts/DeviceContext';
 
 export const TeamInfoScreen = () => {
   return (
@@ -11,28 +12,48 @@ export const TeamInfoScreen = () => {
 };
 
 const HeaderSection = () => {
+  const { isKoreanLanguage } = useDevice();
+
+  const openInstagram = () => {
+    const url = isKoreanLanguage
+      ? 'https://www.instagram.com/clody_official_/?igsh=MXZzc3RjbHVyaHh0dg%3D%3D&utm_source=qr#'
+      : 'https://www.instagram.com/carewithclody_?igsh=MWF0Nm40enBjaDJ3YQ==';
+    Linking.openURL(url);
+  };
+
+  const openSupport = () => {
+    const url = 'https://buymeacoffee.com/clody';
+    Linking.openURL(url);
+  };
+
   return (
     <View style={styles.section}>
       <TeamInfoCell
         title="인스타그램"
         suffix={
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+          <Pressable
+            onPress={openInstagram}
+            style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}
+          >
             <Typo.Body variant="body9" color="#4A4C54">
               @clody_official_
             </Typo.Body>
             <Icon.IcNext width={28} height={28} />
-          </View>
+          </Pressable>
         }
       />
       <TeamInfoCell
         title="후원하기"
         suffix={
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+          <Pressable
+            onPress={openSupport}
+            style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}
+          >
             <Typo.Body variant="body9" color="#4A4C54">
               커피 사주기
             </Typo.Body>
             <Icon.IcNext width={28} height={28} />
-          </View>
+          </Pressable>
         }
       />
     </View>
