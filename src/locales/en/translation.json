@@ -19,5 +19,40 @@
       "apple": "Sign up with Apple",
       "google": "Sign up with Google"
     }
+  },
+  "myPage": {
+    "myPageScreen": {
+      "title": "Mypage",
+      "myClover": "My Clover",
+      "notification": "Notification",
+      "notices": "Notices",
+      "Support/Feedback": "Support/Feedback",
+      "FAQ": "FAQ",
+      "Team Clody": "Team Clody",
+      "Terms of Service": "Terms of Service",
+      "Privacy Policy": "Privacy Policy",
+      "Version": "Version"
+    },
+    "profileAccountScreen": {
+      "title": "Profile and Account",
+      "nickname": "Nickname",
+      "email": "Email",
+      "birthdate": "Birthdate",
+      "gender": "Gender",
+      "male": "Male",
+      "female": "Female",
+      "logout": "Logout",
+      "withdraw": "Withdraw"
+    },
+    "editNicknameScreen": {
+      "title": "Edit Nickname",
+      "save": "Save"
+    },
+    "teamInfoScreen": {
+      "title": "Team Clody",
+      "Instagram": "Instagram",
+      "Support Clody": "Support Clody",
+      "Buy me a coffee": "Buy me a coffee"
+    }
   }
 }

@@ -19,5 +19,40 @@
       "apple": "Apple로 로그인",
       "google": "구글로 로그인"
     }
+  },
+  "myPage": {
+    "myPageScreen": {
+      "title": "마이페이지",
+      "myClover": "내 클로버",
+      "notification": "알림 설정",
+      "notices": "공지사항",
+      "Support/Feedback": "의견 남기기",
+      "FAQ": "자주 묻는 질문",
+      "Team Clody": "클로디팀",
+      "Terms of Service": "서비스 이용약관",
+      "Privacy Policy": "개인정보 처리방침",
+      "Version": "앱 버전"
+    },
+    "profileAccountScreen": {
+      "title": "프로필 및 계정관리",
+      "nickname": "닉네임",
+      "email": "이메일",
+      "birthdate": "생년월일",
+      "gender": "성별",
+      "male": "남성",
+      "female": "여성",
+      "logout": "로그아웃",
+      "withdraw": "탈퇴하기"
+    },
+    "editNicknameScreen": {
+      "title": "닉네임 변경",
+      "save": "저장"
+    },
+    "teamInfoScreen": {
+      "title": "클로디팀",
+      "Instagram": "인스타그램",
+      "Support Clody": "후원하기",
+      "Buy me a coffee": "커피 사주기"
+    }
   }
 }

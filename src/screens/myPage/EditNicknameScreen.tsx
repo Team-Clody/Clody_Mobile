@@ -1,12 +1,12 @@
-import { Pressable, StyleSheet, TextInput, View, Alert } from 'react-native';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { BottomActionButton, SectionPage, Typo } from '../../shared/components';
 import { useState } from 'react';
 import { Icon } from '../../shared/components/Icon';
 import { useMypage } from '../../hooks/myPage/useMypage';
-import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 export const EditNicknameScreen = () => {
-  const navigation = useNavigation();
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const { patchNickname, myPageInfo } = useMypage();
   const [nickname, setNickname] = useState(myPageInfo?.name || '');
@@ -17,14 +17,6 @@ export const EditNicknameScreen = () => {
     setIsLoading(true);
     try {
       await patchNickname({ name: nickname });
-      Alert.alert('성공', '닉네임이 변경되었습니다.', [
-        {
-          text: '확인',
-          onPress: () => navigation.goBack(),
-        },
-      ]);
-    } catch (error) {
-      Alert.alert('오류', '닉네임 변경에 실패했습니다.');
     } finally {
       setIsLoading(false);
     }
@@ -33,7 +25,7 @@ export const EditNicknameScreen = () => {
   return (
     <SectionPage
       header={{
-        title: 'Edit Nickname',
+        title: t('myPage.editNicknameScreen.title'),
         prefix: true,
         style: { paddingTop: 12 },
       }}
@@ -43,7 +35,7 @@ export const EditNicknameScreen = () => {
         <HeaderSection nickname={nickname} setNickname={setNickname} />
       </View>
       <BottomActionButton
-        title="저장"
+        title={t('myPage.editNicknameScreen.save')}
         onPress={() => updateNickname(nickname)}
         isDisabled={nickname.length === 0 || isLoading}
       />
