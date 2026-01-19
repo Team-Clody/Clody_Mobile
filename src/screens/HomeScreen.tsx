@@ -3,10 +3,12 @@ import { Text, View, StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import RNRestart from 'react-native-restart';
 
+import { AuthAPI } from '../api/authAPI';
 import { MyPageAPI } from '../api/myPageAPI';
 import { GetAccountResponseDTO } from '../api/dto/myPage/response/getAccountResponseDTO';
 import { TermsBottomSheet } from '../shared/components/TermsBottomSheet';
 import { termsStorage } from '../storage/termsStorage';
+import { tokenStorage } from '../storage/tokenStorage';
 
 export const HomeScreen = () => {
   const [account, setAccount] = useState<GetAccountResponseDTO | null>(null);
@@ -14,25 +16,50 @@ export const HomeScreen = () => {
 
   useEffect(() => {
     async function checkTermsAndFetchInfo() {
-      // TODO: 테스트 후 아래 줄 삭제
-      await termsStorage.clear();
+      try {
+        const accessToken = await tokenStorage.getAccessToken();
+        console.log('='.repeat(50));
+        console.log('[HomeScreen] 현재 사용 중인 Bearer Token:');
+        console.log('Bearer', accessToken);
+        console.log('='.repeat(50));
 
-      const hasAgreed = await termsStorage.hasAgreed();
-      console.log('[HomeScreen] hasAgreed:', hasAgreed);
-      if (!hasAgreed) {
-        setShowTerms(true);
+        const hasLocalAgreement = await termsStorage.hasLocalAgreement();
+
+        if (!hasLocalAgreement) {
+          console.log('[HomeScreen] 로컬에 약관 동의 정보가 없습니다. 바텀시트 표시');
+          setShowTerms(true);
+          return;
+        }
+
+        console.log('[HomeScreen] 로컬에 약관 동의 정보가 있습니다.');
+
+        const data = await MyPageAPI.getAccount();
+        setAccount(data);
+      } catch (error) {
+        console.error('[HomeScreen] 초기화 중 오류 발생:', error);
       }
-
-      const data = await MyPageAPI.getAccount();
-      setAccount(data);
     }
 
     checkTermsAndFetchInfo();
   }, []);
 
   const handleAgreeTerms = async () => {
-    await termsStorage.setAgreed();
-    setShowTerms(false);
+    try {
+      await AuthAPI.postAgreement({
+        isServiceRuleAgreed: true,
+        isPrivacyPolicyAgreed: true,
+      });
+
+      await termsStorage.setAllAgreed();
+      setShowTerms(false);
+
+      console.log('[HomeScreen] 약관 동의 완료');
+
+      const data = await MyPageAPI.getAccount();
+      setAccount(data);
+    } catch (error) {
+      console.error('[HomeScreen] 약관 동의 중 오류 발생:', error);
+    }
   };
 
   const handleCloseTerms = () => {

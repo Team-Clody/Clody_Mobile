@@ -6,6 +6,7 @@ import { PostGoogleSigninRequestDTO } from './dto/request/postGoogleSigninReques
 import { PostSignupRequestDTO } from './dto/request/postSignupRequestDTO';
 import { DeleteUserResponseDTO } from './dto/response/deleteUserResponseDTO';
 import { ReissueTokenResponseDTO } from './dto/response/reissueTokenResponseDTO';
+import { PostAgreementRequestDTO } from './dto/auth/request/postAgreementRequestDTO';
 
 export const AuthAPI = {
   postSignin: async (
@@ -68,5 +69,14 @@ export const AuthAPI = {
       undefined,
     );
     return resp.data.data;
+  },
+
+  postAgreement: async (requestDTO: PostAgreementRequestDTO) => {
+    await createAPIRequest(
+      'post',
+      '/api/v2/auth/agreement',
+      HeaderType.ACCESS_TOKEN,
+      requestDTO,
+    );
   },
 };
