@@ -9,7 +9,7 @@ export const MyPageAPI = {
   getAccount: async (headerType: HeaderType = HeaderType.ACCESS_TOKEN) => {
     const resp = await createAPIRequest<GetAccountResponseDTO>(
       'get',
-      '/v2/user/info',
+      '/api/v2/user/info',
       headerType,
     );
     return resp.data.data;
@@ -17,7 +17,7 @@ export const MyPageAPI = {
   getAlarmSet: async (headerType: HeaderType = HeaderType.ACCESS_TOKEN) => {
     const resp = await createAPIRequest<GetAlarmResponseDTO>(
       'get',
-      '/v1/alarm',
+      '/api/v1/alarm',
       headerType,
     );
     return resp.data.data;
@@ -28,7 +28,7 @@ export const MyPageAPI = {
   ) => {
     const resp = await createAPIRequest<GetAlarmResponseDTO>(
       'post',
-      '/v1/alarm',
+      '/api/v1/alarm',
       headerType,
       { data: requestDTO },
     );
@@ -40,7 +40,7 @@ export const MyPageAPI = {
   ) => {
     const resp = await createAPIRequest<PatchNicknameResponseDTO>(
       'patch',
-      '/v1/user/nickname',
+      '/api/v1/user/nickname',
       headerType,
       requestDTO,
     );
