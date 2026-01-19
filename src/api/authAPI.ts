@@ -4,7 +4,6 @@ import { PostSigninResponseDTO } from './dto/response/postSigninReponseDTO';
 import { PostSigninRequestDTO } from './dto/request/postSigninRequestDTO';
 import { PostGoogleSigninRequestDTO } from './dto/request/postGoogleSigninRequestDTO';
 import { PostSignupRequestDTO } from './dto/request/postSignupRequestDTO';
-import { PostAlarmRequestDTO } from './dto/request/postAlarmRequestDTO';
 
 export const AuthAPI = {
   postSignin: async (
@@ -45,15 +44,5 @@ export const AuthAPI = {
       platformToken,
     );
     return resp.data.data;
-  },
-
-  postAlarm: async (requestDTO: PostAlarmRequestDTO) => {
-    const resp = await createAPIRequest<void>(
-      'post',
-      '/api/v1/alarm',
-      HeaderType.ACCESS_TOKEN,
-      requestDTO,
-    );
-    return resp.data;
   },
 };
