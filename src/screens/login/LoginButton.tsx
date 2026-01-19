@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { Typo } from '../../shared/components/Typo';
+import { Typo } from '../../shared/components';
 
 type LoginButtonProps = {
   backgroundColor: string;

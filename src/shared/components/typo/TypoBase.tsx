@@ -4,8 +4,8 @@ import {
   type TextProps as RNTextProps,
   TextPropsIOS,
 } from 'react-native';
-import { typography } from '../theme/typography';
-import { palette } from '../theme/palette';
+import { typography } from '../../theme/typography';
+import { palette } from '../../theme/palette';
 
 type TypographyVariant = keyof typeof typography;
 
