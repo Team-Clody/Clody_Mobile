@@ -9,4 +9,5 @@ export type { HeaderProps } from './Header';
 export { BottomActionButton } from './BottomActionButton';
 export { TimePickerBottomSheet } from './TimePickerBottomSheet';
 export type { TimePickerValue } from './TimePickerBottomSheet';
+export { TermsBottomSheet } from './TermsBottomSheet';
 export { Icon } from './Icon';
