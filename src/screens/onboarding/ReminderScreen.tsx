@@ -14,6 +14,7 @@ import { palette } from '../../shared/theme/palette';
 import { Routes, StackNavParamList } from '../../navigation/route';
 import { useSignup } from '../../shared/contexts/SignupContext';
 import { AuthAPI } from '../../api/authAPI';
+import { AlarmAPI } from '../../api/alarmAPI';
 import { tokenStorage } from '../../storage/tokenStorage';
 
 const formatTimeLabel = (
@@ -80,7 +81,7 @@ export const ReminderScreen = () => {
 
       await tokenStorage.saveTokens(signupResponse.accessToken, signupResponse.refreshToken);
 
-      await AuthAPI.postAlarm({
+      await AlarmAPI.postAlarm({
         isDiaryAlarm: alarmTime !== null,
         isReplyAlarm: false,
         isDraftAlarm: false,
