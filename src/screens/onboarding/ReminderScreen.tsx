@@ -12,10 +12,10 @@ import {
 } from '../../shared/components';
 import { palette } from '../../shared/theme/palette';
 import { Routes, StackNavParamList } from '../../navigation/route';
-import { useSignup } from '../../shared/contexts/SignupContext';
 import { AuthAPI } from '../../api/authAPI';
 import { AlarmAPI } from '../../api/alarmAPI';
 import { tokenStorage } from '../../storage/tokenStorage';
+import { signupStorage } from '../../storage/signupStorage';
 
 const formatTimeLabel = (
   meridiem: '오전' | '오후',
@@ -38,7 +38,6 @@ export const ReminderScreen = () => {
     useNavigation<
       StackNavigationProp<StackNavParamList, typeof Routes.ONBOARDING_REMINDER>
     >();
-  const { signupData, resetSignupData } = useSignup();
   const [sheetVisible, setSheetVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [timeValue, setTimeValue] = useState<TimePickerValue>({
@@ -56,6 +55,8 @@ export const ReminderScreen = () => {
     'fE95HlthQduywPbyucNu6B:APA91bFw7lZzzNI0Mzh3vK9GQfIW0yCm9DVO8r8X8hJIiGdoadOVLjTZb0m1VRNJgOHLlOK5uB1J2KNdJ-LQOdd6yHeWCigWlhCtQmh-jRAKiUJA7HoLpbA';
 
   const handleSignupAndAlarm = async (alarmTime: string | null) => {
+    const signupData = await signupStorage.getSignupData();
+
     if (!signupData.platform || !signupData.platformToken) {
       console.log('[Signup] 회원가입 실패: platform 또는 platformToken이 없습니다.');
       return;
@@ -89,7 +90,7 @@ export const ReminderScreen = () => {
         time: alarmTime,
       });
 
-      resetSignupData();
+      await signupStorage.clear();
 
       navigation.navigate(Routes.MAIN_TAB);
     } catch (error) {
