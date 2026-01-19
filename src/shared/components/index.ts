@@ -10,6 +10,7 @@ export { BottomActionButton } from './BottomActionButton';
 export { Button } from './Button';
 export { TimePickerBottomSheet } from './TimePickerBottomSheet';
 export type { TimePickerValue } from './TimePickerBottomSheet';
+export { TermsBottomSheet } from './TermsBottomSheet';
 export { Icon } from './Icon';
 export { ModalContainer } from './modal/ModalContainer';
 export { LogoutModal } from './modal/LogoutModal';
