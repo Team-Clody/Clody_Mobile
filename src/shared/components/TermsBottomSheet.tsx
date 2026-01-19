@@ -18,9 +18,8 @@ interface TermsBottomSheetProps {
   onClose: () => void;
 }
 
-// TODO: 실제 약관 링크로 교체
-const TERMS_OF_SERVICE_URL = 'https://www.notion.so/1c7e3fedb3f4802c8db1f3056c03973f?source=copy_link'; // [필수] 서비스 이용 약관 링크
-const PRIVACY_POLICY_URL = 'https://www.notion.so/1c7e3fedb3f48024a334c8116255b378?source=copy_link'; // [필수] 개인정보 수집 및 이용 링크
+const TERMS_OF_SERVICE_URL = 'https://www.notion.so/1c7e3fedb3f4802c8db1f3056c03973f?source=copy_link';
+const PRIVACY_POLICY_URL = 'https://www.notion.so/1c7e3fedb3f48024a334c8116255b378?source=copy_link'; 
 
 interface TermsItemProps {
   title: string;
