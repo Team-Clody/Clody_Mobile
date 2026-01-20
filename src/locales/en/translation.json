@@ -38,26 +38,26 @@
     "nickname": {
       "title1": "Nice to meet you!",
       "title2": "What should I call you?",
-      "subtitle": "This nickname will be displayed on your profile",
-      "placeholder": "Enter your nickname",
+      "subtitle": "Nickname shown on your profile",
+      "placeholder": "Please enter your nickname",
       "error": "Only letters and numbers are allowed.",
       "next": "Next"
     },
     "reminder": {
       "skip": "Skip",
-      "title1": "What time should I",
-      "title2": "remind you to journal?",
-      "subtitle": "We'll send you a reminder so you don't forget to write",
+      "title1": "What time would you ",
+      "title2": "like us to remind you to write?",
+      "subtitle": "Clody will remind you to write your gratitude journal.",
       "next": "Next"
     },
     "timePicker": {
-      "title": "Select reminder time",
+      "title": "Change reminder time",
       "am": "AM",
       "pm": "PM",
-      "confirm": "Confirm"
+      "confirm": "Save"
     },
     "terms": {
-      "title": "Agreement required to use Clody",
+      "title": "Your agreement is needed to use Clody",
       "termsOfService": "[Required] Terms of Service",
       "privacyPolicy": "[Required] Privacy Policy",
       "agree": "Agree and Start",
