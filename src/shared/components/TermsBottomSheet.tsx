@@ -12,7 +12,6 @@ import { Button } from './Button';
 import { Typo } from './typo/Typo';
 import { Icon } from './Icon';
 import { palette } from '../theme/palette';
-import { getLanguageCode } from '../utils/locale';
 
 interface TermsBottomSheetProps {
   visible: boolean;
@@ -22,7 +21,8 @@ interface TermsBottomSheetProps {
 
 const TERMS_OF_SERVICE_URL_KO = 'https://www.notion.so/1c7e3fedb3f4802c8db1f3056c03973f?source=copy_link';
 const TERMS_OF_SERVICE_URL_EN = 'https://www.notion.so/Clody-Terms-of-Service-22ae3fedb3f48092ace1fba817df8605?source=copy_link';
-const PRIVACY_POLICY_URL = 'https://www.notion.so/1c7e3fedb3f48024a334c8116255b378?source=copy_link'; 
+const PRIVACY_POLICY_URL_KO = 'https://www.notion.so/1c7e3fedb3f48024a334c8116255b378?source=copy_link';
+const PRIVACY_POLICY_URL_EN = 'https://tropical-buckthorn-d17.notion.site/Clody-Privacy-Policy-22ae3fedb3f4808ab8dcc8ba60ad6cd6'; 
 
 interface TermsItemProps {
   title: string;
@@ -51,11 +51,12 @@ export const TermsBottomSheet = ({
   onAgree,
   onClose,
 }: TermsBottomSheetProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const insets = useSafeAreaInsets();
-  const isKorean = getLanguageCode() === 'ko';
+  const isKorean = i18n.language === 'ko';
 
   const termsOfServiceUrl = isKorean ? TERMS_OF_SERVICE_URL_KO : TERMS_OF_SERVICE_URL_EN;
+  const privacyPolicyUrl = isKorean ? PRIVACY_POLICY_URL_KO : PRIVACY_POLICY_URL_EN;
 
   return (
     <Modal visible={visible} transparent animationType="fade">
@@ -74,7 +75,7 @@ export const TermsBottomSheet = ({
               />
               <TermsItem
                 title={t('onboarding.terms.privacyPolicy')}
-                url={PRIVACY_POLICY_URL}
+                url={privacyPolicyUrl}
               />
             </View>
 

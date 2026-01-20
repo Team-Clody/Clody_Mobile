@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   KeyboardAvoidingView,
+  Platform,
   Pressable,
   StyleSheet,
   TextInput,
@@ -46,7 +47,8 @@ export const NicknameScreen = () => {
     <SectionPage header={{ prefix: true }}>
       <KeyboardAvoidingView
         style={styles.container}
-        behavior="padding"
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
       >
         <View>
           <Typo.Display variant="display1" style={styles.title}>

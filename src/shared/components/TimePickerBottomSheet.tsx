@@ -140,7 +140,7 @@ export const TimePickerBottomSheet = ({
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View style={styles.backdrop}>
-        <Pressable style={StyleSheet.absoluteFill} onPress={onClose} />
+        <Pressable style={StyleSheet.absoluteFill} />
         <View>
           <View
             style={[

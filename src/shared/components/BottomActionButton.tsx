@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import {
+  Animated,
   Keyboard,
+  KeyboardEvent,
   Platform,
   StyleProp,
   StyleSheet,
-  View,
   ViewStyle,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -29,6 +30,7 @@ export const BottomActionButton = ({
 }: BottomActionButtonProps) => {
   const insets = useSafeAreaInsets();
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  const [keyboardHeight] = useState(new Animated.Value(0));
 
   useEffect(() => {
     const showEvent =
@@ -36,21 +38,35 @@ export const BottomActionButton = ({
     const hideEvent =
       Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';
 
-    const showSubscription = Keyboard.addListener(showEvent, () =>
-      setIsKeyboardVisible(true),
-    );
-    const hideSubscription = Keyboard.addListener(hideEvent, () =>
-      setIsKeyboardVisible(false),
-    );
+    const showSubscription = Keyboard.addListener(showEvent, (e: KeyboardEvent) => {
+      setIsKeyboardVisible(true);
+      if (Platform.OS === 'ios') {
+        Animated.timing(keyboardHeight, {
+          toValue: e.endCoordinates.height,
+          duration: e.duration || 250,
+          useNativeDriver: false,
+        }).start();
+      }
+    });
+    const hideSubscription = Keyboard.addListener(hideEvent, (e: KeyboardEvent) => {
+      setIsKeyboardVisible(false);
+      if (Platform.OS === 'ios') {
+        Animated.timing(keyboardHeight, {
+          toValue: 0,
+          duration: e.duration || 250,
+          useNativeDriver: false,
+        }).start();
+      }
+    });
 
     return () => {
       showSubscription.remove();
       hideSubscription.remove();
     };
-  }, []);
+  }, [keyboardHeight]);
 
   return (
-    <View
+    <Animated.View
       style={[
         styles.container,
         !isKeyboardVisible && containerStyle,
@@ -69,7 +85,7 @@ export const BottomActionButton = ({
           isKeyboardVisible && buttonStyleOnKeyboard,
         ]}
       />
-    </View>
+    </Animated.View>
   );
 };
 
