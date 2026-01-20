@@ -16,6 +16,7 @@ import { Icon } from '../../shared/components/Icon';
 import { palette } from '../../shared/theme/palette';
 import { Routes, StackNavParamList } from '../../navigation/route';
 import { signupStorage } from '../../storage/signupStorage';
+import { isKoreanLocale } from '../../shared/utils/locale';
 
 type NicknameScreenNavigationProp = StackNavigationProp<
   StackNavParamList,
@@ -75,7 +76,12 @@ export const NicknameScreen = () => {
           </View>
 
           <View style={styles.inputBlock}>
-            <View style={[styles.textInputContainer, hasError && styles.textInputError]}>
+            <View
+              style={[
+                styles.textInputContainer,
+                hasError && styles.textInputError,
+              ]}
+            >
               <TextInput
                 value={nickname}
                 onChangeText={handleChangeNickname}
@@ -85,9 +91,7 @@ export const NicknameScreen = () => {
                 returnKeyType="default"
               />
               <Pressable
-                style={[
-                  styles.deleteButton,
-                ]}
+                style={[styles.deleteButton]}
                 disabled={isEmpty}
                 onPress={() => {
                   setNickname('');
@@ -98,10 +102,7 @@ export const NicknameScreen = () => {
             </View>
             <View style={styles.captionRow}>
               {hasError && (
-                <Typo.Caption
-                  variant="caption3"
-                  color="#E0565B"
-                >
+                <Typo.Caption variant="caption3" color="#E0565B">
                   닉네임은 한글,영문,숫자만 가능해요.
                 </Typo.Caption>
               )}
@@ -116,15 +117,25 @@ export const NicknameScreen = () => {
           </View>
         </View>
 
-        <View style={[styles.footer, isKeyboardVisible && styles.footerKeyboardVisible]}>
+        <View
+          style={[
+            styles.footer,
+            isKeyboardVisible && styles.footerKeyboardVisible,
+          ]}
+        >
           <Button
             title="다음"
             onPress={async () => {
               await signupStorage.setName(nickname);
-              navigation.navigate(Routes.ONBOARDING_BIRTHDAY);
+              const nextRoute = isKoreanLocale()
+                ? Routes.ONBOARDING_BIRTHDAY
+                : Routes.ONBOARDING_BIRTHDAY_EN;
+              navigation.navigate(nextRoute);
             }}
             isDisabled={isDisabled}
-            containerStyle={isKeyboardVisible ? styles.buttonKeyboardVisible : undefined}
+            containerStyle={
+              isKeyboardVisible ? styles.buttonKeyboardVisible : undefined
+            }
           />
         </View>
       </KeyboardAvoidingView>
