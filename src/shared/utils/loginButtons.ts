@@ -25,7 +25,7 @@ export const getAvailableLoginButtons = (): LoginButtonType[] => {
 
   // iOS 국외: 애플
   if (platform === 'ios' && region === 'international') {
-    return ['apple'];
+    return ['apple', 'kakao'];
   }
 
   // Android 국내: 구글 + 카카오
@@ -35,7 +35,7 @@ export const getAvailableLoginButtons = (): LoginButtonType[] => {
 
   // Android 국외: 구글
   if (platform === 'android' && region === 'international') {
-    return ['google'];
+    return ['google', 'kakao'];
   }
 
   return [];

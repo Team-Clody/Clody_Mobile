@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   },
 
   pagerView: {
-    marginTop: 100,
+    marginTop: 150,
     height: 400,
   },
 
