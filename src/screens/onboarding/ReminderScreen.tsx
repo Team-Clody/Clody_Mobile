@@ -118,33 +118,27 @@ export const ReminderScreen = () => {
     handleSignupAndAlarm(time);
   };
 
+  const SkipButton = (
+    <Pressable onPress={handleSkip} disabled={isLoading}>
+      <Typo.Body
+        variant="body4"
+        color={palette.gray400}
+      >
+        {t('onboarding.reminder.skip')}
+      </Typo.Body>
+    </Pressable>
+  );
+
   return (
-    <SectionPage
-      header={{
-        prefix: true,
-        suffix: (
-          <Pressable onPress={handleSkip} disabled={isLoading}>
-            <Typo.Body variant="body2" color="gray400">
-              {t('onboarding.reminder.skip')}
-            </Typo.Body>
-          </Pressable>
-        ),
-      }}
-      contentsStyle={styles.contents}
-    >
+    <SectionPage header={{ prefix: true, suffix: SkipButton }}>
       <View style={styles.container}>
         <View>
-          <View style={styles.textBlock}>
-            <Typo.Head variant="head1" style={styles.title}>
-              {t('onboarding.reminder.title1')}
-            </Typo.Head>
-            <Typo.Head variant="head1" style={styles.title}>
-              {t('onboarding.reminder.title2')}
-            </Typo.Head>
-            <Typo.Caption variant="caption2" color="gray400">
-              {t('onboarding.reminder.subtitle')}
-            </Typo.Caption>
-          </View>
+          <Typo.Display variant="display1" style={styles.title}>
+            {t('onboarding.reminder.title')}
+          </Typo.Display>
+          <Typo.Caption variant="caption2" color={palette.gray500} style={styles.subtitle}>
+            {t('onboarding.reminder.subtitle')}
+          </Typo.Caption>
 
           <View style={styles.inputBlock}>
             <Pressable
@@ -165,7 +159,6 @@ export const ReminderScreen = () => {
           isDisabled={isLoading}
           containerStyle={styles.bottomButton}
           buttonStyle={styles.bottomButtonInner}
-          buttonStyleOnKeyboard={styles.bottomButtonInnerKeyboard}
         />
       </View>
 
@@ -183,22 +176,22 @@ export const ReminderScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  contents: {},
   container: {
     flex: 1,
     justifyContent: 'space-between',
   },
-  textBlock: {
-    paddingTop: 12,
-    paddingHorizontal: 16,
-  },
   title: {
-    marginBottom: 4,
+    marginTop: 16,
+    paddingHorizontal: 14,
     color: palette.gray1000,
+  },
+  subtitle: {
+    marginTop: 8,
+    paddingHorizontal: 14,
   },
   inputBlock: {
     marginTop: 40,
-    paddingHorizontal: 16,
+    paddingHorizontal: 14,
   },
   timeField: {
     height: 46,
@@ -211,12 +204,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   bottomButton: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 14,
   },
   bottomButtonInner: {
     borderRadius: 6,
-  },
-  bottomButtonInnerKeyboard: {
-    borderRadius: 0,
   },
 });

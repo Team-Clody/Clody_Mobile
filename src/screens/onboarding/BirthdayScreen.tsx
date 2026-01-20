@@ -1,18 +1,18 @@
 import React, { useRef, useState } from 'react';
 import {
   KeyboardAvoidingView,
-  Platform,
   Pressable,
   StyleSheet,
   TextInput,
   View,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useTranslation } from 'react-i18next';
 import { BottomActionButton, SectionPage, Typo } from '../../shared/components';
 import { Icon } from '../../shared/components/Icon';
 import { palette } from '../../shared/theme/palette';
 import { Routes, StackNavParamList } from '../../navigation/route';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { signupStorage } from '../../storage/signupStorage';
 
 // 주민등록번호 7번째 자리로 출생 연도 계산
@@ -87,6 +87,7 @@ const parseBirthInfo = (value: string): { birthDate: string; gender: string } =>
 };
 
 export const BirthdayScreen = () => {
+  const { t } = useTranslation();
   const [birthday, setBirthday] = useState('');
   const inputRef = useRef<TextInput>(null);
   const navigation =
@@ -121,29 +122,24 @@ export const BirthdayScreen = () => {
   const SkipButton = (
     <Pressable onPress={handleSkip}>
       <Typo.Body variant="body4" color={palette.gray400}>
-        건너뛰기
+        {t('onboarding.birthday.skip')}
       </Typo.Body>
     </Pressable>
   );
 
   return (
-    <SectionPage header={{ prefix: true, suffix: SkipButton }} contentsStyle={styles.contents}>
+    <SectionPage header={{ prefix: true, suffix: SkipButton }}>
       <KeyboardAvoidingView
         style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior="padding"
       >
         <View>
-          <View style={styles.textBlock}>
-            <Typo.Head variant="head1" style={styles.title}>
-              생년월일/성별을
-            </Typo.Head>
-            <Typo.Head variant="head1" style={styles.title}>
-              입력해 주세요
-            </Typo.Head>
-            <Typo.Caption variant="caption2" color="gray400">
-              맞춤형 감사일기 소재를 추천하는 데 필요해요
-            </Typo.Caption>
-          </View>
+          <Typo.Display variant="display1" style={styles.title}>
+            {t('onboarding.birthday.title')}
+          </Typo.Display>
+          <Typo.Caption variant="caption2" color={palette.gray500} style={styles.subtitle}>
+            {t('onboarding.birthday.subtitle')}
+          </Typo.Caption>
 
           <View style={styles.inputBlock}>
             <Pressable
@@ -169,7 +165,7 @@ export const BirthdayScreen = () => {
                   style={styles.leftDigits}
                 >
                   {birthday.length === 0
-                    ? '생년월일 6자리'
+                    ? t('onboarding.birthday.placeholder')
                     : birthday.slice(0, 6)}
                 </Typo.Body>
                 <View style={styles.dashContainer}>
@@ -204,7 +200,7 @@ export const BirthdayScreen = () => {
                     color="red500"
                     style={styles.errorText}
                   >
-                    올바른 생년월일을 입력해주세요
+                    {t('onboarding.birthday.error')}
                   </Typo.Caption>
                 )}
               </View>
@@ -213,7 +209,7 @@ export const BirthdayScreen = () => {
         </View>
 
         <BottomActionButton
-          title="다음"
+          title={t('onboarding.birthday.next')}
           onPress={handleNext}
           isDisabled={isDisabled}
           containerStyle={styles.bottomButton}
@@ -226,18 +222,18 @@ export const BirthdayScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  contents: {},
   container: {
     flex: 1,
     justifyContent: 'space-between',
   },
-  textBlock: {
-    paddingTop: 12,
-    paddingHorizontal: 14,
-  },
   title: {
-    marginBottom: 4,
+    marginTop: 16,
+    paddingHorizontal: 14,
     color: palette.gray1000,
+  },
+  subtitle: {
+    marginTop: 8,
+    paddingHorizontal: 14,
   },
   inputBlock: {
     marginTop: 40,

@@ -212,16 +212,16 @@ export const TimePickerBottomSheet = ({
 const styles = StyleSheet.create({
   backdrop: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.45)',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
     justifyContent: 'flex-end',
   },
   sheet: {
     backgroundColor: palette.gray0,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingHorizontal: 20,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    paddingHorizontal: 14,
     paddingTop: 20,
-    paddingBottom: 16,
+    paddingBottom: 14,
   },
   display4: {
     color: palette.gray1000,
@@ -234,6 +234,7 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   wheelColumn: {
+    flex: 1,
     height: ITEM_HEIGHT * VISIBLE_ROWS,
     alignItems: 'center',
     justifyContent: 'center',
