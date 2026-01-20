@@ -42,8 +42,7 @@
       "button": "Next"
     },
     "nickname": {
-      "title1": "Nice to meet you!",
-      "title2": "What should I call you?",
+      "title": "Nice to meet you!\nWhat should I call you?",
       "subtitle": "Nickname shown on your profile",
       "placeholder": "Please enter your nickname",
       "error": "Only letters and numbers are allowed.",
@@ -51,8 +50,7 @@
     },
     "reminder": {
       "skip": "Skip",
-      "title1": "What time would you ",
-      "title2": "like us to remind you to write?",
+      "title": "What time would you\nlike us to remind you to write?",
       "subtitle": "Clody will remind you to write your gratitude journal.",
       "next": "Next"
     },
