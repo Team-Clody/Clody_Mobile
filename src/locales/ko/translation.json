@@ -66,5 +66,35 @@
       "cancel": "아니요",
       "confirm": "탈퇴할게요"
     }
+  },
+  "onboarding": {
+    "nickname": {
+      "title1": "만나서 반가워요",
+      "title2": "어떻게 불러드릴까요?",
+      "subtitle": "프로필에 보일 닉네임이에요",
+      "placeholder": "닉네임을 입력해주세요.",
+      "error": "닉네임은 한글,영문,숫자만 가능해요.",
+      "next": "다음"
+    },
+    "reminder": {
+      "skip": "건너뛰기",
+      "title1": "몇 시에 감사일기",
+      "title2": "작성 알림을 드릴까요?",
+      "subtitle": "잊지 않고 감사일기를 작성할 수 있도록 알림을 보내드려요",
+      "next": "다음"
+    },
+    "timePicker": {
+      "title": "알림 시간을 선택해주세요",
+      "am": "오전",
+      "pm": "오후",
+      "confirm": "확인"
+    },
+    "terms": {
+      "title": "클로디 이용을 위해 동의가 필요해요",
+      "termsOfService": "[필수] 서비스 이용 약관",
+      "privacyPolicy": "[필수] 개인정보 수집 및 이용",
+      "agree": "동의하고 시작하기",
+      "close": "닫기"
+    }
   }
 }

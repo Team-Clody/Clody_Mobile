@@ -66,5 +66,35 @@
       "cancel": "Cancel",
       "confirm": "Withdraw"
     }
+  },
+  "onboarding": {
+    "nickname": {
+      "title1": "Nice to meet you!",
+      "title2": "What should I call you?",
+      "subtitle": "Nickname shown on your profile",
+      "placeholder": "Please enter your nickname",
+      "error": "Only letters and numbers are allowed.",
+      "next": "Next"
+    },
+    "reminder": {
+      "skip": "Skip",
+      "title1": "What time would you ",
+      "title2": "like us to remind you to write?",
+      "subtitle": "Clody will remind you to write your gratitude journal.",
+      "next": "Next"
+    },
+    "timePicker": {
+      "title": "Change reminder time",
+      "am": "AM",
+      "pm": "PM",
+      "confirm": "Save"
+    },
+    "terms": {
+      "title": "Your agreement is needed to use Clody",
+      "termsOfService": "[Required] Terms of Service",
+      "privacyPolicy": "[Required] Privacy Policy",
+      "agree": "Agree and Start",
+      "close": "Close"
+    }
   }
 }

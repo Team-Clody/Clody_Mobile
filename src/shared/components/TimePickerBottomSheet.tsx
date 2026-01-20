@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 import { Button } from './Button';
 import { Typo } from './typo/Typo';
 import { palette } from '../theme/palette';
@@ -120,15 +121,20 @@ export const TimePickerBottomSheet = ({
   onConfirm,
   onClose,
 }: TimePickerBottomSheetProps) => {
+  const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const [meridiem, setMeridiem] = useState<Meridiem>(
-    initialValue?.meridiem ?? '오전'
+    initialValue?.meridiem ?? '오후'
   );
   const [hour, setHour] = useState<number>(initialValue?.hour ?? 9);
   const [minute, setMinute] = useState<number>(initialValue?.minute ?? 30);
 
   const handleConfirm = () => {
     onConfirm({ meridiem, hour, minute });
+  };
+
+  const formatMeridiem = (item: Meridiem) => {
+    return item === '오전' ? t('onboarding.timePicker.am') : t('onboarding.timePicker.pm');
   };
 
   return (
@@ -145,7 +151,7 @@ export const TimePickerBottomSheet = ({
             ]}
           >
             <Typo.Display variant="display4" style={styles.display4}>
-              알림 시간을 선택해주세요
+              {t('onboarding.timePicker.title')}
             </Typo.Display>
             <View style={styles.wheelRow}>
               <View style={styles.selectionOverlay} pointerEvents="none" />
@@ -176,6 +182,7 @@ export const TimePickerBottomSheet = ({
                 value={meridiem}
                 onChange={setMeridiem}
                 width={80}
+                formatItem={formatMeridiem}
               />
               <WheelColumn
                 items={hourOptions}
@@ -192,7 +199,7 @@ export const TimePickerBottomSheet = ({
               />
             </View>
             <View style={styles.buttonRow}>
-              <Button title="확인" onPress={handleConfirm} />
+              <Button title={t('onboarding.timePicker.confirm')} onPress={handleConfirm} />
             </View>
           </View>
           <View style={[styles.bottomFill, { height: insets.bottom }]} />
