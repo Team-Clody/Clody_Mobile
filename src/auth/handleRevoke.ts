@@ -1,5 +1,6 @@
 import { tokenStorage } from '../storage/tokenStorage';
 import { AuthAPI } from '../api/authAPI';
+import { termsStorage } from '../storage/termsStorage';
 
 /**
  * 회원탈퇴를 수행하고 로컬 토큰을 정리합니다.
@@ -8,7 +9,7 @@ import { AuthAPI } from '../api/authAPI';
 export const handleRevoke = async (): Promise<boolean> => {
   try {
     await AuthAPI.deleteUser();
-
+    await termsStorage.clear();
     await tokenStorage.clearTokens();
 
     console.log('[Auth] 회원탈퇴가 완료되었습니다.');

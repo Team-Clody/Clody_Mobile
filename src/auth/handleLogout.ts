@@ -1,3 +1,4 @@
+import { termsStorage } from '../storage/termsStorage';
 import { tokenStorage } from '../storage/tokenStorage';
 
 /**
@@ -6,6 +7,7 @@ import { tokenStorage } from '../storage/tokenStorage';
  */
 export const handleLogout = async (): Promise<boolean> => {
   try {
+    await termsStorage.clear();
     await tokenStorage.clearTokens();
     console.log('[Auth] 로그아웃이 완료되었습니다.');
     return true;
