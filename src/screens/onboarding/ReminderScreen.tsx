@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useTranslation } from 'react-i18next';
 import {
   BottomActionButton,
   Icon,
@@ -16,24 +17,10 @@ import { AuthAPI } from '../../api/authAPI';
 import { AlarmAPI } from '../../api/alarmAPI';
 import { tokenStorage } from '../../storage/tokenStorage';
 import { signupStorage } from '../../storage/signupStorage';
-
-const formatTimeLabel = (
-  meridiem: '오전' | '오후',
-  hour: number,
-  minute: number
-) => `${meridiem} ${hour}시 ${String(minute).padStart(2, '0')}분`;
-
-const formatTime24h = (value: TimePickerValue): string => {
-  let hour24 = value.hour;
-  if (value.meridiem === '오후' && value.hour !== 12) {
-    hour24 = value.hour + 12;
-  } else if (value.meridiem === '오전' && value.hour === 12) {
-    hour24 = 0;
-  }
-  return `${String(hour24).padStart(2, '0')}:${String(value.minute).padStart(2, '0')}`;
-};
+import { getLanguageCode } from '../../shared/utils/locale';
 
 export const ReminderScreen = () => {
+  const { t } = useTranslation();
   const navigation =
     useNavigation<
       StackNavigationProp<StackNavParamList, typeof Routes.ONBOARDING_REMINDER>
@@ -46,9 +33,32 @@ export const ReminderScreen = () => {
     minute: 30,
   });
 
+  const formatTimeLabel = (
+    meridiem: '오전' | '오후',
+    hour: number,
+    minute: number
+  ) => {
+    const isKorean = getLanguageCode() === 'ko';
+    const localizedMeridiem = meridiem === '오전' ? t('onboarding.timePicker.am') : t('onboarding.timePicker.pm');
+    if (isKorean) {
+      return `${localizedMeridiem} ${hour}시 ${String(minute).padStart(2, '0')}분`;
+    }
+    return `${hour}:${String(minute).padStart(2, '0')} ${localizedMeridiem}`;
+  };
+
+  const formatTime24h = (value: TimePickerValue): string => {
+    let hour24 = value.hour;
+    if (value.meridiem === '오후' && value.hour !== 12) {
+      hour24 = value.hour + 12;
+    } else if (value.meridiem === '오전' && value.hour === 12) {
+      hour24 = 0;
+    }
+    return `${String(hour24).padStart(2, '0')}:${String(value.minute).padStart(2, '0')}`;
+  };
+
   const timeLabel = useMemo(
     () => formatTimeLabel(timeValue.meridiem, timeValue.hour, timeValue.minute),
-    [timeValue]
+    [timeValue, t]
   );
 
   const fcmToken =
@@ -115,7 +125,7 @@ export const ReminderScreen = () => {
         suffix: (
           <Pressable onPress={handleSkip} disabled={isLoading}>
             <Typo.Body variant="body2" color="gray400">
-              건너뛰기
+              {t('onboarding.reminder.skip')}
             </Typo.Body>
           </Pressable>
         ),
@@ -126,13 +136,13 @@ export const ReminderScreen = () => {
         <View>
           <View style={styles.textBlock}>
             <Typo.Head variant="head1" style={styles.title}>
-              몇 시에 감사일기
+              {t('onboarding.reminder.title1')}
             </Typo.Head>
             <Typo.Head variant="head1" style={styles.title}>
-              작성 알림을 드릴까요?
+              {t('onboarding.reminder.title2')}
             </Typo.Head>
             <Typo.Caption variant="caption2" color="gray400">
-              잊지 않고 감사일기를 작성할 수 있도록 알림을 보내드려요
+              {t('onboarding.reminder.subtitle')}
             </Typo.Caption>
           </View>
 
@@ -150,7 +160,7 @@ export const ReminderScreen = () => {
         </View>
 
         <BottomActionButton
-          title="다음"
+          title={t('onboarding.reminder.next')}
           onPress={handleNext}
           isDisabled={isLoading}
           containerStyle={styles.bottomButton}
