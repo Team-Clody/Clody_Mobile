@@ -5,6 +5,7 @@ import { Typo } from '../typo/Typo';
 import { palette } from '../../theme/palette';
 import { useTranslation } from '../../hooks/useTranslation';
 import { handleRevoke } from '../../../auth/handleRevoke';
+import RNRestart from 'react-native-restart';
 
 export const RevokeModal = () => {
   const { visibleModal, hideModal, setRevokeSuccess } = useModal();
@@ -17,6 +18,7 @@ export const RevokeModal = () => {
       if (isSuccess) {
         setRevokeSuccess(true);
         hideModal();
+        RNRestart.restart();
       }
     } catch (error) {
       console.error('[RevokeModal] 회원탈퇴 실패:', error);
