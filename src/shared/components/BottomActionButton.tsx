@@ -7,6 +7,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from './Button';
 
 interface BottomActionButtonProps {
@@ -26,6 +27,7 @@ export const BottomActionButton = ({
   buttonStyle,
   buttonStyleOnKeyboard,
 }: BottomActionButtonProps) => {
+  const insets = useSafeAreaInsets();
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
   useEffect(() => {
@@ -35,10 +37,10 @@ export const BottomActionButton = ({
       Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';
 
     const showSubscription = Keyboard.addListener(showEvent, () =>
-      setIsKeyboardVisible(true)
+      setIsKeyboardVisible(true),
     );
     const hideSubscription = Keyboard.addListener(hideEvent, () =>
-      setIsKeyboardVisible(false)
+      setIsKeyboardVisible(false),
     );
 
     return () => {
@@ -51,8 +53,11 @@ export const BottomActionButton = ({
     <View
       style={[
         styles.container,
-        containerStyle,
         isKeyboardVisible && styles.containerKeyboard,
+        !isKeyboardVisible && {
+          paddingBottom: Math.max(insets.bottom, 12),
+        },
+        containerStyle,
       ]}
     >
       <Button
