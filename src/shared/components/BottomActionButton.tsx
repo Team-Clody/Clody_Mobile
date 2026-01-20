@@ -53,11 +53,11 @@ export const BottomActionButton = ({
     <View
       style={[
         styles.container,
+        !isKeyboardVisible && containerStyle,
         isKeyboardVisible && styles.containerKeyboard,
         !isKeyboardVisible && {
           paddingBottom: Math.max(insets.bottom, 12),
         },
-        containerStyle,
       ]}
     >
       <Button
