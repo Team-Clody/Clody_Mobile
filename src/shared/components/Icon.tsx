@@ -15,6 +15,7 @@ import IcMyOn from '../../../assets/icons/ic_my_on.svg';
 import IcMyOff from '../../../assets/icons/ic_my_off.svg';
 import IcCheckGray from '../../../assets/icons/ic_check_gray.svg';
 import IcCheckGreen from '../../../assets/icons/ic_check_green.svg';
+import IcSuccess from '../../../assets/icons/ic_success.svg';
 
 export const Icon = {
   IcNext,
@@ -34,4 +35,5 @@ export const Icon = {
   IcMyOff,
   IcCheckGray,
   IcCheckGreen,
+  IcSuccess,
 };
