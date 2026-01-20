@@ -22,7 +22,7 @@ export function RootNavigator({
 }) {
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
+      <SafeAreaView style={styles.safeArea} edges={['left', 'right']}>
         <NavigationContainer>
           <Stack.Navigator initialRouteName={initialRoute}>
             <Stack.Screen

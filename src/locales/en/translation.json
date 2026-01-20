@@ -87,14 +87,15 @@
       "email": "Email",
       "birthdate": "Birthdate",
       "gender": "Gender",
-      "male": "Male",
-      "female": "Female",
       "logout": "Logout",
       "withdraw": "Withdraw"
     },
     "editNicknameScreen": {
       "title": "Edit Nickname",
-      "save": "Save"
+      "save": "Save",
+      "changeComplete": "Save Changes",
+      "confirm": "Confirm",
+      "nicknameError": "Only letters and numbers are allowed."
     },
     "teamInfoScreen": {
       "title": "Team Clody",

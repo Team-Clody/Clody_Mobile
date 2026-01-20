@@ -5,6 +5,7 @@ import { Typo } from '../typo/Typo';
 import { palette } from '../../theme/palette';
 import { useTranslation } from '../../hooks/useTranslation';
 import { handleLogout } from '../../../auth/handleLogout';
+import RNRestart from 'react-native-restart';
 
 export const LogoutModal = () => {
   const { visibleModal, hideModal, setLogoutSuccess } = useModal();
@@ -17,6 +18,7 @@ export const LogoutModal = () => {
       if (isSuccess) {
         setLogoutSuccess(true);
         hideModal();
+        RNRestart.restart();
       }
     } catch (error) {
       console.error('[LogoutModal] 로그아웃 실패:', error);
