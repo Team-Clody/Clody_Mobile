@@ -103,7 +103,9 @@
       "save": "저장",
       "changeComplete": "변경을 완료했어요.",
       "confirm": "확인",
-      "nicknameError": "닉네임은 한글,영문,숫자만 가능해요."
+      "nicknameError": "닉네임은 한글,영문,숫자만 가능해요.",
+      "male": "남성",
+      "female": "여성"
     },
     "teamInfoScreen": {
       "title": "클로디팀",
