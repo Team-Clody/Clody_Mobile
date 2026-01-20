@@ -61,9 +61,9 @@ const HeaderSection = ({
 
   const getGenderText = () => {
     if (gender === 'male') {
-      return t('onboarding.gender.male');
+      return t('onboarding.editNicknameScreen.male');
     } else if (gender === 'female') {
-      return t('onboarding.gender.female');
+      return t('onboarding.editNicknameScreen.female');
     } else {
       return '';
     }

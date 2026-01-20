@@ -95,7 +95,9 @@
       "save": "Save",
       "changeComplete": "Save Changes",
       "confirm": "Confirm",
-      "nicknameError": "Only letters and numbers are allowed."
+      "nicknameError": "Only letters and numbers are allowed.",
+      "male": "Male",
+      "female": "Female"
     },
     "teamInfoScreen": {
       "title": "Team Clody",
