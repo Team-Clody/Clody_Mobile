@@ -5,25 +5,64 @@ import {
   View,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from 'react-native';
 import { BottomActionButton, SectionPage, Typo } from '../../shared/components';
 import { useState } from 'react';
 import { Icon } from '../../shared/components/Icon';
 import { useMypage } from '../../hooks/myPage/useMypage';
 import { useTranslation } from 'react-i18next';
+import { useNavigation } from '@react-navigation/native';
+import { useDevice } from '../../shared/contexts/DeviceContext';
 
 export const EditNicknameScreen = () => {
+  const navigation = useNavigation();
   const { t } = useTranslation();
+  const { isKorean } = useDevice();
   const [isLoading, setIsLoading] = useState(false);
   const { patchNickname, myPageInfo } = useMypage();
   const [nickname, setNickname] = useState(myPageInfo?.name || '');
+  const [error, setError] = useState('');
+
+  const maxLength = isKorean ? 10 : 15;
+
+  const validateNickname = (text: string) => {
+    // 한글, 영문, 숫자만 허용
+    const regex = /^[가-힣a-zA-Z0-9]*$/;
+
+    if (text.length > maxLength) {
+      setError(t('myPage.editNicknameScreen.nicknameError'));
+      return false;
+    }
+
+    if (text && !regex.test(text)) {
+      setError(t('myPage.editNicknameScreen.nicknameError'));
+      return false;
+    }
+
+    setError('');
+    return true;
+  };
+
+  const handleNicknameChange = (text: string) => {
+    if (text.length <= maxLength) {
+      setNickname(text);
+      validateNickname(text);
+    }
+  };
 
   const updateNickname = async (nickname: string) => {
-    if (isLoading) return;
+    if (isLoading || error || !nickname) return;
 
     setIsLoading(true);
     try {
       await patchNickname({ name: nickname });
+      Alert.alert(t('myPage.editNicknameScreen.changeComplete'), '', [
+        {
+          text: t('myPage.editNicknameScreen.confirm'),
+          onPress: () => navigation.goBack(),
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
@@ -36,17 +75,22 @@ export const EditNicknameScreen = () => {
         prefix: true,
         style: { paddingTop: 12 },
       }}
-      contentsStyle={{ paddingHorizontal: 14, paddingBottom: 24 }}
+      contentsStyle={{ paddingHorizontal: 14 }}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{ flex: 1 }}>
-          <HeaderSection nickname={nickname} setNickname={setNickname} />
+          <HeaderSection
+            nickname={nickname}
+            setNickname={handleNicknameChange}
+            error={error}
+            maxLength={maxLength}
+          />
         </View>
       </TouchableWithoutFeedback>
       <BottomActionButton
         title={t('myPage.editNicknameScreen.save')}
         onPress={() => updateNickname(nickname)}
-        isDisabled={nickname.length === 0 || isLoading}
+        isDisabled={nickname.length === 0 || isLoading || !!error}
       />
     </SectionPage>
   );
@@ -55,9 +99,13 @@ export const EditNicknameScreen = () => {
 const HeaderSection = ({
   nickname,
   setNickname,
+  error,
+  maxLength,
 }: {
   nickname: string;
   setNickname: (nickname: string) => void;
+  error: string;
+  maxLength: number;
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -73,11 +121,12 @@ const HeaderSection = ({
         style={[
           styles.textInputContainer,
           isFocused && { borderColor: '#1B1C20' },
+          error && { borderColor: '#FF5C5C' },
         ]}
       >
         <NicknameInput
           style={styles.textInput}
-          maxLength={10}
+          maxLength={maxLength}
           nickname={nickname}
           setNickname={setNickname}
           onFocus={() => setIsFocused(true)}
@@ -87,9 +136,26 @@ const HeaderSection = ({
           <Icon.IcInputDelete width={18} height={18} />
         </Pressable>
       </View>
-      <Typo.Caption variant="caption3" color="#8791A0" style={{ marginTop: 2 }}>
-        {nickname.length}/10
-      </Typo.Caption>
+      <View
+        style={{
+          marginTop: 2,
+          width: '100%',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        {error ? (
+          <Typo.Caption variant="caption3" color="#FF5C5C">
+            {error}
+          </Typo.Caption>
+        ) : (
+          <View />
+        )}
+        <Typo.Caption variant="caption3" color="#8791A0">
+          {nickname.length}/{maxLength}
+        </Typo.Caption>
+      </View>
     </View>
   );
 };
