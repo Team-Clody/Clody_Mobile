@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
-  Keyboard,
   KeyboardAvoidingView,
-  Platform,
   Pressable,
   StyleSheet,
   TextInput,
@@ -11,8 +9,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useTranslation } from 'react-i18next';
-import { SectionPage, Typo } from '../../shared/components';
-import { Button } from '../../shared/components/Button';
+import { BottomActionButton, SectionPage, Typo } from '../../shared/components';
 import { Icon } from '../../shared/components/Icon';
 import { palette } from '../../shared/theme/palette';
 import { Routes, StackNavParamList } from '../../navigation/route';
@@ -28,7 +25,6 @@ export const NicknameScreen = () => {
   const { t } = useTranslation();
   const navigation = useNavigation<NicknameScreenNavigationProp>();
   const [nickname, setNickname] = useState('');
-  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const isKorean = getLanguageCode() === 'ko';
   const maxLength = isKorean ? 10 : 15;
   const isEmpty = nickname.length === 0;
@@ -36,20 +32,6 @@ export const NicknameScreen = () => {
   const isAllowedChars = /^[A-Za-z0-9가-힣ㄱ-ㅎㅏ-ㅣ]+$/.test(nickname);
   const hasError = !isEmpty && (isTooLong || !isAllowedChars);
   const isDisabled = isEmpty || hasError;
-
-  useEffect(() => {
-    const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
-      setIsKeyboardVisible(true);
-    });
-    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
-      setIsKeyboardVisible(false);
-    });
-
-    return () => {
-      showSubscription.remove();
-      hideSubscription.remove();
-    };
-  }, []);
 
   const handleChangeNickname = (text: string) => {
     if (text.length > maxLength) {
@@ -64,20 +46,15 @@ export const NicknameScreen = () => {
     <SectionPage header={{ prefix: true }}>
       <KeyboardAvoidingView
         style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior="padding"
       >
         <View>
-          <View style={styles.textBlock}>
-            <Typo.Display variant="display1" style={styles.title}>
-              {t('onboarding.nickname.title1')}
-            </Typo.Display>
-            <Typo.Display variant="display1" style={styles.title}>
-              {t('onboarding.nickname.title2')}
-            </Typo.Display>
-            <Typo.Caption variant="caption2" color={palette.gray500}>
-              {t('onboarding.nickname.subtitle')}
-            </Typo.Caption>
-          </View>
+          <Typo.Display variant="display1" style={styles.title}>
+            {t('onboarding.nickname.title')}
+          </Typo.Display>
+          <Typo.Caption variant="caption2" color={palette.gray500} style={styles.subtitle}>
+            {t('onboarding.nickname.subtitle')}
+          </Typo.Caption>
 
           <View style={styles.inputBlock}>
             <View
@@ -121,27 +98,20 @@ export const NicknameScreen = () => {
           </View>
         </View>
 
-        <View
-          style={[
-            styles.footer,
-            isKeyboardVisible && styles.footerKeyboardVisible,
-          ]}
-        >
-          <Button
-            title={t('onboarding.nickname.next')}
-            onPress={async () => {
-              await signupStorage.setName(nickname);
-              const nextRoute = isKoreanLocale()
-                ? Routes.ONBOARDING_BIRTHDAY
-                : Routes.ONBOARDING_BIRTHDAY_EN;
-              navigation.navigate(nextRoute);
-            }}
-            isDisabled={isDisabled}
-            containerStyle={
-              isKeyboardVisible ? styles.buttonKeyboardVisible : undefined
-            }
-          />
-        </View>
+        <BottomActionButton
+          title={t('onboarding.nickname.next')}
+          onPress={async () => {
+            await signupStorage.setName(nickname);
+            const nextRoute = isKoreanLocale()
+              ? Routes.ONBOARDING_BIRTHDAY
+              : Routes.ONBOARDING_BIRTHDAY_EN;
+            navigation.navigate(nextRoute);
+          }}
+          isDisabled={isDisabled}
+          containerStyle={styles.bottomButton}
+          buttonStyle={styles.bottomButtonInner}
+          buttonStyleOnKeyboard={styles.bottomButtonInnerKeyboard}
+        />
       </KeyboardAvoidingView>
     </SectionPage>
   );
@@ -152,12 +122,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
   },
-  textBlock: {
-    paddingTop: 2,
-    paddingHorizontal: 14,
-  },
   title: {
+    marginTop: 16,
+    paddingHorizontal: 14,
     color: '#1B1D1F',
+  },
+  subtitle: {
+    marginTop: 8,
+    paddingHorizontal: 14,
   },
   inputBlock: {
     marginTop: 40,
@@ -196,18 +168,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  errorText: {
-    marginTop: 6,
-  },
-  footer: {
-    paddingBottom: 16,
+  bottomButton: {
     paddingHorizontal: 14,
   },
-  footerKeyboardVisible: {
-    paddingBottom: 0,
-    paddingHorizontal: 0,
+  bottomButtonInner: {
+    borderRadius: 6,
   },
-  buttonKeyboardVisible: {
+  bottomButtonInnerKeyboard: {
     borderRadius: 0,
   },
 });
