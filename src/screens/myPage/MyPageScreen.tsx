@@ -32,7 +32,10 @@ export const MyPageScreen = () => {
   };
 
   return (
-    <SectionPage>
+    <SectionPage
+      containerStyle={{ backgroundColor: '#F2F3F6' }}
+      safeAreaBackgroundColor="#F2F3F6"
+    >
       <View style={styles.container}>
         <Typo.Head variant="head1" style={{ marginBottom: 6 }}>
           {t('myPage.myPageScreen.title')}

@@ -75,7 +75,7 @@ export const EditNicknameScreen = () => {
         prefix: true,
         style: { paddingTop: 12 },
       }}
-      contentsStyle={{ paddingHorizontal: 14, paddingBottom: 24 }}
+      contentsStyle={{ paddingHorizontal: 14 }}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{ flex: 1 }}>
