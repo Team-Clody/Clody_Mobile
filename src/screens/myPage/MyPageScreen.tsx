@@ -10,12 +10,14 @@ import {
 import { useEffect } from 'react';
 import { useMypage } from '../../hooks/myPage/useMypage';
 import { useDevice } from '../../shared/contexts/DeviceContext';
+import { useTranslation } from 'react-i18next';
 
 type MyPageScreenNavigationProp = StackNavigationProp<MyPageStackParamList>;
 
 export const MyPageScreen = () => {
   const navigation = useNavigation<MyPageScreenNavigationProp>();
   const { myPageInfo, fetchMyPageInfo } = useMypage();
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchMyPageInfo();
@@ -33,7 +35,7 @@ export const MyPageScreen = () => {
     <SectionPage>
       <View style={styles.container}>
         <Typo.Head variant="head1" style={{ marginBottom: 6 }}>
-          MyPage
+          {t('myPage.myPageScreen.title')}
         </Typo.Head>
         <HeaderSection
           navigateToProfileAccount={navigateToProfileAccount}
@@ -56,6 +58,8 @@ const HeaderSection = ({
   name?: string;
   clover?: number;
 }) => {
+  const { t } = useTranslation();
+
   return (
     <View style={[styles.section, { gap: 12 }]}>
       <Pressable onPress={navigateToProfileAccount}>
@@ -82,7 +86,9 @@ const HeaderSection = ({
             alignItems: 'center',
           }}
         >
-          <Typo.Body variant="body9">My Clover</Typo.Body>
+          <Typo.Body variant="body9">
+            {t('myPage.myPageScreen.myClover')}
+          </Typo.Body>
           <View style={{ flexDirection: 'row', gap: 6, alignItems: 'center' }}>
             <Icon.IcClover width={16} height={16} />
             <Typo.Body variant="body9">{clover}</Typo.Body>
@@ -99,6 +105,7 @@ const BodySection = ({
   navigateToTeamInfo: () => void;
 }) => {
   const { isKoreanLanguage } = useDevice();
+  const { t } = useTranslation();
 
   const openNotices = () => {
     const url = isKoreanLanguage
@@ -124,17 +131,30 @@ const BodySection = ({
 
   return (
     <View style={styles.section}>
-      <MyPageCell title="Notification" onPress={() => console.log('test')} />
-      <MyPageCell title="Notices" onPress={openNotices} />
-      <MyPageCell title="Support/Feedback" onPress={openSupportFeedback} />
-      <MyPageCell title="FAQ" onPress={openFAQ} />
-      <MyPageCell title="Team Clody" onPress={navigateToTeamInfo} />
+      <MyPageCell
+        title={t('myPage.myPageScreen.notification')}
+        onPress={() => console.log('test')}
+      />
+      <MyPageCell
+        title={t('myPage.myPageScreen.notices')}
+        onPress={openNotices}
+      />
+      <MyPageCell
+        title={t('myPage.myPageScreen.Support/Feedback')}
+        onPress={openSupportFeedback}
+      />
+      <MyPageCell title={t('myPage.myPageScreen.FAQ')} onPress={openFAQ} />
+      <MyPageCell
+        title={t('myPage.myPageScreen.Team Clody')}
+        onPress={navigateToTeamInfo}
+      />
     </View>
   );
 };
 
 const FooterSection = () => {
   const { isKoreanLanguage, appVersion } = useDevice();
+  const { t } = useTranslation();
 
   const openTermsOfService = () => {
     const url = isKoreanLanguage
@@ -152,8 +172,14 @@ const FooterSection = () => {
 
   return (
     <View style={styles.section}>
-      <MyPageCell title="Terms of Service" onPress={openTermsOfService} />
-      <MyPageCell title="Privacy Policy" onPress={openPrivacyPolicy} />
+      <MyPageCell
+        title={t('myPage.myPageScreen.Terms of Service')}
+        onPress={openTermsOfService}
+      />
+      <MyPageCell
+        title={t('myPage.myPageScreen.Privacy Policy')}
+        onPress={openPrivacyPolicy}
+      />
       <Pressable onPress={() => console.log('test')}>
         <View
           style={{
@@ -162,7 +188,9 @@ const FooterSection = () => {
             alignItems: 'center',
           }}
         >
-          <Typo.Body variant="body9">Version</Typo.Body>
+          <Typo.Body variant="body9">
+            {t('myPage.myPageScreen.Version')}
+          </Typo.Body>
           <Typo.Body variant="body4" color="#A7A9B2">
             {appVersion}
           </Typo.Body>

@@ -1,4 +1,4 @@
-import { typography } from '../theme/typography';
+import { typography } from '../../theme/typography';
 import { TypoBase, type TypoBaseProps } from './TypoBase';
 
 interface HeadProps extends TypoBaseProps {
@@ -14,3 +14,4 @@ export const Head = (props: HeadProps) => {
     </TypoBase>
   );
 };
+

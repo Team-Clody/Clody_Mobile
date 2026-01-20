@@ -1,5 +1,5 @@
 import { Pressable, StyleProp, View, ViewStyle } from 'react-native';
-import { Typo } from './Typo';
+import { Typo } from './typo/Typo';
 
 interface ButtonProps {
   title: string;

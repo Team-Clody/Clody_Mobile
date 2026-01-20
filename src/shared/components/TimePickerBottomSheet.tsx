@@ -9,7 +9,7 @@ import {
 import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from './Button';
-import { Typo } from './Typo';
+import { Typo } from './typo/Typo';
 import { palette } from '../theme/palette';
 
 const ITEM_HEIGHT = 44;
