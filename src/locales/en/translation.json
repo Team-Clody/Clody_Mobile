@@ -53,6 +53,18 @@
       "Instagram": "Instagram",
       "Support Clody": "Support Clody",
       "Buy me a coffee": "Buy me a coffee"
+  "modal": {
+    "logout": {
+      "title": "Log out now?",
+      "description": "I'll be here, see you again soon!",
+      "cancel": "Cancel",
+      "confirm": "Logout"
+    },
+    "revoke": {
+      "title": "Delete your account?",
+      "description": "Your journals, replies, and clovers will be permanently deleted and can't be restored.",
+      "cancel": "Cancel",
+      "confirm": "Withdraw"
     }
   }
 }

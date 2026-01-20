@@ -1,14 +1,14 @@
-import { typography } from '../theme/typography';
+import { typography } from '../../theme/typography';
 import { TypoBase, type TypoBaseProps } from './TypoBase';
 
-interface DisplayProps extends TypoBaseProps {
+interface CaptionProps extends TypoBaseProps {
   variant: Extract<
     keyof typeof typography,
-    'display1' | 'display2' | 'display3' | 'display4'
+    'caption1' | 'caption2' | 'caption3'
   >;
 }
 
-export const Display = (props: DisplayProps) => {
+export const Caption = (props: CaptionProps) => {
   const { variant, children, style, ...rest } = props;
 
   return (
@@ -17,3 +17,4 @@ export const Display = (props: DisplayProps) => {
     </TypoBase>
   );
 };
+

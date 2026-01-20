@@ -1,4 +1,4 @@
-import { typography } from '../theme/typography';
+import { typography } from '../../theme/typography';
 import { TypoBase, type TypoBaseProps } from './TypoBase';
 
 interface BodyProps extends TypoBaseProps {

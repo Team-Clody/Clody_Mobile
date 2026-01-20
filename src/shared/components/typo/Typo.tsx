@@ -17,3 +17,4 @@ Typo.Display = Display;
 Typo.Head = Head;
 Typo.Body = Body;
 Typo.Caption = Caption;
+

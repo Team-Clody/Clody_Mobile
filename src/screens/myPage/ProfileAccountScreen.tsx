@@ -9,6 +9,7 @@ import {
 } from '../../navigation/MyPageNavigationStack';
 import { useMypage } from '../../hooks/myPage/useMypage';
 import { useTranslation } from 'react-i18next';
+import { useModal } from '../../shared/contexts/ModalContext';
 
 type MyPageScreenNavigationProp = StackNavigationProp<MyPageStackParamList>;
 
@@ -100,15 +101,16 @@ const HeaderSection = ({
 
 const FooterSection = () => {
   const { t } = useTranslation();
+  const { showModal } = useModal();
 
   return (
     <View style={styles.footerSection}>
-      <Pressable onPress={() => console.log('Logout')}>
+      <Pressable onPress={() => showModal('logout')}>
         <Typo.Body variant="body9" color="#4A4C54">
           {t('myPage.profileAccountScreen.logout')}
         </Typo.Body>
       </Pressable>
-      <Pressable onPress={() => console.log('Logout')}>
+      <Pressable onPress={() => showModal('revoke')}>
         <Typo.Body variant="body9" color="#4A4C54">
           {t('myPage.profileAccountScreen.withdraw')}
         </Typo.Body>
