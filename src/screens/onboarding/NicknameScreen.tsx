@@ -17,6 +17,7 @@ import { Icon } from '../../shared/components/Icon';
 import { palette } from '../../shared/theme/palette';
 import { Routes, StackNavParamList } from '../../navigation/route';
 import { signupStorage } from '../../storage/signupStorage';
+import { isKoreanLocale } from '../../shared/utils/locale';
 import { getLanguageCode } from '../../shared/utils/locale';
 
 type NicknameScreenNavigationProp = StackNavigationProp<
@@ -80,7 +81,12 @@ export const NicknameScreen = () => {
           </View>
 
           <View style={styles.inputBlock}>
-            <View style={[styles.textInputContainer, hasError && styles.textInputError]}>
+            <View
+              style={[
+                styles.textInputContainer,
+                hasError && styles.textInputError,
+              ]}
+            >
               <TextInput
                 value={nickname}
                 onChangeText={handleChangeNickname}
@@ -90,9 +96,7 @@ export const NicknameScreen = () => {
                 returnKeyType="default"
               />
               <Pressable
-                style={[
-                  styles.deleteButton,
-                ]}
+                style={[styles.deleteButton]}
                 disabled={isEmpty}
                 onPress={() => {
                   setNickname('');
@@ -103,10 +107,7 @@ export const NicknameScreen = () => {
             </View>
             <View style={styles.captionRow}>
               {hasError && (
-                <Typo.Caption
-                  variant="caption3"
-                  color="#E0565B"
-                >
+                <Typo.Caption variant="caption3" color="#E0565B">
                   {t('onboarding.nickname.error')}
                 </Typo.Caption>
               )}
@@ -121,15 +122,25 @@ export const NicknameScreen = () => {
           </View>
         </View>
 
-        <View style={[styles.footer, isKeyboardVisible && styles.footerKeyboardVisible]}>
+        <View
+          style={[
+            styles.footer,
+            isKeyboardVisible && styles.footerKeyboardVisible,
+          ]}
+        >
           <Button
             title={t('onboarding.nickname.next')}
             onPress={async () => {
               await signupStorage.setName(nickname);
-              navigation.navigate(Routes.ONBOARDING_BIRTHDAY);
+              const nextRoute = isKoreanLocale()
+                ? Routes.ONBOARDING_BIRTHDAY
+                : Routes.ONBOARDING_BIRTHDAY_EN;
+              navigation.navigate(nextRoute);
             }}
             isDisabled={isDisabled}
-            containerStyle={isKeyboardVisible ? styles.buttonKeyboardVisible : undefined}
+            containerStyle={
+              isKeyboardVisible ? styles.buttonKeyboardVisible : undefined
+            }
           />
         </View>
       </KeyboardAvoidingView>

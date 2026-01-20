@@ -46,7 +46,10 @@ class SignupStorage {
     }
   }
 
-  async setBirthInfo(birthDate: string | null, gender: string | null): Promise<void> {
+  async setBirthInfo(
+    birthDate: string | null,
+    gender: string | null,
+  ): Promise<void> {
     try {
       if (birthDate) {
         await AsyncStorage.setItem(SIGNUP_KEYS.BIRTH_DATE, birthDate);
@@ -60,21 +63,38 @@ class SignupStorage {
         await AsyncStorage.removeItem(SIGNUP_KEYS.GENDER);
       }
     } catch (error) {
-      console.error('[SignupStorage] 생년월일/성별 저장에 실패했습니다.:', error);
+      console.error(
+        '[SignupStorage] 생년월일/성별 저장에 실패했습니다.:',
+        error,
+      );
       throw new Error('생년월일/성별 저장에 실패했습니다.');
+    }
+  }
+
+  async setGender(gender: string | null): Promise<void> {
+    try {
+      if (gender) {
+        await AsyncStorage.setItem(SIGNUP_KEYS.GENDER, gender);
+      } else {
+        await AsyncStorage.removeItem(SIGNUP_KEYS.GENDER);
+      }
+    } catch (error) {
+      console.error('[SignupStorage] 성별 저장에 실패했습니다.:', error);
+      throw new Error('성별 저장에 실패했습니다.');
     }
   }
 
   async getSignupData(): Promise<SignupData> {
     try {
-      const [platform, email, platformToken, name, gender, birthDate] = await Promise.all([
-        AsyncStorage.getItem(SIGNUP_KEYS.PLATFORM),
-        AsyncStorage.getItem(SIGNUP_KEYS.EMAIL),
-        AsyncStorage.getItem(SIGNUP_KEYS.PLATFORM_TOKEN),
-        AsyncStorage.getItem(SIGNUP_KEYS.NAME),
-        AsyncStorage.getItem(SIGNUP_KEYS.GENDER),
-        AsyncStorage.getItem(SIGNUP_KEYS.BIRTH_DATE),
-      ]);
+      const [platform, email, platformToken, name, gender, birthDate] =
+        await Promise.all([
+          AsyncStorage.getItem(SIGNUP_KEYS.PLATFORM),
+          AsyncStorage.getItem(SIGNUP_KEYS.EMAIL),
+          AsyncStorage.getItem(SIGNUP_KEYS.PLATFORM_TOKEN),
+          AsyncStorage.getItem(SIGNUP_KEYS.NAME),
+          AsyncStorage.getItem(SIGNUP_KEYS.GENDER),
+          AsyncStorage.getItem(SIGNUP_KEYS.BIRTH_DATE),
+        ]);
 
       return {
         platform: platform as 'apple' | 'kakao' | 'google' | null,
@@ -85,7 +105,10 @@ class SignupStorage {
         birthDate,
       };
     } catch (error) {
-      console.error('[SignupStorage] 회원가입 데이터 조회에 실패했습니다.:', error);
+      console.error(
+        '[SignupStorage] 회원가입 데이터 조회에 실패했습니다.:',
+        error,
+      );
       return {
         platform: null,
         email: '',
@@ -109,7 +132,10 @@ class SignupStorage {
       ]);
       console.log('[SignupStorage] 회원가입 데이터가 삭제되었습니다.');
     } catch (error) {
-      console.error('[SignupStorage] 회원가입 데이터 삭제에 실패했습니다.:', error);
+      console.error(
+        '[SignupStorage] 회원가입 데이터 삭제에 실패했습니다.:',
+        error,
+      );
       throw new Error('회원가입 데이터 삭제에 실패했습니다.');
     }
   }

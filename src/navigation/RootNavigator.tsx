@@ -9,7 +9,9 @@ import { Routes, StackNavParamList } from './route';
 import { StyleSheet } from 'react-native';
 import { NicknameScreen } from '../screens/onboarding/NicknameScreen';
 import { BirthdayScreen } from '../screens/onboarding/BirthdayScreen';
+import { BirthdayScreenEn } from '../screens/onboarding/BirthdayScreenEn';
 import { ReminderScreen } from '../screens/onboarding/ReminderScreen';
+import { GenderScreen } from '../screens/onboarding/GenderScreen';
 
 const Stack = createStackNavigator<StackNavParamList>();
 
@@ -29,11 +31,6 @@ export function RootNavigator({
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name={Routes.MAIN_TAB}
-              component={BottomTabNavigator}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
               name={Routes.ONBOARDING_NICKNAME}
               component={NicknameScreen}
               options={{ headerShown: false }}
@@ -44,8 +41,23 @@ export function RootNavigator({
               options={{ headerShown: false }}
             />
             <Stack.Screen
+              name={Routes.ONBOARDING_BIRTHDAY_EN}
+              component={BirthdayScreenEn}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name={Routes.ONBOARDING_GENDER}
+              component={GenderScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
               name={Routes.ONBOARDING_REMINDER}
               component={ReminderScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name={Routes.MAIN_TAB}
+              component={BottomTabNavigator}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>
