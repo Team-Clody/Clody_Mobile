@@ -7,10 +7,12 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 import { Button } from './Button';
-import { Typo } from './Typo';
+import { Typo } from './typo/Typo';
 import { Icon } from './Icon';
 import { palette } from '../theme/palette';
+import { getLanguageCode } from '../utils/locale';
 
 interface TermsBottomSheetProps {
   visible: boolean;
@@ -18,7 +20,8 @@ interface TermsBottomSheetProps {
   onClose: () => void;
 }
 
-const TERMS_OF_SERVICE_URL = 'https://www.notion.so/1c7e3fedb3f4802c8db1f3056c03973f?source=copy_link';
+const TERMS_OF_SERVICE_URL_KO = 'https://www.notion.so/1c7e3fedb3f4802c8db1f3056c03973f?source=copy_link';
+const TERMS_OF_SERVICE_URL_EN = 'https://www.notion.so/Clody-Terms-of-Service-22ae3fedb3f48092ace1fba817df8605?source=copy_link';
 const PRIVACY_POLICY_URL = 'https://www.notion.so/1c7e3fedb3f48024a334c8116255b378?source=copy_link'; 
 
 interface TermsItemProps {
@@ -48,7 +51,11 @@ export const TermsBottomSheet = ({
   onAgree,
   onClose,
 }: TermsBottomSheetProps) => {
+  const { t } = useTranslation();
   const insets = useSafeAreaInsets();
+  const isKorean = getLanguageCode() === 'ko';
+
+  const termsOfServiceUrl = isKorean ? TERMS_OF_SERVICE_URL_KO : TERMS_OF_SERVICE_URL_EN;
 
   return (
     <Modal visible={visible} transparent animationType="fade">
@@ -57,25 +64,25 @@ export const TermsBottomSheet = ({
         <View>
           <View style={styles.sheet}>
             <Typo.Head variant="head2" style={styles.title}>
-              클로디 이용을 위해 동의가 필요해요
+              {t('onboarding.terms.title')}
             </Typo.Head>
 
             <View style={styles.termsContainer}>
               <TermsItem
-                title="[필수] 서비스 이용 약관"
-                url={TERMS_OF_SERVICE_URL}
+                title={t('onboarding.terms.termsOfService')}
+                url={termsOfServiceUrl}
               />
               <TermsItem
-                title="[필수] 개인정보 수집 및 이용"
+                title={t('onboarding.terms.privacyPolicy')}
                 url={PRIVACY_POLICY_URL}
               />
             </View>
 
             <View style={styles.buttonContainer}>
-              <Button title="동의하고 시작하기" onPress={onAgree} />
+              <Button title={t('onboarding.terms.agree')} onPress={onAgree} />
               <Pressable style={styles.closeButton} onPress={onClose}>
                 <Typo.Body variant="body4" color="gray500">
-                  닫기
+                  {t('onboarding.terms.close')}
                 </Typo.Body>
               </Pressable>
             </View>
