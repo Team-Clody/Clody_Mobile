@@ -124,7 +124,6 @@ export const BirthdayScreenEn = () => {
         title={t('onboarding.birthdayEn.button')}
         onPress={handleNext}
         isDisabled={isDisabled}
-        containerStyle={styles.bottomButton}
       />
     </SectionPage>
   );
@@ -146,8 +145,5 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     borderWidth: 1,
     borderColor: palette.gray300,
-  },
-  bottomButton: {
-    marginBottom: 20,
   },
 });

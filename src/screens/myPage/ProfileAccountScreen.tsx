@@ -59,11 +59,11 @@ const HeaderSection = ({
   const { t } = useTranslation();
   const { isKoreanLanguage } = useDevice();
 
-  const getGenderText = () => {
+   const getGenderText = () => {
     if (gender === 'male') {
-      return t('onboarding.editNicknameScreen.male');
+      return t('myPage.editNicknameScreen.male');
     } else if (gender === 'female') {
-      return t('onboarding.editNicknameScreen.female');
+      return t('myPage.editNicknameScreen.female');
     } else {
       return '';
     }

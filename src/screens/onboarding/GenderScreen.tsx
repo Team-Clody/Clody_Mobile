@@ -113,7 +113,6 @@ export const GenderScreen = () => {
         title={t('onboarding.gender.button')}
         onPress={handleNext}
         isDisabled={isDisabled}
-        containerStyle={styles.bottomButton}
       />
     </SectionPage>
   );
@@ -146,8 +145,5 @@ const styles = StyleSheet.create({
   },
   genderButtonSelected: {
     borderColor: palette.accentPrimary500,
-  },
-  bottomButton: {
-    marginBottom: 20,
   },
 });
