@@ -13,6 +13,8 @@ import IcCalendarOn from '../../../assets/icons/ic_calendar_on.svg';
 import IcCalendarOff from '../../../assets/icons/ic_calendar_off.svg';
 import IcMyOn from '../../../assets/icons/ic_my_on.svg';
 import IcMyOff from '../../../assets/icons/ic_my_off.svg';
+import IcCheckGray from '../../../assets/icons/ic_check_gray.svg';
+import IcCheckGreen from '../../../assets/icons/ic_check_green.svg';
 
 export const Icon = {
   IcNext,
@@ -30,4 +32,6 @@ export const Icon = {
   IcCalendarOff,
   IcMyOn,
   IcMyOff,
+  IcCheckGray,
+  IcCheckGreen,
 };

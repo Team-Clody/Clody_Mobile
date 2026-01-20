@@ -2,7 +2,12 @@ import { useState } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Routes, StackNavParamList } from '../../navigation/route';
 import { useNavigation } from '@react-navigation/native';
-import { BottomActionButton, SectionPage, Typo } from '../../shared/components';
+import {
+  BottomActionButton,
+  Icon,
+  SectionPage,
+  Typo,
+} from '../../shared/components';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { palette } from '../../shared/theme/palette';
 import { signupStorage } from '../../storage/signupStorage';
@@ -89,11 +94,16 @@ export const GenderScreen = () => {
               onPress={() => setSelectedGender(option.value)}
             >
               <Typo.Body
-                variant="body8"
-                color={isSelected ? 'gray30' : 'gray1000'}
+                variant={isSelected ? 'body1' : 'body8'}
+                color={isSelected ? 'accentPrimary500' : 'gray1000'}
               >
                 {option.label}
               </Typo.Body>
+              {isSelected ? (
+                <Icon.IcCheckGreen width={28} height={28} />
+              ) : (
+                <Icon.IcCheckGray width={28} height={28} />
+              )}
             </Pressable>
           );
         })}
@@ -124,14 +134,18 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   genderButton: {
-    backgroundColor: palette.gray30,
-    borderRadius: 6,
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: palette.gray100,
+    paddingStart: 30,
+    paddingEnd: 16,
     paddingVertical: 16,
   },
   genderButtonSelected: {
-    backgroundColor: '#293038',
+    borderColor: palette.accentPrimary500,
   },
   bottomButton: {
     marginBottom: 20,
