@@ -38,9 +38,9 @@ const TermsItem = ({ title, url }: TermsItemProps) => {
 
   return (
     <Pressable style={styles.termsItem} onPress={handlePress}>
-      <Typo.Body variant="body2" color="gray700">
+      <Typo.Caption variant="caption2" color="gray700">
         {title}
-      </Typo.Body>
+      </Typo.Caption>
       <Icon.IcNext width={16} height={16} />
     </Pressable>
   );
@@ -81,7 +81,7 @@ export const TermsBottomSheet = ({
             <View style={styles.buttonContainer}>
               <Button title={t('onboarding.terms.agree')} onPress={onAgree} />
               <Pressable style={styles.closeButton} onPress={onClose}>
-                <Typo.Body variant="body4" color="gray500">
+                <Typo.Body variant="body9" color="gray500">
                   {t('onboarding.terms.close')}
                 </Typo.Body>
               </Pressable>
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     alignItems: 'center',
-    paddingVertical: 12,
+    paddingVertical: 15,
   },
   bottomFill: {
     backgroundColor: palette.gray0,
