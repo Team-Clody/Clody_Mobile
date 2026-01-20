@@ -10,6 +10,7 @@ import {
 import { useMypage } from '../../hooks/myPage/useMypage';
 import { useTranslation } from 'react-i18next';
 import { useModal } from '../../shared/contexts/ModalContext';
+import { useDevice } from '../../shared/contexts/DeviceContext';
 
 type MyPageScreenNavigationProp = StackNavigationProp<MyPageStackParamList>;
 
@@ -56,6 +57,39 @@ const HeaderSection = ({
   gender: string;
 }) => {
   const { t } = useTranslation();
+  const { isKoreanLanguage } = useDevice();
+
+  const getGenderText = () => {
+    if (gender === 'male') {
+      return t('onboarding.gender.male');
+    } else if (gender === 'female') {
+      return t('onboarding.gender.female');
+    } else {
+      return '';
+    }
+  };
+
+  const formatBirthDate = (dateString: string) => {
+    if (!dateString) return '';
+
+    const date = new Date(dateString);
+
+    if (isKoreanLanguage) {
+      // 한국어: 2024.09.07
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}.${month}.${day}`;
+    } else {
+      // 영어: July 9, 2025
+      const options: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      };
+      return date.toLocaleDateString('en-US', options);
+    }
+  };
 
   return (
     <View style={styles.section}>
@@ -83,7 +117,7 @@ const HeaderSection = ({
         title={t('myPage.profileAccountScreen.birthdate')}
         suffix={
           <Typo.Body variant="body9" color="#4A4C54">
-            {birthDate}
+            {formatBirthDate(birthDate)}
           </Typo.Body>
         }
       />
@@ -91,7 +125,7 @@ const HeaderSection = ({
         title={t('myPage.profileAccountScreen.gender')}
         suffix={
           <Typo.Body variant="body9" color="#4A4C54">
-            {gender}
+            {getGenderText()}
           </Typo.Body>
         }
       />

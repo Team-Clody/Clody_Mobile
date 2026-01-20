@@ -124,8 +124,8 @@ const BodySection = ({
   const openFAQ = async () => {
     console.log(isKoreanLanguage);
     const url = isKoreanLanguage
-      ? 'https://www.notion.so/FAQ-2c6e3fedb3f4801fb61ed12303b708ac?source=copy_link'
-      : 'https://www.notion.so/2c6e3fedb3f480f1b758f7e520eb1d2a?source=copy_link';
+      ? 'https://www.notion.so/2c6e3fedb3f480f1b758f7e520eb1d2a?source=copy_link'
+      : 'https://www.notion.so/FAQ-2c6e3fedb3f4801fb61ed12303b708ac?source=copy_link';
     await Linking.openURL(url);
   };
 

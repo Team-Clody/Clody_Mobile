@@ -89,14 +89,15 @@
       "email": "이메일",
       "birthdate": "생년월일",
       "gender": "성별",
-      "male": "남성",
-      "female": "여성",
       "logout": "로그아웃",
       "withdraw": "탈퇴하기"
     },
     "editNicknameScreen": {
       "title": "닉네임 변경",
-      "save": "저장"
+      "save": "저장",
+      "changeComplete": "변경을 완료했어요.",
+      "confirm": "확인",
+      "nicknameError": "닉네임은 한글,영문,숫자만 가능해요."
     },
     "teamInfoScreen": {
       "title": "클로디팀",
