@@ -17,6 +17,7 @@ import { Icon } from '../../shared/components/Icon';
 import { palette } from '../../shared/theme/palette';
 import { Routes, StackNavParamList } from '../../navigation/route';
 import { signupStorage } from '../../storage/signupStorage';
+import { getLanguageCode } from '../../shared/utils/locale';
 
 type NicknameScreenNavigationProp = StackNavigationProp<
   StackNavParamList,
@@ -28,8 +29,10 @@ export const NicknameScreen = () => {
   const navigation = useNavigation<NicknameScreenNavigationProp>();
   const [nickname, setNickname] = useState('');
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  const isKorean = getLanguageCode() === 'ko';
+  const maxLength = isKorean ? 10 : 15;
   const isEmpty = nickname.length === 0;
-  const isTooLong = nickname.length > 10;
+  const isTooLong = nickname.length > maxLength;
   const isAllowedChars = /^[A-Za-z0-9가-힣ㄱ-ㅎㅏ-ㅣ]+$/.test(nickname);
   const hasError = !isEmpty && (isTooLong || !isAllowedChars);
   const isDisabled = isEmpty || hasError;
@@ -49,8 +52,8 @@ export const NicknameScreen = () => {
   }, []);
 
   const handleChangeNickname = (text: string) => {
-    if (text.length > 10) {
-      setNickname(text.slice(0, 10));
+    if (text.length > maxLength) {
+      setNickname(text.slice(0, maxLength));
       return;
     }
 
@@ -112,7 +115,7 @@ export const NicknameScreen = () => {
                 color="#8791A0"
                 style={styles.counter}
               >
-                {nickname.length}/10
+                {nickname.length}/{maxLength}
               </Typo.Caption>
             </View>
           </View>
