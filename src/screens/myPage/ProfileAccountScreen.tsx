@@ -8,6 +8,7 @@ import {
   MyPageRoutes,
 } from '../../navigation/MyPageNavigationStack';
 import { useMypage } from '../../hooks/myPage/useMypage';
+import { useTranslation } from 'react-i18next';
 import { useModal } from '../../shared/contexts/ModalContext';
 
 type MyPageScreenNavigationProp = StackNavigationProp<MyPageStackParamList>;
@@ -15,6 +16,7 @@ type MyPageScreenNavigationProp = StackNavigationProp<MyPageStackParamList>;
 export const ProfileAccountScreen = () => {
   const navigation = useNavigation<MyPageScreenNavigationProp>();
   const { myPageInfo } = useMypage();
+  const { t } = useTranslation();
   const navigateToEditNickname = () => {
     navigation.navigate(MyPageRoutes.EDIT_NICKNAME);
   };
@@ -22,7 +24,7 @@ export const ProfileAccountScreen = () => {
   return (
     <SectionPage
       header={{
-        title: '프로필 및 계정관리',
+        title: t('myPage.profileAccountScreen.title'),
         prefix: true,
         style: { paddingTop: 12 },
       }}
@@ -53,10 +55,12 @@ const HeaderSection = ({
   email: string;
   gender: string;
 }) => {
+  const { t } = useTranslation();
+
   return (
     <View style={styles.section}>
       <ProfileAcountCell
-        title="닉네임"
+        title={t('myPage.profileAccountScreen.nickname')}
         suffix={
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
             <Typo.Body variant="body9" color="#4A4C54">
@@ -68,7 +72,7 @@ const HeaderSection = ({
         onPress={navigateToEditNickname}
       />
       <ProfileAcountCell
-        title="이메일"
+        title={t('myPage.profileAccountScreen.email')}
         suffix={
           <Typo.Body variant="body9" color="#4A4C54">
             {email}
@@ -76,7 +80,7 @@ const HeaderSection = ({
         }
       />
       <ProfileAcountCell
-        title="생년월일"
+        title={t('myPage.profileAccountScreen.birthdate')}
         suffix={
           <Typo.Body variant="body9" color="#4A4C54">
             {birthDate}
@@ -84,7 +88,7 @@ const HeaderSection = ({
         }
       />
       <ProfileAcountCell
-        title="성별"
+        title={t('myPage.profileAccountScreen.gender')}
         suffix={
           <Typo.Body variant="body9" color="#4A4C54">
             {gender}
@@ -96,18 +100,19 @@ const HeaderSection = ({
 };
 
 const FooterSection = () => {
+  const { t } = useTranslation();
   const { showModal } = useModal();
 
   return (
     <View style={styles.footerSection}>
       <Pressable onPress={() => showModal('logout')}>
         <Typo.Body variant="body9" color="#4A4C54">
-          로그아웃
+          {t('myPage.profileAccountScreen.logout')}
         </Typo.Body>
       </Pressable>
       <Pressable onPress={() => showModal('revoke')}>
         <Typo.Body variant="body9" color="#4A4C54">
-          탈퇴하기
+          {t('myPage.profileAccountScreen.withdraw')}
         </Typo.Body>
       </Pressable>
     </View>

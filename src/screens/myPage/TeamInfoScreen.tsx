@@ -2,10 +2,19 @@ import { Linking, Pressable, StyleSheet, View } from 'react-native';
 import { SectionPage, Typo } from '../../shared/components';
 import { Icon } from '../../shared/components/Icon';
 import { useDevice } from '../../shared/contexts/DeviceContext';
+import { useTranslation } from 'react-i18next';
 
 export const TeamInfoScreen = () => {
+  const { t } = useTranslation();
+
   return (
-    <SectionPage header={{ title: '클로디 팀', prefix: true }}>
+    <SectionPage
+      header={{
+        title: t('myPage.teamInfoScreen.title'),
+        prefix: true,
+        style: { paddingTop: 12 },
+      }}
+    >
       <HeaderSection />
     </SectionPage>
   );
@@ -13,6 +22,7 @@ export const TeamInfoScreen = () => {
 
 const HeaderSection = () => {
   const { isKoreanLanguage } = useDevice();
+  const { t } = useTranslation();
 
   const openInstagram = () => {
     const url = isKoreanLanguage
@@ -29,7 +39,7 @@ const HeaderSection = () => {
   return (
     <View style={styles.section}>
       <TeamInfoCell
-        title="인스타그램"
+        title={t('myPage.teamInfoScreen.Instagram')}
         suffix={
           <Pressable
             onPress={openInstagram}
@@ -43,14 +53,14 @@ const HeaderSection = () => {
         }
       />
       <TeamInfoCell
-        title="후원하기"
+        title={t('myPage.teamInfoScreen.Support Clody')}
         suffix={
           <Pressable
             onPress={openSupport}
             style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}
           >
             <Typo.Body variant="body9" color="#4A4C54">
-              커피 사주기
+              {t('myPage.teamInfoScreen.Buy me a coffee')}
             </Typo.Body>
             <Icon.IcNext width={28} height={28} />
           </Pressable>
