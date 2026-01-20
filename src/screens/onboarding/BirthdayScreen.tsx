@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import {
   KeyboardAvoidingView,
+  Platform,
   Pressable,
   StyleSheet,
   TextInput,
@@ -63,11 +64,24 @@ const validateBirthday = (value: string): boolean => {
 
   // 미래 날짜 체크
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const inputDate = new Date(fullYear, month - 1, day);
-  inputDate.setHours(0, 0, 0, 0);
+  const todayYear = today.getFullYear();
+  const todayMonth = today.getMonth() + 1;
+  const todayDay = today.getDate();
 
-  return inputDate <= today;
+  // 연도 비교
+  if (fullYear > todayYear) {
+    return false;
+  }
+  // 같은 연도면 월 비교
+  if (fullYear === todayYear && month > todayMonth) {
+    return false;
+  }
+  // 같은 연도, 같은 월이면 일 비교
+  if (fullYear === todayYear && month === todayMonth && day > todayDay) {
+    return false;
+  }
+
+  return true;
 };
 
 // 7자리 입력값에서 생년월일(YYYY-MM-DD)과 성별(male/female)을 파싱
@@ -131,7 +145,8 @@ export const BirthdayScreen = () => {
     <SectionPage header={{ prefix: true, suffix: SkipButton }}>
       <KeyboardAvoidingView
         style={styles.container}
-        behavior="padding"
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 30 : 0}
       >
         <View>
           <Typo.Display variant="display1" style={styles.title}>
