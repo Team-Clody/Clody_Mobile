@@ -5,7 +5,6 @@ import {
   View,
   TouchableWithoutFeedback,
   Keyboard,
-  Alert,
 } from 'react-native';
 import { BottomActionButton, SectionPage, Typo } from '../../shared/components';
 import { useState } from 'react';
@@ -14,11 +13,13 @@ import { useMypage } from '../../hooks/myPage/useMypage';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { useDevice } from '../../shared/contexts/DeviceContext';
+import { useToast } from '../../shared/contexts/ToastContext';
 
 export const EditNicknameScreen = () => {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const { isKorean } = useDevice();
+  const { showToast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const { patchNickname, myPageInfo } = useMypage();
   const [nickname, setNickname] = useState(myPageInfo?.name || '');
@@ -57,12 +58,10 @@ export const EditNicknameScreen = () => {
     setIsLoading(true);
     try {
       await patchNickname({ name: nickname });
-      Alert.alert(t('myPage.editNicknameScreen.changeComplete'), '', [
-        {
-          text: t('myPage.editNicknameScreen.confirm'),
-          onPress: () => navigation.goBack(),
-        },
-      ]);
+      showToast(t('myPage.editNicknameScreen.changeComplete'));
+      setTimeout(() => {
+        navigation.goBack();
+      }, 2300);
     } finally {
       setIsLoading(false);
     }

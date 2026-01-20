@@ -3,6 +3,7 @@ import { useAppBootstrap } from './useAppBootstrap';
 import { RootNavigator } from './navigation/RootNavigator';
 import { DeviceProvider } from './shared/contexts/DeviceContext';
 import { ModalProvider } from './shared/contexts/ModalContext';
+import { ToastProvider } from './shared/contexts/ToastContext';
 import { ModalContainer } from './shared/components/modal/ModalContainer';
 import './shared/i18n';
 
@@ -16,8 +17,10 @@ function App() {
   return (
     <DeviceProvider>
       <ModalProvider>
-        <RootNavigator initialRoute={initialRoute} />
-        <ModalContainer />
+        <ToastProvider>
+          <RootNavigator initialRoute={initialRoute} />
+          <ModalContainer />
+        </ToastProvider>
       </ModalProvider>
     </DeviceProvider>
   );
