@@ -19,5 +19,27 @@
       "apple": "Sign up with Apple",
       "google": "Sign up with Google"
     }
+  },
+  "onboarding": {
+    "birthdayEn": {
+      "skip": "Skip",
+      "title": "When is\nyour birthday?",
+      "description": "Used to recommend gratitude prompts tailored to you.",
+      "placeholder": "Date of Birth",
+      "button": "Next"
+    },
+    "birthdayBottomSheet": {
+      "title": "Please select your date of birth",
+      "button": "Save"
+    },
+    "gender": {
+      "skip": "Skip",
+      "title": "How do you identify\nyour gender?",
+      "description": "Used to recommend gratitude prompts tailored to you.",
+      "female": "Female",
+      "male": "Male",
+      "specifyAnother": "Specify another",
+      "button": "Next"
+    }
   }
 }
