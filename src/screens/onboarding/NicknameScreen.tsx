@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useTranslation } from 'react-i18next';
 import { SectionPage, Typo } from '../../shared/components';
 import { Button } from '../../shared/components/Button';
 import { Icon } from '../../shared/components/Icon';
@@ -23,6 +24,7 @@ type NicknameScreenNavigationProp = StackNavigationProp<
 >;
 
 export const NicknameScreen = () => {
+  const { t } = useTranslation();
   const navigation = useNavigation<NicknameScreenNavigationProp>();
   const [nickname, setNickname] = useState('');
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
@@ -64,13 +66,13 @@ export const NicknameScreen = () => {
         <View>
           <View style={styles.textBlock}>
             <Typo.Display variant="display1" style={styles.title}>
-              만나서 반가워요
+              {t('onboarding.nickname.title1')}
             </Typo.Display>
             <Typo.Display variant="display1" style={styles.title}>
-              어떻게 불러드릴까요?
+              {t('onboarding.nickname.title2')}
             </Typo.Display>
             <Typo.Caption variant="caption2" color={palette.gray500}>
-              프로필에 보일 닉네임이에요
+              {t('onboarding.nickname.subtitle')}
             </Typo.Caption>
           </View>
 
@@ -79,7 +81,7 @@ export const NicknameScreen = () => {
               <TextInput
                 value={nickname}
                 onChangeText={handleChangeNickname}
-                placeholder="닉네임을 입력해주세요."
+                placeholder={t('onboarding.nickname.placeholder')}
                 placeholderTextColor={palette.gray400}
                 style={styles.textInput}
                 returnKeyType="default"
@@ -102,7 +104,7 @@ export const NicknameScreen = () => {
                   variant="caption3"
                   color="#E0565B"
                 >
-                  닉네임은 한글,영문,숫자만 가능해요.
+                  {t('onboarding.nickname.error')}
                 </Typo.Caption>
               )}
               <Typo.Caption
@@ -118,7 +120,7 @@ export const NicknameScreen = () => {
 
         <View style={[styles.footer, isKeyboardVisible && styles.footerKeyboardVisible]}>
           <Button
-            title="다음"
+            title={t('onboarding.nickname.next')}
             onPress={async () => {
               await signupStorage.setName(nickname);
               navigation.navigate(Routes.ONBOARDING_BIRTHDAY);
