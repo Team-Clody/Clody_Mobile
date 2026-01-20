@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { FlatList, Modal, StyleSheet, View } from 'react-native';
 import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 import { Button } from './Button';
-import { Typo } from './Typo';
+import { Typo } from './typo/Typo';
 import { palette } from '../theme/palette';
 import { useTranslation } from '../hooks/useTranslation';
 

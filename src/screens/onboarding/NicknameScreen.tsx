@@ -17,8 +17,7 @@ import { Icon } from '../../shared/components/Icon';
 import { palette } from '../../shared/theme/palette';
 import { Routes, StackNavParamList } from '../../navigation/route';
 import { signupStorage } from '../../storage/signupStorage';
-import { isKoreanLocale } from '../../shared/utils/locale';
-import { getLanguageCode } from '../../shared/utils/locale';
+import { isKoreanLocale, getLanguageCode } from '../../shared/utils/locale';
 
 type NicknameScreenNavigationProp = StackNavigationProp<
   StackNavParamList,
