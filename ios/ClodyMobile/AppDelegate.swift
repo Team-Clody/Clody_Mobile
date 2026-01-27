@@ -5,6 +5,7 @@ import ReactAppDependencyProvider
 import RNBootSplash
 import kakao_login
 import GoogleSignIn
+import FirebaseCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -32,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       launchOptions: launchOptions
     )
     
+    FirebaseApp.configure()
     RNBootSplash.init()
 
     return true
