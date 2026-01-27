@@ -8,7 +8,7 @@ import { handleLogin, handleGoogleLogin } from '../../auth/handleLogin';
 import { Routes, StackNavParamList } from '../../navigation/route';
 import { appleLogin } from '../../auth/appleAuth';
 import { googleLogin, configureGoogleSignIn } from '../../auth/googleAuth';
-import { Typo } from '../../shared/components';
+import { Typo, SectionPage } from '../../shared/components';
 import { palette } from '../../shared/theme/palette';
 import { useDevice } from '../../shared/contexts/DeviceContext';
 import { signupStorage } from '../../storage/signupStorage';
@@ -133,7 +133,11 @@ const LoginScreen = () => {
   }, [availableLoginButtons, navigation, t]);
 
   return (
-    <View style={styles.container}>
+    <SectionPage
+      containerStyle={styles.container}
+      header={false}
+      safeAreaBackgroundColor={palette.gray0}
+    >
       {/* 상단 콘텐츠 영역 */}
       <View style={styles.pagerWrapper}>
         <PagerView
@@ -179,7 +183,7 @@ const LoginScreen = () => {
 
       {/* 하단 로그인 버튼 영역 */}
       <View style={styles.buttonContainer}>{loginButtons}</View>
-    </View>
+    </SectionPage>
   );
 };
 
@@ -187,9 +191,7 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 14,
-    backgroundColor: palette.gray0,
   },
 
   pagerWrapper: {
@@ -197,7 +199,7 @@ const styles = StyleSheet.create({
   },
 
   pagerView: {
-    marginTop: 150,
+    marginTop: 100,
     height: 400,
   },
 
@@ -224,7 +226,7 @@ const styles = StyleSheet.create({
   },
 
   indicatorWrapper: {
-    marginTop: -50,
+    marginTop: -60,
     flexDirection: 'row',
     justifyContent: 'center',
   },
@@ -242,6 +244,6 @@ const styles = StyleSheet.create({
   },
 
   buttonContainer: {
-    paddingBottom: 30,
+    paddingBottom: 40,
   },
 });
