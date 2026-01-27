@@ -118,6 +118,11 @@
       "description": "Your journals, replies, and clovers will be permanently deleted and can't be restored.",
       "cancel": "Cancel",
       "confirm": "Withdraw"
+    },
+    "inspection": {
+      "title": "We’re conducting system maintenance\nto improve your experience on Clody.\nSee you again soon!",
+      "description": "[Maintenance time]\n",
+      "confirm": "Exit app"
     }
   }
 }

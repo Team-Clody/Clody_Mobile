@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 /**
  * 모달 타입 정의
  */
-export type ModalType = 'logout' | 'revoke' | string;
+export type ModalType = 'inspection' | 'logout' | 'revoke' | string;
 
 /**
  * 전역 모달 상태 타입

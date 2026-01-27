@@ -13,5 +13,6 @@ export type { TimePickerValue } from './TimePickerBottomSheet';
 export { TermsBottomSheet } from './TermsBottomSheet';
 export { Icon } from './Icon';
 export { ModalContainer } from './modal/ModalContainer';
+export { InspectionModal } from './modal/InspectionModal';
 export { LogoutModal } from './modal/LogoutModal';
 export { RevokeModal } from './modal/RevokeModal';

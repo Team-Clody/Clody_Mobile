@@ -1,4 +1,5 @@
 import React from 'react';
+import { InspectionModal } from './InspectionModal';
 import { LogoutModal } from './LogoutModal';
 import { RevokeModal } from './RevokeModal';
 
@@ -9,6 +10,7 @@ import { RevokeModal } from './RevokeModal';
 export const ModalContainer = () => {
   return (
     <>
+      <InspectionModal />
       <LogoutModal />
       <RevokeModal />
     </>

@@ -83,4 +83,4 @@ ios/Config.xcconfig
 
 # Firebase/Google configuration files
 android/app/google-services.json
-ios/GoogleService-Info.plist
+ios/ClodyMobile/GoogleService-Info.plist
