@@ -63,7 +63,7 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>RCTNewArchEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -77,6 +77,7 @@
 		<string>Pretendard-Regular.otf</string>
 		<string>Pretendard-Medium.otf</string>
 		<string>Pretendard-SemiBold.otf</string>
+		<string>Pretendard-Bold.otf</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
