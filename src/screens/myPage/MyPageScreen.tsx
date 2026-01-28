@@ -87,6 +87,7 @@ const HeaderSection = ({
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
+            paddingRight: 14,
           }}
         >
           <Typo.Body variant="body9">
@@ -189,12 +190,13 @@ const FooterSection = () => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
+            paddingRight: 14,
           }}
         >
           <Typo.Body variant="body9">
             {t('myPage.myPageScreen.Version')}
           </Typo.Body>
-          <Typo.Body variant="body4" color="#A7A9B2">
+          <Typo.Body variant="body11" color="#8791A0">
             {appVersion}
           </Typo.Body>
         </View>
@@ -236,6 +238,7 @@ const styles = StyleSheet.create({
   section: {
     backgroundColor: '#FFF',
     padding: 14,
+    paddingRight: 5,
     gap: 24,
     borderRadius: 10,
     flexDirection: 'column',

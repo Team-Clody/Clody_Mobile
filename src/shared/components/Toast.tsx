@@ -16,18 +16,12 @@ export const Toast: React.FC<ToastProps> = ({
   duration = 2000,
   onHide,
 }) => {
-  const opacity = useRef(new Animated.Value(0)).current;
   const translateY = useRef(new Animated.Value(20)).current;
 
   useEffect(() => {
     if (visible) {
       // 나타나는 애니메이션
       Animated.parallel([
-        Animated.timing(opacity, {
-          toValue: 1,
-          duration: 300,
-          useNativeDriver: true,
-        }),
         Animated.timing(translateY, {
           toValue: 0,
           duration: 300,
@@ -38,11 +32,6 @@ export const Toast: React.FC<ToastProps> = ({
       // 지정된 시간 후 사라지는 애니메이션
       const timer = setTimeout(() => {
         Animated.parallel([
-          Animated.timing(opacity, {
-            toValue: 0,
-            duration: 300,
-            useNativeDriver: true,
-          }),
           Animated.timing(translateY, {
             toValue: 20,
             duration: 300,
@@ -55,9 +44,9 @@ export const Toast: React.FC<ToastProps> = ({
 
       return () => clearTimeout(timer);
     }
-  }, [visible, duration, opacity, translateY, onHide]);
+  }, [visible, duration, translateY, onHide]);
 
-  if (!visible && opacity._value === 0) {
+  if (!visible) {
     return null;
   }
 
@@ -67,7 +56,6 @@ export const Toast: React.FC<ToastProps> = ({
         style={[
           styles.toast,
           {
-            opacity,
             transform: [{ translateY }],
           },
         ]}
@@ -98,6 +86,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 10,
     paddingHorizontal: 16,
-    paddingVertical: 14,
+    paddingVertical: 13,
   },
 });

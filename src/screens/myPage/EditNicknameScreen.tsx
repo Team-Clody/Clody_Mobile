@@ -59,9 +59,7 @@ export const EditNicknameScreen = () => {
     try {
       await patchNickname({ name: nickname });
       showToast(t('myPage.editNicknameScreen.changeComplete'));
-      setTimeout(() => {
-        navigation.goBack();
-      }, 2300);
+      navigation.goBack();
     } finally {
       setIsLoading(false);
     }
