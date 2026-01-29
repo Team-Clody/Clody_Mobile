@@ -12,6 +12,7 @@ export function useAppBootstrap() {
   const [initialRoute, setInitialRoute] = useState<
     keyof StackNavParamList | null
   >(null);
+  const [isInspectionTime, setIsInspectionTime] = useState<boolean>(false);
 
   useEffect(() => {
     bootstrap();
@@ -20,9 +21,15 @@ export function useAppBootstrap() {
   async function bootstrap() {
     try {
       await initializeRemoteConfig();
-
       await checkAppVersion();
-      await checkInspection();
+
+      const inspectionResult = await checkInspection();
+      setIsInspectionTime(inspectionResult);
+
+      if (inspectionResult) {
+        return;
+      }
+
       const autoLoginSuccess = await checkAutoLogin();
       setInitialRoute(autoLoginSuccess ? Routes.MAIN_TAB : Routes.LOGIN);
     } catch (e) {
@@ -33,5 +40,5 @@ export function useAppBootstrap() {
     }
   }
 
-  return { initialRoute };
+  return { initialRoute, isInspectionTime };
 }

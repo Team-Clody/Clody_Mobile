@@ -8,7 +8,18 @@ import { ModalContainer } from './shared/components/modal/ModalContainer';
 import './shared/i18n';
 
 function App() {
-  const { initialRoute } = useAppBootstrap();
+  const { initialRoute, isInspectionTime } = useAppBootstrap();
+
+  // 점검 시간이면 모달만 표시
+  if (isInspectionTime) {
+    return (
+      <DeviceProvider>
+        <ModalProvider initialModal="inspection">
+          <ModalContainer />
+        </ModalProvider>
+      </DeviceProvider>
+    );
+  }
 
   if (!initialRoute) {
     return null;

@@ -34,14 +34,21 @@ const ModalContext = createContext<ModalContextValue | undefined>(undefined);
  */
 interface ModalProviderProps {
   children: ReactNode;
+  /** 초기 모달 타입 (점검 시간 등 앱 시작 시 모달 표시용) */
+  initialModal?: ModalType | null;
 }
 
 /**
  * 전역 모달 상태를 제공하는 Provider 컴포넌트
  * 앱 전역에서 여러 종류의 모달을 관리합니다.
  */
-export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
-  const [visibleModal, setVisibleModal] = useState<ModalType | null>(null);
+export const ModalProvider: React.FC<ModalProviderProps> = ({
+  children,
+  initialModal = null,
+}) => {
+  const [visibleModal, setVisibleModal] = useState<ModalType | null>(
+    initialModal,
+  );
   const [isLogoutSuccess, setIsLogoutSuccess] = useState(false);
   const [isRevokeSuccess, setIsRevokeSuccess] = useState(false);
 

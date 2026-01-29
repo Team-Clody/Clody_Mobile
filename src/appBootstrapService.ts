@@ -14,7 +14,7 @@ export async function checkAppVersion(): Promise<void> {
   console.log('✅ 앱 버전 검사 완료');
 }
 
-export async function checkInspection(): Promise<void> {
+export async function checkInspection(): Promise<boolean> {
   console.log('🛠 점검 시간 검사 시작');
 
   try {
@@ -36,9 +36,12 @@ export async function checkInspection(): Promise<void> {
     } else {
       console.log('✅ 점검 시간 아님');
     }
+
+    return isInspectionTime;
   } catch (error) {
     console.error('❌ 점검 시간 검사 중 오류:', error);
     console.log('✅ 점검 시간 아님 (오류로 인해 기본값)');
+    return false;
   }
 }
 

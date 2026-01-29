@@ -72,10 +72,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 24,
     zIndex: 9999,
   },
   modalContainer: {
-    marginHorizontal: 24,
+    width: '100%',
     backgroundColor: palette.gray0,
     borderRadius: 12,
   },
@@ -88,7 +89,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   buttonWrapper: {
-    width: '100%',
     padding: 18,
   },
   button: {
