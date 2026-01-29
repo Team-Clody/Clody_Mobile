@@ -3,16 +3,117 @@ import {
   getValue,
 } from '@react-native-firebase/remote-config';
 import { tokenStorage } from './storage/tokenStorage';
+import { version } from '../package.json';
 
-const delay = (ms: number): Promise<void> =>
-  new Promise(resolve => {
-    setTimeout(() => resolve(), ms);
-  });
+/**
+ * 앱 버전 상태 타입
+ */
+export type AppVersionStatus = 'hardUpdate' | 'softUpdate' | 'latest';
 
-export async function checkAppVersion(): Promise<void> {
+/**
+ * 앱 버전 검사 결과
+ */
+export interface AppVersionCheckResult {
+  status: AppVersionStatus;
+  currentVersion: string;
+  softUpdateVersion: string;
+  hardUpdateVersion: string;
+}
+
+/**
+ * 버전 문자열을 숫자 배열로 변환하여 비교
+ * @param version1 첫 번째 버전 (예: "2.0.0")
+ * @param version2 두 번째 버전 (예: "2.1.0")
+ * @returns version1 < version2면 -1, 같으면 0, version1 > version2면 1
+ */
+function compareVersions(version1: string, version2: string): number {
+  const v1Parts = version1.split('.').map(Number);
+  const v2Parts = version2.split('.').map(Number);
+
+  const maxLength = Math.max(v1Parts.length, v2Parts.length);
+
+  for (let i = 0; i < maxLength; i++) {
+    const v1Part = v1Parts[i] || 0;
+    const v2Part = v2Parts[i] || 0;
+
+    if (v1Part < v2Part) {
+      return -1;
+    }
+    if (v1Part > v2Part) {
+      return 1;
+    }
+  }
+
+  return 0;
+}
+
+/**
+ * 앱 버전을 검사하여 업데이트 필요 여부를 확인
+ * @returns 앱 버전 검사 결과
+ */
+export async function checkAppVersion(): Promise<AppVersionCheckResult> {
   console.log('📦 앱 버전 검사 시작');
-  await delay(100);
-  console.log('✅ 앱 버전 검사 완료');
+
+  try {
+    const config = getRemoteConfig();
+    const currentVersion = version;
+
+    const softUpdateVersion = getValue(
+      config,
+      'rn_update_version_soft',
+    ).asString();
+    const hardUpdateVersion = getValue(
+      config,
+      'rn_update_version_hard',
+    ).asString();
+
+    console.log('📋 현재 버전:', currentVersion);
+    console.log('📋 소프트 업데이트 버전:', softUpdateVersion);
+    console.log('📋 하드 업데이트 버전:', hardUpdateVersion);
+
+    if (!softUpdateVersion || !hardUpdateVersion) {
+      console.warn('⚠️ Remote Config에서 버전 정보를 가져올 수 없습니다');
+      return {
+        status: 'latest',
+        currentVersion,
+        softUpdateVersion: softUpdateVersion || '',
+        hardUpdateVersion: hardUpdateVersion || '',
+      };
+    }
+
+    const compareWithHard = compareVersions(currentVersion, hardUpdateVersion);
+    const compareWithSoft = compareVersions(currentVersion, softUpdateVersion);
+
+    const status: AppVersionStatus =
+      compareWithHard < 0
+        ? 'hardUpdate'
+        : compareWithSoft < 0
+        ? 'softUpdate'
+        : 'latest';
+
+    console.log(
+      status === 'hardUpdate'
+        ? '⚠️ 하드 업데이트 필요'
+        : status === 'softUpdate'
+        ? '⚠️ 소프트 업데이트 권장'
+        : '✅ 최신 버전입니다',
+    );
+
+    return {
+      status,
+      currentVersion,
+      softUpdateVersion,
+      hardUpdateVersion,
+    };
+  } catch (error) {
+    console.error('❌ 앱 버전 검사 중 오류:', error);
+    return {
+      status: 'latest',
+      currentVersion: version,
+      softUpdateVersion: '',
+      hardUpdateVersion: '',
+    };
+  }
 }
 
 export async function checkInspection(): Promise<boolean> {
@@ -41,7 +142,6 @@ export async function checkInspection(): Promise<boolean> {
     return isInspectionTime;
   } catch (error) {
     console.error('❌ 점검 시간 검사 중 오류:', error);
-    console.log('✅ 점검 시간 아님 (오류로 인해 기본값)');
     return false;
   }
 }
@@ -72,7 +172,6 @@ function checkIfInspectionTime(start: string, end: string): boolean {
 
 export async function checkAutoLogin(): Promise<boolean> {
   console.log('🔐 자동 로그인 판별 시작');
-  await delay(100);
 
   try {
     const tokens = await tokenStorage.getTokens();
@@ -86,7 +185,6 @@ export async function checkAutoLogin(): Promise<boolean> {
     }
   } catch (error) {
     console.error('❌ 자동 로그인 판별 중 오류:', error);
-    console.log('❌ 자동 로그인 실패 - 오류 발생');
     return false;
   }
 }

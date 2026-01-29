@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Routes, StackNavParamList } from './navigation/route';
 import RNBootSplash from 'react-native-bootsplash';
 import {
+  AppVersionCheckResult,
   checkAppVersion,
   checkAutoLogin,
   checkInspection,
@@ -12,17 +13,26 @@ export function useAppBootstrap() {
   const [initialRoute, setInitialRoute] = useState<
     keyof StackNavParamList | null
   >(null);
+  const [appVersionResult, setAppVersionResult] =
+    useState<AppVersionCheckResult | null>(null);
   const [isInspectionTime, setIsInspectionTime] = useState<boolean>(false);
 
-  useEffect(() => {
-    bootstrap();
-  }, []);
-
-  async function bootstrap() {
+  const bootstrap = useCallback(async () => {
     try {
       await initializeRemoteConfig();
-      await checkAppVersion();
 
+      // 1. 앱 버전 판별
+      const versionResult = await checkAppVersion();
+      setAppVersionResult(versionResult);
+
+      if (
+        versionResult.status === 'hardUpdate' ||
+        versionResult.status === 'softUpdate'
+      ) {
+        return;
+      }
+
+      // 2. 점검 여부 판별
       const inspectionResult = await checkInspection();
       setIsInspectionTime(inspectionResult);
 
@@ -30,6 +40,7 @@ export function useAppBootstrap() {
         return;
       }
 
+      // 3. 자동 로그인 판별
       const autoLoginSuccess = await checkAutoLogin();
       setInitialRoute(autoLoginSuccess ? Routes.MAIN_TAB : Routes.LOGIN);
     } catch (e) {
@@ -38,7 +49,11 @@ export function useAppBootstrap() {
     } finally {
       RNBootSplash.hide({ fade: true });
     }
-  }
+  }, []);
 
-  return { initialRoute, isInspectionTime };
+  useEffect(() => {
+    bootstrap();
+  }, [bootstrap]);
+
+  return { initialRoute, isInspectionTime, appVersionResult };
 }

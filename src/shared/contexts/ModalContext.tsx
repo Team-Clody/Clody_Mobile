@@ -31,6 +31,8 @@ interface ModalContextValue {
   hideModal: () => void;
   /** 특정 모달이 표시 중인지 확인 */
   isModalVisible: (modalType: ModalType) => boolean;
+  /** 업데이트 모달 데이터 */
+  updateModalData: UpdateModalData | null;
   /** 로그아웃 성공 여부 */
   isLogoutSuccess: boolean;
   /** 로그아웃 성공 플래그 설정 */
@@ -39,8 +41,6 @@ interface ModalContextValue {
   isRevokeSuccess: boolean;
   /** 회원탈퇴 성공 플래그 설정 */
   setRevokeSuccess: (success: boolean) => void;
-  /** 업데이트 모달 데이터 */
-  updateModalData: UpdateModalData | null;
 }
 
 const ModalContext = createContext<ModalContextValue | undefined>(undefined);
@@ -52,6 +52,8 @@ interface ModalProviderProps {
   children: ReactNode;
   /** 초기 모달 타입 (점검 시간 등 앱 시작 시 모달 표시용) */
   initialModal?: ModalType | null;
+  /** 초기 업데이트 모달 데이터 */
+  initialModalData?: UpdateModalData | null;
 }
 
 /**
@@ -61,14 +63,15 @@ interface ModalProviderProps {
 export const ModalProvider: React.FC<ModalProviderProps> = ({
   children,
   initialModal = null,
+  initialModalData = null,
 }) => {
   const [visibleModal, setVisibleModal] = useState<ModalType | null>(
     initialModal,
   );
+  const [updateModalData, setUpdateModalData] =
+    useState<UpdateModalData | null>(initialModalData);
   const [isLogoutSuccess, setIsLogoutSuccess] = useState(false);
   const [isRevokeSuccess, setIsRevokeSuccess] = useState(false);
-  const [updateModalData, setUpdateModalData] =
-    useState<UpdateModalData | null>(null);
 
   const showModal = (modalType: ModalType, data?: UpdateModalData) => {
     setVisibleModal(modalType);
@@ -106,11 +109,11 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
         showModal,
         hideModal,
         isModalVisible,
+        updateModalData,
         isLogoutSuccess,
         setLogoutSuccess,
         isRevokeSuccess,
         setRevokeSuccess,
-        updateModalData,
       }}
     >
       {children}
