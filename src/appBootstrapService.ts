@@ -2,6 +2,7 @@ import {
   getRemoteConfig,
   getValue,
 } from '@react-native-firebase/remote-config';
+import { tokenStorage } from './storage/tokenStorage';
 
 const delay = (ms: number): Promise<void> =>
   new Promise(resolve => {
@@ -73,9 +74,19 @@ export async function checkAutoLogin(): Promise<boolean> {
   console.log('🔐 자동 로그인 판별 시작');
   await delay(100);
 
-  // 지금은 무조건 성공 / 실패 중 하나로 고정
-  const success = false; // ← false로 바꾸면 LoginScreen으로 이동
-  console.log(success ? '✅ 자동 로그인 성공' : '❌ 자동 로그인 실패');
+  try {
+    const tokens = await tokenStorage.getTokens();
 
-  return success;
+    if (tokens && tokens.accessToken && tokens.refreshToken) {
+      console.log('✅ 자동 로그인 성공 - 토큰이 존재합니다');
+      return true;
+    } else {
+      console.log('❌ 자동 로그인 실패 - 토큰이 없습니다');
+      return false;
+    }
+  } catch (error) {
+    console.error('❌ 자동 로그인 판별 중 오류:', error);
+    console.log('❌ 자동 로그인 실패 - 오류 발생');
+    return false;
+  }
 }
