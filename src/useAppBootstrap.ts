@@ -6,6 +6,7 @@ import {
   checkAutoLogin,
   checkInspection,
 } from './appBootstrapService';
+import { initializeRemoteConfig } from './shared/utils';
 
 export function useAppBootstrap() {
   const [initialRoute, setInitialRoute] = useState<
@@ -18,6 +19,8 @@ export function useAppBootstrap() {
 
   async function bootstrap() {
     try {
+      await initializeRemoteConfig();
+
       await checkAppVersion();
       await checkInspection();
       const autoLoginSuccess = await checkAutoLogin();

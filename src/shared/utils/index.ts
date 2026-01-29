@@ -15,3 +15,6 @@ export { getAvailableLoginButtons, type LoginButtonType } from './loginButtons';
 
 // Timezone utilities
 export { getDeviceTimeZone, isKoreanTimeZone } from './timezone';
+
+// Remote Config utilities
+export { initializeRemoteConfig } from './remoteConfig';
