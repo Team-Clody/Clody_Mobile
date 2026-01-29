@@ -3,7 +3,21 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 /**
  * 모달 타입 정의
  */
-export type ModalType = 'inspection' | 'logout' | 'revoke' | string;
+export type ModalType =
+  | 'inspection'
+  | 'softUpdate'
+  | 'hardUpdate'
+  | 'logout'
+  | 'revoke'
+  | string;
+
+/**
+ * 업데이트 모달 데이터
+ */
+export interface UpdateModalData {
+  currentVersion: string;
+  latestVersion: string;
+}
 
 /**
  * 전역 모달 상태 타입
@@ -12,7 +26,7 @@ interface ModalContextValue {
   /** 현재 표시 중인 모달 타입 */
   visibleModal: ModalType | null;
   /** 모달 표시 */
-  showModal: (modalType: ModalType) => void;
+  showModal: (modalType: ModalType, data?: UpdateModalData) => void;
   /** 모달 숨김 */
   hideModal: () => void;
   /** 특정 모달이 표시 중인지 확인 */
@@ -25,6 +39,8 @@ interface ModalContextValue {
   isRevokeSuccess: boolean;
   /** 회원탈퇴 성공 플래그 설정 */
   setRevokeSuccess: (success: boolean) => void;
+  /** 업데이트 모달 데이터 */
+  updateModalData: UpdateModalData | null;
 }
 
 const ModalContext = createContext<ModalContextValue | undefined>(undefined);
@@ -51,19 +67,24 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
   );
   const [isLogoutSuccess, setIsLogoutSuccess] = useState(false);
   const [isRevokeSuccess, setIsRevokeSuccess] = useState(false);
+  const [updateModalData, setUpdateModalData] =
+    useState<UpdateModalData | null>(null);
 
-  const showModal = (modalType: ModalType) => {
+  const showModal = (modalType: ModalType, data?: UpdateModalData) => {
     setVisibleModal(modalType);
     // 모달을 열 때 성공 플래그 초기화
     if (modalType === 'logout') {
       setIsLogoutSuccess(false);
     } else if (modalType === 'revoke') {
       setIsRevokeSuccess(false);
+    } else if (modalType === 'softUpdate' || modalType === 'hardUpdate') {
+      setUpdateModalData(data || null);
     }
   };
 
   const hideModal = () => {
     setVisibleModal(null);
+    setUpdateModalData(null);
   };
 
   const isModalVisible = (modalType: ModalType): boolean => {
@@ -89,6 +110,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
         setLogoutSuccess,
         isRevokeSuccess,
         setRevokeSuccess,
+        updateModalData,
       }}
     >
       {children}
