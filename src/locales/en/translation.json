@@ -120,8 +120,8 @@
       "confirm": "Withdraw"
     },
     "inspection": {
-      "title": "We’re conducting system maintenance\nto improve your experience on Clody.\nSee you again soon!",
-      "description": "[Maintenance time]\n",
+      "title": "We're conducting system maintenance\nto improve your experience on Clody.\nSee you again soon!",
+      "description": "Maintenance time : {{startTime}} ~ {{endTime}}",
       "confirm": "Exit app"
     },
     "softUpdate": {

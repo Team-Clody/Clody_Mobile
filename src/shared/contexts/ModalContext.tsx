@@ -20,19 +20,32 @@ export interface UpdateModalData {
 }
 
 /**
+ * 점검 모달 데이터
+ */
+export interface InspectionModalData {
+  inspectionStart: string;
+  inspectionEnd: string;
+}
+
+/**
  * 전역 모달 상태 타입
  */
 interface ModalContextValue {
   /** 현재 표시 중인 모달 타입 */
   visibleModal: ModalType | null;
   /** 모달 표시 */
-  showModal: (modalType: ModalType, data?: UpdateModalData) => void;
+  showModal: (
+    modalType: ModalType,
+    data?: UpdateModalData | InspectionModalData,
+  ) => void;
   /** 모달 숨김 */
   hideModal: () => void;
   /** 특정 모달이 표시 중인지 확인 */
   isModalVisible: (modalType: ModalType) => boolean;
   /** 업데이트 모달 데이터 */
   updateModalData: UpdateModalData | null;
+  /** 점검 모달 데이터 */
+  inspectionModalData: InspectionModalData | null;
   /** 로그아웃 성공 여부 */
   isLogoutSuccess: boolean;
   /** 로그아웃 성공 플래그 설정 */
@@ -54,6 +67,8 @@ interface ModalProviderProps {
   initialModal?: ModalType | null;
   /** 초기 업데이트 모달 데이터 */
   initialModalData?: UpdateModalData | null;
+  /** 초기 점검 모달 데이터 */
+  initialInspectionModalData?: InspectionModalData | null;
 }
 
 /**
@@ -64,16 +79,22 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
   children,
   initialModal = null,
   initialModalData = null,
+  initialInspectionModalData = null,
 }) => {
   const [visibleModal, setVisibleModal] = useState<ModalType | null>(
     initialModal,
   );
   const [updateModalData, setUpdateModalData] =
     useState<UpdateModalData | null>(initialModalData);
+  const [inspectionModalData, setInspectionModalData] =
+    useState<InspectionModalData | null>(initialInspectionModalData);
   const [isLogoutSuccess, setIsLogoutSuccess] = useState(false);
   const [isRevokeSuccess, setIsRevokeSuccess] = useState(false);
 
-  const showModal = (modalType: ModalType, data?: UpdateModalData) => {
+  const showModal = (
+    modalType: ModalType,
+    data?: UpdateModalData | InspectionModalData,
+  ) => {
     setVisibleModal(modalType);
     // 모달을 열 때 성공 플래그 초기화
     if (modalType === 'logout') {
@@ -81,13 +102,16 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
     } else if (modalType === 'revoke') {
       setIsRevokeSuccess(false);
     } else if (modalType === 'softUpdate' || modalType === 'hardUpdate') {
-      setUpdateModalData(data || null);
+      setUpdateModalData((data as UpdateModalData) || null);
+    } else if (modalType === 'inspection') {
+      setInspectionModalData((data as InspectionModalData) || null);
     }
   };
 
   const hideModal = () => {
     setVisibleModal(null);
     setUpdateModalData(null);
+    setInspectionModalData(null);
   };
 
   const isModalVisible = (modalType: ModalType): boolean => {
@@ -110,6 +134,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({
         hideModal,
         isModalVisible,
         updateModalData,
+        inspectionModalData,
         isLogoutSuccess,
         setLogoutSuccess,
         isRevokeSuccess,

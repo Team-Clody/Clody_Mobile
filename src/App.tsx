@@ -8,7 +8,7 @@ import { ModalContainer } from './shared/components/modal/ModalContainer';
 import './shared/i18n';
 
 function App() {
-  const { initialRoute, appVersionResult, isInspectionTime } =
+  const { initialRoute, appVersionResult, isInspectionTime, inspectionResult } =
     useAppBootstrap();
 
   // 버전 업데이트가 필요한 경우 모달만 표시 (우선순위 1)
@@ -38,10 +38,16 @@ function App() {
   }
 
   // 점검 시간이면 모달만 표시 (우선순위 2)
-  if (isInspectionTime) {
+  if (isInspectionTime && inspectionResult) {
     return (
       <DeviceProvider>
-        <ModalProvider initialModal="inspection">
+        <ModalProvider
+          initialModal="inspection"
+          initialInspectionModalData={{
+            inspectionStart: inspectionResult.inspectionStart,
+            inspectionEnd: inspectionResult.inspectionEnd,
+          }}
+        >
           <ModalContainer />
         </ModalProvider>
       </DeviceProvider>

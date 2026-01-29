@@ -6,13 +6,14 @@ import {
   Platform,
   BackHandler,
 } from 'react-native';
+import dayjs from 'dayjs';
 import { useModal } from '../../contexts/ModalContext';
 import { Typo } from '../typo/Typo';
 import { palette } from '../../theme/palette';
 import { useTranslation } from '../../hooks/useTranslation';
 
 export const InspectionModal = () => {
-  const { visibleModal, hideModal } = useModal();
+  const { visibleModal, hideModal, inspectionModalData } = useModal();
   const { t } = useTranslation();
   const isVisible = visibleModal === 'inspection';
 
@@ -27,6 +28,25 @@ export const InspectionModal = () => {
       BackHandler.exitApp();
     }
   };
+
+  // 날짜 포맷팅: 2026-01-28T18:00:00 -> 1/28 18:00
+  const formatInspectionTime = (dateString: string): string => {
+    if (!dateString) return '';
+    try {
+      const date = dayjs(dateString);
+      return date.format('M/D HH:mm');
+    } catch (error) {
+      console.error('날짜 포맷팅 오류:', error);
+      return dateString;
+    }
+  };
+
+  const formattedStart = inspectionModalData
+    ? formatInspectionTime(inspectionModalData.inspectionStart)
+    : '';
+  const formattedEnd = inspectionModalData
+    ? formatInspectionTime(inspectionModalData.inspectionEnd)
+    : '';
 
   if (!isVisible) {
     return null;
@@ -44,7 +64,10 @@ export const InspectionModal = () => {
           color="gray500"
           style={styles.description}
         >
-          {t('modal.inspection.description')}
+          {t('modal.inspection.description', {
+            startTime: formattedStart,
+            endTime: formattedEnd,
+          })}
         </Typo.Caption>
 
         <View style={styles.buttonWrapper}>

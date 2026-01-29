@@ -116,7 +116,16 @@ export async function checkAppVersion(): Promise<AppVersionCheckResult> {
   }
 }
 
-export async function checkInspection(): Promise<boolean> {
+/**
+ * 점검 시간 검사 결과
+ */
+export interface InspectionCheckResult {
+  isInspectionTime: boolean;
+  inspectionStart: string;
+  inspectionEnd: string;
+}
+
+export async function checkInspection(): Promise<InspectionCheckResult> {
   console.log('🛠 점검 시간 검사 시작');
 
   try {
@@ -139,10 +148,18 @@ export async function checkInspection(): Promise<boolean> {
       console.log('✅ 점검 시간 아님');
     }
 
-    return isInspectionTime;
+    return {
+      isInspectionTime,
+      inspectionStart: inspectionStart || '',
+      inspectionEnd: inspectionEnd || '',
+    };
   } catch (error) {
     console.error('❌ 점검 시간 검사 중 오류:', error);
-    return false;
+    return {
+      isInspectionTime: false,
+      inspectionStart: '',
+      inspectionEnd: '',
+    };
   }
 }
 

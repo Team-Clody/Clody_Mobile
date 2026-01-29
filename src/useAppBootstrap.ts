@@ -6,6 +6,7 @@ import {
   checkAppVersion,
   checkAutoLogin,
   checkInspection,
+  InspectionCheckResult,
 } from './appBootstrapService';
 import { initializeRemoteConfig } from './shared/utils';
 
@@ -15,7 +16,8 @@ export function useAppBootstrap() {
   >(null);
   const [appVersionResult, setAppVersionResult] =
     useState<AppVersionCheckResult | null>(null);
-  const [isInspectionTime, setIsInspectionTime] = useState<boolean>(false);
+  const [inspectionResult, setInspectionResult] =
+    useState<InspectionCheckResult | null>(null);
 
   const bootstrap = useCallback(async () => {
     try {
@@ -33,10 +35,10 @@ export function useAppBootstrap() {
       }
 
       // 2. 점검 여부 판별
-      const inspectionResult = await checkInspection();
-      setIsInspectionTime(inspectionResult);
+      const inspectionCheckResult = await checkInspection();
+      setInspectionResult(inspectionCheckResult);
 
-      if (inspectionResult) {
+      if (inspectionCheckResult.isInspectionTime) {
         return;
       }
 
@@ -55,5 +57,10 @@ export function useAppBootstrap() {
     bootstrap();
   }, [bootstrap]);
 
-  return { initialRoute, isInspectionTime, appVersionResult };
+  return {
+    initialRoute,
+    isInspectionTime: inspectionResult?.isInspectionTime ?? false,
+    inspectionResult,
+    appVersionResult,
+  };
 }
