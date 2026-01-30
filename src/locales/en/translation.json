@@ -118,6 +118,22 @@
       "description": "Your journals, replies, and clovers\nwill be permanently deleted and\ncan't be restored.",
       "cancel": "Cancel",
       "confirm": "Withdraw"
+    },
+    "inspection": {
+      "title": "We're conducting system maintenance\nto improve your experience on Clody.\nSee you again soon!",
+      "description": "Maintenance time : {{startTime}} ~ {{endTime}}",
+      "confirm": "Exit app"
+    },
+    "softUpdate": {
+      "title": "A new version is recommended for you",
+      "description": "Current version : {{currentVersion}} -> Latest version : {{latestVersion}}",
+      "cancel": "Cancel",
+      "confirm": "Move to store"
+    },
+    "hardUpdate": {
+      "title": "A new version is required for you",
+      "description": "Current version : {{currentVersion}} -> Latest version : {{latestVersion}}",
+      "confirm": "Move to store"
     }
   }
 }
