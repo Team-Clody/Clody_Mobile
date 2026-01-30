@@ -115,7 +115,7 @@
     },
     "revoke": {
       "title": "Delete your account?",
-      "description": "Your journals, replies, and clovers will be permanently deleted and can't be restored.",
+      "description": "Your journals, replies, and clovers\nwill be permanently deleted and\ncan't be restored.",
       "cancel": "Cancel",
       "confirm": "Withdraw"
     },

@@ -1,7 +1,7 @@
 const commonTheme = {
   typography: {
     fontFamily: {
-      bold: 'Pretendard-SemiBold',
+      bold: 'Pretendard-Bold',
       semibold: 'Pretendard-SemiBold',
       medium: 'Pretendard-Medium',
       regular: 'Pretendard-Regular',
