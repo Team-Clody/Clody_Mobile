@@ -145,10 +145,10 @@ export const ReminderScreen = () => {
               style={styles.timeField}
               onPress={() => setSheetVisible(true)}
             >
-              <Typo.Body variant="body2" color="gray1000">
+              <Typo.Body variant="body10" color="gray1000">
                 {timeLabel}
               </Typo.Body>
-              <Icon.IcDown width={16} height={16} />
+              <Icon.IcDown width={24} height={24} />
             </Pressable>
           </View>
         </View>
