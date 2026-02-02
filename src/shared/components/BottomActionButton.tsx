@@ -74,6 +74,9 @@ export const BottomActionButton = ({
         !isKeyboardVisible && {
           paddingBottom: Math.max(insets.bottom, 12),
         },
+        Platform.OS === 'ios' && {
+          marginBottom: keyboardHeight,
+        },
       ]}
     >
       <Button

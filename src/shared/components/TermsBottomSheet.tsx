@@ -38,10 +38,10 @@ const TermsItem = ({ title, url }: TermsItemProps) => {
 
   return (
     <Pressable style={styles.termsItem} onPress={handlePress}>
-      <Typo.Caption variant="caption2" color="gray700">
+      <Typo.Caption variant="caption2" color="gray700" style={styles.text}>
         {title}
       </Typo.Caption>
-      <Icon.IcNext width={16} height={16} />
+      <Icon.IcNext width={22} height={22} />
     </Pressable>
   );
 };
@@ -82,7 +82,7 @@ export const TermsBottomSheet = ({
             <View style={styles.buttonContainer}>
               <Button title={t('onboarding.terms.agree')} onPress={onAgree} />
               <Pressable style={styles.closeButton} onPress={onClose}>
-                <Typo.Body variant="body9" color="gray500">
+                <Typo.Body variant="body9" color="gray500" style={styles.text}>
                   {t('onboarding.terms.close')}
                 </Typo.Body>
               </Pressable>
@@ -106,30 +106,34 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingHorizontal: 20,
-    paddingTop: 28,
-    paddingBottom: 16,
+    paddingTop: 20,
   },
   title: {
     color: palette.gray1000,
-    marginBottom: 20,
+    marginBottom: 18,
+    includeFontPadding: false,
   },
   termsContainer: {
     marginBottom: 24,
+    gap: 12,
   },
   termsItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 12,
+    includeFontPadding: false,
   },
   buttonContainer: {
-    gap: 12,
+    gap: 15
   },
   closeButton: {
     alignItems: 'center',
-    paddingVertical: 15,
+    marginBottom: 15,
   },
   bottomFill: {
     backgroundColor: palette.gray0,
+  },
+  text: {
+    includeFontPadding: false,
   },
 });

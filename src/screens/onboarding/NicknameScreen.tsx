@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import {
-  KeyboardAvoidingView,
-  Platform,
   Pressable,
   StyleSheet,
   TextInput,
@@ -45,11 +43,7 @@ export const NicknameScreen = () => {
 
   return (
     <SectionPage header={{ prefix: true }}>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
-      >
+      <View style={styles.container}>
         <View>
           <Typo.Display variant="display1" style={styles.title}>
             {t('onboarding.nickname.title')}
@@ -114,7 +108,7 @@ export const NicknameScreen = () => {
           buttonStyle={styles.bottomButtonInner}
           buttonStyleOnKeyboard={styles.bottomButtonInnerKeyboard}
         />
-      </KeyboardAvoidingView>
+      </View>
     </SectionPage>
   );
 };
@@ -154,7 +148,8 @@ const styles = StyleSheet.create({
     height: '100%',
     flex: 1,
     fontFamily: 'Pretendard-Medium',
-    fontSize: 15,
+    fontSize: 14,
+    lineHeight: 14 * 1.4,
   },
   captionRow: {
     flexDirection: 'row',

@@ -48,13 +48,11 @@ const WheelColumn = <T extends string | number>({
   items,
   value,
   onChange,
-  width,
   formatItem,
 }: {
   items: T[];
   value: T;
   onChange: (value: T) => void;
-  width: number;
   formatItem?: (item: T) => string;
 }) => {
   const data = useMemo(() => toPaddedItems(items), [items]);
@@ -79,7 +77,7 @@ const WheelColumn = <T extends string | number>({
   };
 
   return (
-    <View style={[styles.wheelColumn, { width }]}>
+    <View style={styles.wheelColumn}>
       <FlatList
         ref={listRef}
         data={data}
@@ -177,26 +175,25 @@ export const TimePickerBottomSheet = ({
                   <Rect width="100%" height="100%" fill="url(#bottomGradient)" />
                 </Svg>
               </View>
-              <WheelColumn
-                items={meridiemOptions}
-                value={meridiem}
-                onChange={setMeridiem}
-                width={80}
-                formatItem={formatMeridiem}
-              />
-              <WheelColumn
-                items={hourOptions}
-                value={hour}
-                onChange={setHour}
-                width={80}
-              />
-              <WheelColumn
-                items={minuteOptions}
-                value={minute}
-                onChange={setMinute}
-                width={80}
-                formatItem={item => String(item).padStart(2, '0')}
-              />
+              <View style={styles.wheelContainer}>
+                <WheelColumn
+                  items={meridiemOptions}
+                  value={meridiem}
+                  onChange={setMeridiem}
+                  formatItem={formatMeridiem}
+                />
+                <WheelColumn
+                  items={hourOptions}
+                  value={hour}
+                  onChange={setHour}
+                />
+                <WheelColumn
+                  items={minuteOptions}
+                  value={minute}
+                  onChange={setMinute}
+                  formatItem={item => String(item).padStart(2, '0')}
+                />
+              </View>
             </View>
             <View style={styles.buttonRow}>
               <Button title={t('onboarding.timePicker.confirm')} onPress={handleConfirm} />
@@ -229,9 +226,12 @@ const styles = StyleSheet.create({
   wheelRow: {
     marginTop: 8,
     height: ITEM_HEIGHT * VISIBLE_ROWS,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     position: 'relative',
+  },
+  wheelContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    paddingHorizontal: 30,
   },
   wheelColumn: {
     flex: 1,

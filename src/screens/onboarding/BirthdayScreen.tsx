@@ -1,7 +1,5 @@
 import React, { useRef, useState } from 'react';
 import {
-  KeyboardAvoidingView,
-  Platform,
   Pressable,
   StyleSheet,
   TextInput,
@@ -143,11 +141,7 @@ export const BirthdayScreen = () => {
 
   return (
     <SectionPage header={{ prefix: true, suffix: SkipButton }}>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 30 : 0}
-      >
+      <View style={styles.container}>
         <View>
           <Typo.Display variant="display1" style={styles.title}>
             {t('onboarding.birthday.title')}
@@ -169,13 +163,12 @@ export const BirthdayScreen = () => {
                 value={birthday}
                 onChangeText={handleChangeBirthday}
                 keyboardType="number-pad"
-                returnKeyType="done"
                 maxLength={7}
                 style={styles.hiddenInput}
               />
               <View style={styles.inputRow}>
                 <Typo.Body
-                  variant="body2"
+                  variant="body10"
                   color={birthday.length === 0 ? 'gray400' : undefined}
                   style={styles.leftDigits}
                 >
@@ -184,7 +177,7 @@ export const BirthdayScreen = () => {
                     : birthday.slice(0, 6)}
                 </Typo.Body>
                 <View style={styles.dashContainer}>
-                  <Typo.Body variant="body2" color="gray400">
+                  <Typo.Body variant="body10" color="gray400">
                     -
                   </Typo.Body>
                 </View>
@@ -193,7 +186,7 @@ export const BirthdayScreen = () => {
                     <View key={`dot-${index}`} style={styles.dotSlot}>
                       {index === 0 ? (
                         birthday.length === 7 ? (
-                          <Typo.Body variant="body2" style={styles.lastDigit}>
+                          <Typo.Body variant="body10" style={styles.lastDigit}>
                             {birthday[6]}
                           </Typo.Body>
                         ) : (
@@ -231,7 +224,7 @@ export const BirthdayScreen = () => {
           buttonStyle={styles.bottomButtonInner}
           buttonStyleOnKeyboard={styles.bottomButtonInnerKeyboard}
         />
-      </KeyboardAvoidingView>
+      </View>
     </SectionPage>
   );
 };
