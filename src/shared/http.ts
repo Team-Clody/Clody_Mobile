@@ -244,44 +244,74 @@ APIKit.interceptors.request.use(config => {
   return config;
 });
 
+// APIKit.interceptors.response.use(
+//   response => response,
+//   async (error: AxiosError<ApiErrorResponse>) => {
+//     const originalRequest = error.config as InternalAxiosRequestConfig & {
+//       _retry?: boolean;
+//     };
+
+//     const status = error.response?.status || 500;
+//     const message =
+//       error.response?.data?.message || '알 수 없는 오류가 발생했습니다';
+//     const data = error.response?.data;
+
+//     if (status === 401 && originalRequest && !originalRequest._retry) {
+//       // 재발급 API 자체가 401을 받은 경우 무한 루프 방지
+//       if (originalRequest.url?.includes('/api/v1/auth/reissue')) {
+//         const apiError = new ApiError(status, message, data);
+//         handleApiError(apiError);
+//         return Promise.reject(apiError);
+//       }
+
+//       originalRequest._retry = true;
+
+//       try {
+//         const newAccessToken = await refreshAccessToken();
+
+//         if (originalRequest.headers) {
+//           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+//         }
+
+//         return APIKit(originalRequest);
+//       } catch (refreshError) {
+//         return Promise.reject(refreshError);
+//       }
+//     }
+
+//     const apiError = new ApiError(status, message, data);
+//     handleApiError(apiError);
+//     return Promise.reject(apiError);
+//   },
+// );
+
 APIKit.interceptors.response.use(
-  response => response,
+  res => res,
   async (error: AxiosError<ApiErrorResponse>) => {
-    const originalRequest = error.config as InternalAxiosRequestConfig & {
-      _retry?: boolean;
-    };
+    const status = error.response?.status ?? 500;
 
-    const status = error.response?.status || 500;
-    const message =
-      error.response?.data?.message || '알 수 없는 오류가 발생했습니다';
-    const data = error.response?.data;
+    const originalRequest = {
+      ...error.config,
+      headers: {
+        ...(error.config?.headers || {}),
+      },
+    } as InternalAxiosRequestConfig & { _retry?: boolean };
 
-    if (status === 401 && originalRequest && !originalRequest._retry) {
-      // 재발급 API 자체가 401을 받은 경우 무한 루프 방지
+    if (status === 401 && !originalRequest._retry) {
       if (originalRequest.url?.includes('/api/v1/auth/reissue')) {
-        const apiError = new ApiError(status, message, data);
-        handleApiError(apiError);
-        return Promise.reject(apiError);
+        return Promise.reject(error);
       }
 
       originalRequest._retry = true;
 
-      try {
-        const newAccessToken = await refreshAccessToken();
+      const newAccessToken = await refreshAccessToken();
 
-        if (originalRequest.headers) {
-          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        }
+      originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
-        return APIKit(originalRequest);
-      } catch (refreshError) {
-        return Promise.reject(refreshError);
-      }
+      return APIKit.request(originalRequest);
     }
 
-    const apiError = new ApiError(status, message, data);
-    handleApiError(apiError);
-    return Promise.reject(apiError);
+    return Promise.reject(error);
   },
 );
 
