@@ -250,7 +250,7 @@ APIKit.interceptors.response.use(
     const originalRequest = error.config as InternalAxiosRequestConfig & {
       _retry?: boolean;
     };
-
+    console.log('마법의 콘솔한줄');
     const status = error.response?.status || 500;
     const message =
       error.response?.data?.message || '알 수 없는 오류가 발생했습니다';
