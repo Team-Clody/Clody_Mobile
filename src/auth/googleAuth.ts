@@ -32,6 +32,7 @@ export const googleLogin = async (): Promise<GoogleLoginResult> => {
     const userInfo = await GoogleSignin.signIn();
 
     if (!userInfo?.data?.idToken) {
+      console.log('마법의 콘솔 한줄');
       throw new Error('구글 idToken을 찾을 수 없습니다.');
     }
 
